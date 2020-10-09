@@ -2,7 +2,7 @@ import {Action, getModule, Module, Mutation, VuexModule} from "vuex-module-decor
 import {MusementItem} from "@/models/musement.models";
 import store from "@/store";
 import Page from "@/models/pagination.model";
-import {HttpCommon} from "@/http-common";
+import {API_SUFFIX, HttpCommon} from "@/http-common";
 import {AxiosResponse} from "axios";
 import {PAGE_SIZE} from "@/constants/app.constant";
 import DashboardStoreModel from "@/store/dashboard/dashboard-store.model";
@@ -66,10 +66,14 @@ class DashboardStore extends VuexModule {
       'x-musement-currency': userStore.currency,
       'x-musement-version': '3.4.0'
     };
-    HttpCommon.getApi()
+    HttpCommon.getApi(headers)
       .get(
-        `/venues/164/activities?limit=${PAGE_SIZE}&offset=${pageNumber *
-        PAGE_SIZE}`, {headers: headers}
+        API_SUFFIX, {
+          params: {
+            limit: PAGE_SIZE,
+            offset: pageNumber * PAGE_SIZE
+          }
+        }
       )
       .then((response: AxiosResponse<MusementItem[]>) => {
         if (response.data) {
