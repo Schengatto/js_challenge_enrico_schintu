@@ -1,13 +1,24 @@
 <template>
-  <div class="home">
-    <p>Hello!</p>
+  <div>
+    <AppHeader></AppHeader>
+    <main class="product-page">
+      <router-view />
+    </main>
+    <AppFooter></AppFooter>
   </div>
 </template>
 
-<script>
+<script lang="ts">
+import AppHeader from "@/components/layout/AppHeader.vue";
+import AppFooter from "@/components/layout/AppFooter.vue";
 
-export default {
-  name: 'Home',
-  components: {},
-};
+import { Component, Vue } from "vue-property-decorator";
+
+@Component({
+  components: {
+    AppFooter,
+    AppHeader
+  }
+})
+export default class Home extends Vue {}
 </script>

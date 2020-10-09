@@ -3,17 +3,12 @@ import UserDataModel from "@/models/user-data.model";
 import UserStoreModel from "@/store/user/user-store.model";
 import store from "@/store";
 import dashboardStore from "@/store/dashboard/dashboard-store.ts";
+import i18n from "@/i18n";
+import {USER_STORE_INIT_STATE} from "@/constants/app.constant";
 
 const STORAGE_KEY = "APP_USER_DATA_STORE";
-const INIT_STATE: UserStoreModel = {
-  userData: {username: "John Doe", email: "johnDoe@test.org"},
-  currency: "EUR",
-  language: "it"
-};
-const persistOnLocalStorage = (userStore: UserStoreModel) =>
-  localStorage.setItem(STORAGE_KEY, JSON.stringify(userStore));
-const loadFromLocalStorage: () => any = () =>
-  JSON.parse(localStorage.getItem(STORAGE_KEY) as string);
+const persistOnLocalStorage = (userStore: UserStoreModel) => localStorage.setItem(STORAGE_KEY, JSON.stringify(userStore));
+const loadFromLocalStorage: () => any = () => JSON.parse(localStorage.getItem(STORAGE_KEY) as string);
 
 @Module({
   dynamic: true,
@@ -22,7 +17,7 @@ const loadFromLocalStorage: () => any = () =>
   store
 })
 class UserStore extends VuexModule {
-  userStore: UserStoreModel = loadFromLocalStorage() || INIT_STATE;
+  userStore: UserStoreModel = loadFromLocalStorage() || USER_STORE_INIT_STATE;
 
   /**
    * Return the information of the current user.
@@ -121,6 +116,7 @@ class UserStore extends VuexModule {
   @Mutation
   CHANGE_LANGUAGE(language: string): void {
     this.userStore.language = language;
+    i18n.locale = language;
     persistOnLocalStorage(this.userStore);
     dashboardStore.reloadCurrentPage();
   }
