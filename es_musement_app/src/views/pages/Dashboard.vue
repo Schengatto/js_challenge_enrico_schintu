@@ -27,8 +27,8 @@
         </li>
       </ul>
       <infinite-loading @infinite="infiniteHandler">
-        <div slot="no-more">No more events</div>
-        <div slot="no-results">No events found</div>
+        <div slot="no-more">...</div>
+        <div slot="no-results">...</div>
       </infinite-loading>
     </template>
   </div>
@@ -43,6 +43,7 @@ import Page from '@/models/pagination.model';
 import { API_SUFFIX, HttpCommon } from '@/http-common';
 import InfiniteLoading from 'vue-infinite-loading';
 import dashboardStore from '@/store/dashboard/dashboard-store';
+import { isMobile } from 'mobile-device-detect';
 
 const api = '//hn.algolia.com/api/v1/search_by_date?tags=story';
 
@@ -50,7 +51,7 @@ const api = '//hn.algolia.com/api/v1/search_by_date?tags=story';
     components: { Pagination, EventItem, InfiniteLoading },
   })
 export default class Dashboard extends Vue {
-    public paginatorActive = false;
+    public paginatorActive = !isMobile;
 
     private dashboardStore = dashboardStore;
 

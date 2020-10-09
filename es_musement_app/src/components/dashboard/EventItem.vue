@@ -3,7 +3,7 @@
     <div class="product-header">
       <figure class="product__image-wrapper">
         <img class="product__image product-image"
-             :src="item.cover_image_url+'?q=60&fit=crop&h=150'"
+             :src="imageSrc"
              alt="Product"
              itemprop="image"
              height="150px"/>
@@ -55,6 +55,10 @@ export default class EventItem extends Vue {
 
     get presentInList(): boolean {
       return wishlistStore.getItemsIds.includes(this.item.uuid);
+    }
+
+    get imageSrc(): string {
+      return `${this.item.cover_image_url}?q=60&fit=crop&h=150&w=300`;
     }
 
     addToWishlist(): void {
