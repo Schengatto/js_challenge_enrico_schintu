@@ -1,0 +1,9 @@
+{
+  "name": "es_musement_app",
+  "short_name": "es_musement_app",
+  "theme_color": "#4DBA87",
+  "icons": [],
+  "start_url": ".",
+  "display": "standalone",
+  "background_color": "#000000"
+}
