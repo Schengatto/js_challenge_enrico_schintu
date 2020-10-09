@@ -240,12 +240,15 @@ main {
     flex: 0 1 auto;
     flex-flow: row wrap;
     margin: 0 -10px;
+    align-items: center;
+    justify-content: center;
 }
 
 .product-list__item {
     padding: 10px;
-    flex: 1 0 33.3333%;
-    max-width: 33.3333%;
+    /*flex: 1 0 33.3333%;*/
+    /*max-width: 33.3333%;*/
+    max-width: 370px;
 }
 
 /* ==========================================================================
@@ -273,18 +276,6 @@ main {
     max-width: 100%;
     height: auto;
     border-bottom: 4px solid lightseagreen;
-}
-
-/* ==========================================================================
-   Product Details
-   ========================================================================== */
-
-.product__details {
-    display: flex;
-    flex: 1 0 auto;
-    flex-direction: column;
-    padding: 10px 20px 20px;
-    text-align: center;
 }
 
 /* ==========================================================================
@@ -327,28 +318,6 @@ main {
     text-decoration: line-through;
 }
 
-/* ==========================================================================
-   Product actions
-   ========================================================================== */
-
-.product__wishlist-button {
-    width: 35px;
-    height: 35px;
-
-    display: flex;
-    justify-content: center;
-    align-items: center;
-
-    position: absolute;
-    top: 10px;
-    right: 10px;
-}
-
-.product__add-to-cart {
-    width: 100%;
-    margin-top: 10px;
-    margin-top: auto;
-}
 
 /* ==========================================================================
    Pagination

@@ -80,32 +80,59 @@ export default class EventItem extends Vue {
     text-align: center;
     box-shadow: 3px 2px #9fa3a321;
 
+    .product__wishlist-button {
+      width: 35px;
+      height: 35px;
+
+      display: flex;
+      justify-content: center;
+      align-items: center;
+
+      position: absolute;
+      top: 10px;
+      right: 10px;
+    }
+
     .product-image {
       height: 250px;
     }
 
-    .cart-btn {
-      color: black;
-      padding: 0.8em;
-      border: solid 1px mediumaquamarine;
-      border-radius: 0;
+    .product__details {
+      display: flex;
+      flex: 1 0 auto;
+      flex-direction: column;
+      padding: 10px 20px 20px;
+      text-align: center;
+      height: 18em;
 
-      /*Magic*/
-      background-image: linear-gradient(to left, snow 50%, mediumaquamarine 50%);
-      background-size: 200% 100%;
-      background-position: right bottom;
-      transition: all ease .3s;
-
-      &:hover {
-        display: inline-grid;
-        grid-template-columns: 70% 30%;
-        background-position: left bottom;
+      .product__add-to-cart {
+        width: 100%;
+        margin-top: auto;
       }
 
-      .add-to-cart-label {
-        color: snow;
-      }
+      .cart-btn {
+        color: black;
+        padding: 0.8em;
+        border: solid 1px mediumaquamarine;
+        border-radius: 0;
 
+        /*Magic*/
+        background-image: linear-gradient(to left, snow 50%, mediumaquamarine 50%);
+        background-size: 200% 100%;
+        background-position: right bottom;
+        transition: all ease .3s;
+
+        &:hover {
+          display: inline-grid;
+          grid-template-columns: 70% 30%;
+          background-position: left bottom;
+        }
+
+        .add-to-cart-label {
+          color: snow;
+        }
+      }
     }
+
   }
 </style>

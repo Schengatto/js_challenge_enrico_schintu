@@ -16,7 +16,6 @@
 
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator';
-import { ItemService } from '@/services/item-service';
 import EventItem from '@/components/dashboard/EventItem.vue';
 import { MusementItem } from '@/models/musement.models';
 import Pagination from '@/components/commons/Pagination.vue';
@@ -27,21 +26,23 @@ import dashboardStore from '@/store/dashboard/dashboard-store';
     components: { Pagination, EventItem },
   })
 export default class Dashboard extends Vue {
-  public created(): void {
-    this.loadPage(0);
-  }
+    private dashboardStore = dashboardStore;
 
-  public loadPage(pageNumber: number): void {
-    ItemService.retrieveItems(pageNumber);
-  }
+    public created(): void {
+      this.loadPage(0);
+    }
 
-  get items(): MusementItem[] {
-    return dashboardStore.pageItems;
-  }
+    public loadPage(pageNumber: number): void {
+      this.dashboardStore.moveToPage(pageNumber);
+    }
 
-  get currentPage(): Page {
-    return dashboardStore.currentPage;
-  }
+    get items(): MusementItem[] {
+      return this.dashboardStore.pageItems;
+    }
+
+    get currentPage(): Page {
+      return this.dashboardStore.currentPage;
+    }
 }
 </script>
 
