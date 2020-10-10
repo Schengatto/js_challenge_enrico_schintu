@@ -9,7 +9,7 @@
     <div class="menu-container" v-if="showMenu">
       <div class="menu-header">
         <div>{{ $t("user.menu.header.hello") }} {{userData.username}}</div>
-        <div>{{userData.email}}</div>
+        <div class="user-email-wrapper"><small>{{userData.email}}</small></div>
       </div>
       <div class="menu-section">
         <div class="menu-section-title"> {{ $t('user.menu.languages') }}</div>
@@ -22,6 +22,18 @@
                         :title="lang.id">
             </CustomIcon>
             <span>{{lang.name}}</span>
+          </div>
+        </div>
+      </div>
+      <div class="menu-section">
+        <div class="menu-section-title"> {{ $t('user.menu.currencies') }}</div>
+        <div class="menu-option-list">
+          <div v-for="curr in availableCurrencies"
+               v-bind:key="curr.id"
+               class="submenu-item clickable menu-option-item"
+               @click="setCurrency(curr.id)">
+            <div>{{curr.icon}}</div>
+            <span>{{curr.name}}</span>
           </div>
         </div>
       </div>
@@ -85,7 +97,7 @@ export default class UserMenu extends Vue {
 
     closeMenu(): void {
       this.timeout = setTimeout(() => {
-        this.showMenu = true;
+        this.showMenu = false;
       }, 300);
     }
 
@@ -152,6 +164,11 @@ export default class UserMenu extends Vue {
         margin: 1em 0 1em 0;
         border-bottom: 1px solid gray;
         text-align: center;
+
+        .user-email-wrapper {
+          margin: 0.5em;
+          font-style: italic;
+        }
       }
 
       .menu-section {

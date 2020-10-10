@@ -1,5 +1,5 @@
 export const CURRENCIES: Currency[] = [
-    {id: "GBP", name: 'GBP', icon: "$"},
+    {id: "GBP", name: 'GBP', icon: "£"},
     {id: "EUR", name: 'EUR', icon: "€"}
 ];
 

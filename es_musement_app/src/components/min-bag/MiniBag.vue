@@ -97,6 +97,14 @@ export default class MiniBag extends Vue {
 
 <style lang="scss" scoped>
   #mini_bag_wrapper {
+    padding: 0.3em 1em 2em 1.2em;
+    margin: 0;
+    border-radius: 2em 0 0 0;
+    border: 1px solid transparent;
+    border-right: none;
+    border-bottom: none;
+    height: 3em;
+
     .clickable {
       cursor: pointer;
     }
@@ -163,4 +171,24 @@ export default class MiniBag extends Vue {
       }
     }
   }
+
+  .bag__item-counter {
+    width: 13px;
+    height: 13px;
+    margin-left: -1px;
+
+    display: flex;
+    align-self: flex-start;
+    justify-content: center;
+    align-items: center;
+
+    font-family: 'Lato-Bold', sans-serif;
+    font-size: 8px;
+    text-align: center;
+
+    border-radius: 50%;
+    color: var(--darkblue);
+    background-color: var(--orange);
+  }
+
 </style>

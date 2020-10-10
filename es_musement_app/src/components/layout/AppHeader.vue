@@ -6,13 +6,7 @@
       </div>
       <aside class="header-bag">
         <MiniBag></MiniBag>
-        <div class="header-bag__item header-bag__wishlist-count"
-             @click="toggleWishList()">
-          <CustomIcon title="My Wishlist" type="wishlist"></CustomIcon>
-          <span v-if="wishlistItems" class="bag__item-counter"
-          >{{ wishlistItems }}
-          </span>
-        </div>
+        <MiniWishlist></MiniWishlist>
         <UserMenu></UserMenu>
       </aside>
     </header>
@@ -24,21 +18,14 @@ import { Component, Vue } from 'vue-property-decorator';
 import CustomIcon from '@/components/commons/CustomIcon.vue';
 import MiniBag from '@/components/min-bag/MiniBag.vue';
 import UserMenu from '@/components/user-menu/UserMenu.vue';
-import wishlistStore from '@/store/wishlist/wishlist-store';
+import MiniWishlist from '@/components/mini-wishlist/MiniWishlist.vue';
 
   @Component({
-    components: { UserMenu, MiniBag, CustomIcon },
+    components: {
+      MiniWishlist, UserMenu, MiniBag, CustomIcon,
+    },
   })
 export default class AppHeader extends Vue {
-    private wishlistStore = wishlistStore;
-
-    get wishlistItems(): number {
-      return this.wishlistStore.numberOfItems;
-    }
-
-    toggleWishList(): void {
-      this.wishlistStore.clear();
-    }
 }
 </script>
 
@@ -60,6 +47,7 @@ export default class AppHeader extends Vue {
     .page-title {
       margin-left: 2em;
       font-size: 20px;
+      text-shadow: 1px 1px gray;
     }
 
   }
