@@ -1,5 +1,6 @@
 <template>
   <div id="user_menu_wrapper"
+       class="unselectable"
        v-bind:class="{'active': showMenu}"
        @mouseleave="closeMenu()"
        @mouseenter="keepOpen()">
@@ -29,8 +30,8 @@
       <div class="menu-section">
         <div class="menu-section-title"> {{ $t('user.menu.currencies') }}</div>
         <div class="menu-option-list">
-          <div v-for="curr in availableCurrencies"
-               v-bind:key="curr.id"
+          <div v-for="(curr, i) in availableCurrencies"
+               v-bind:key="i"
                class="submenu-item clickable menu-option-item"
                @click="setCurrency(curr.id)">
             <div>{{curr.icon}}</div>
@@ -56,16 +57,16 @@
 </template>
 
 <script lang="ts">
-import { Component, Vue } from 'vue-property-decorator';
+import {Component, Vue} from 'vue-property-decorator';
 import CustomIcon from '@/components/commons/CustomIcon.vue';
 import UserDataModel from '@/models/user-data.model';
-import { Locale, LOCALES } from '@/models/locale.model';
-import { CURRENCIES, Currency } from '@/models/currenc.model';
+import {Locale, LOCALES} from '@/models/locale.model';
+import {CURRENCIES, Currency} from '@/models/currenc.model';
 import userStore from '@/store/user/user-store';
 import dashboardStore from '@/store/dashboard/dashboard-store';
 
   @Component({
-    components: { CustomIcon },
+    components: {CustomIcon},
   })
 export default class UserMenu extends Vue {
     showMenu = false;
@@ -138,6 +139,9 @@ export default class UserMenu extends Vue {
     height: 4.5em;
 
     &.active {
+      border: 1px solid var(--darkblue);
+      border-right: none;
+      border-bottom: none;
       border-color: var(--white);
       background-color: var(--darkblue);
     }

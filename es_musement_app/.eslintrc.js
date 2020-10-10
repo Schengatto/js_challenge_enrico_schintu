@@ -15,9 +15,14 @@ module.exports = {
     'no-console': process.env.NODE_ENV === 'production' ? 'warn' : 'off',
     'no-debugger': process.env.NODE_ENV === 'production' ? 'warn' : 'off',
     'max-len': 0,
-    'array-bracket-spacing': 1,
-    'brace-style': 1,
-    'array-bracket-newline': 1
+    'array-bracket-spacing': 0,
+    'brace-style': 0,
+    'array-bracket-newline': 0,
+    'object-curly-spacing': 0,
+    'object-curly-newline': 0,
+    'jsx-quotes': 1,
+    'quote-props': 1,
+    quotes: 1,
   },
   overrides: [
     {

@@ -1,11 +1,15 @@
 import {Action, getModule, Module, Mutation, VuexModule} from "vuex-module-decorators";
 import {MusementItem} from "@/models/musement.models";
-import store from "@/store";
-import {API_SUFFIX, HttpCommon} from "@/http-common";
+import {HttpCommon} from "@/http-common";
 import {AxiosResponse} from "axios";
 import {PAGE_SIZE} from "@/constants/app.constant";
 import DashboardStoreModel from "@/store/dashboard/dashboard-store.model";
 import {isMobile} from "mobile-device-detect";
+import store from "@/store";
+import cartStore from "@/store/cart/cart-store";
+import wishlistStore from "@/store/wishlist/wishlist-store";
+import AppUtils from "@/utils/app-utils";
+import EventItem from "@/models/event.item";
 
 const INIT_STATE: DashboardStoreModel = {
   items: [],
@@ -22,10 +26,14 @@ const INIT_STATE: DashboardStoreModel = {
 class DashboardStore extends VuexModule {
   dashboardStore: DashboardStoreModel = {...INIT_STATE};
 
+  userCartData = cartStore;
+
+  wishlistStore = wishlistStore;
+
   /**
    * The items present in the current page of the dashboard.
    */
-  get pageItems(): MusementItem[] {
+  get pageItems(): EventItem[] {
     return this.dashboardStore.items;
   }
 
@@ -49,7 +57,11 @@ class DashboardStore extends VuexModule {
    */
   @Mutation
   async UPDATE_PAGE_ITEMS(newState: DashboardStoreModel) {
-    this.dashboardStore = {dashboardView: newState.dashboardView, items: newState.items, currentPage: newState.currentPage};
+    this.dashboardStore = {
+      dashboardView: newState.dashboardView,
+      items: newState.items,
+      currentPage: newState.currentPage
+    };
   }
 
   /**
@@ -57,7 +69,7 @@ class DashboardStore extends VuexModule {
    * @param items
    */
   @Mutation
-  async ADD_PAGE_ITEMS(items: MusementItem[]) {
+  async ADD_PAGE_ITEMS(items: EventItem[]) {
     this.dashboardStore.items = [...this.dashboardStore.items, ...items];
   }
 
@@ -94,19 +106,11 @@ class DashboardStore extends VuexModule {
    */
   @Action
   async moveToPage(pageNumber: number) {
-    HttpCommon.getApi()
-      .get(
-        API_SUFFIX, {
-          params: {
-            limit: PAGE_SIZE,
-            offset: pageNumber * PAGE_SIZE
-          }
-        }
-      )
+    HttpCommon.getEventItems(PAGE_SIZE, pageNumber * PAGE_SIZE)
       .then((response: AxiosResponse<MusementItem[]>) => {
         if (response.data) {
           const data: DashboardStoreModel = {
-            items: [...response.data],
+            items: [...response.data.map(AppUtils.fromMusementItemToEventItem)],
             currentPage: pageNumber,
             dashboardView: this.dashboardStore.dashboardView
           };
@@ -144,6 +148,21 @@ class DashboardStore extends VuexModule {
   async dashboardReset() {
     await this.CLEAR();
     await this.moveToPage(0)
+  }
+
+  @Action
+  async updateItems() {
+    HttpCommon.getEventItems(100, 0)
+      .then((response: AxiosResponse<MusementItem[]>) => {
+        if (response.data) {
+          const eventItems = response.data.map(AppUtils.fromMusementItemToEventItem);
+          this.wishlistStore.updateItems(eventItems);
+          this.userCartData.updateItems(eventItems);
+        } else {
+          throw Error("No data found in the response");
+        }
+      })
+      .catch(error => console.error);
   }
 }
 

@@ -1,5 +1,5 @@
 <template>
-  <nav class="pagination">
+  <nav class="pagination unselectable">
     <ul class="pagination__list">
       <li class="pagination__item" v-if="currentPage >= 1">
         <a href="#" class="pagination__link" @click.prevent="previousPage()">

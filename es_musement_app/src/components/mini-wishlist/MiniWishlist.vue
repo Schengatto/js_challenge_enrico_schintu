@@ -14,7 +14,7 @@
     <div class="menu-container" v-if="showMenu">
       <template v-if="numberOfItems">
         <div v-for="i in wishListItems" v-bind:key="i.uuid" class="bag-item">
-          <img :src="i.cover_image_url+'?q=60&fit=crop&h=50&w=75'" :alt="i.uuid">
+          <img :src="i.image+'?q=60&fit=crop&h=50&w=75'" :alt="i.uuid">
           <div>
             <div>{{ i.title }}</div>
           </div>
@@ -40,7 +40,7 @@
 import { Component, Vue } from 'vue-property-decorator';
 import CustomIcon from '@/components/commons/CustomIcon.vue';
 import wishlistStore from '@/store/wishlist/wishlist-store';
-import { MusementItem } from '@/models/musement.models';
+import EventItem from '@/models/event.item';
 
   @Component({
     components: { CustomIcon },
@@ -56,7 +56,7 @@ export default class MiniWishlist extends Vue {
       return this.wishlistStore.numberOfItems;
     }
 
-    get wishListItems(): MusementItem[] {
+    get wishListItems(): EventItem[] {
       return this.wishlistStore.getItems;
     }
 
@@ -101,6 +101,9 @@ export default class MiniWishlist extends Vue {
     height: 4.5em;
 
     &.active {
+      border: 1px solid var(--darkblue);
+      border-right: none;
+      border-bottom: none;
       border-color: var(--white);
       background-color: var(--darkblue);
     }

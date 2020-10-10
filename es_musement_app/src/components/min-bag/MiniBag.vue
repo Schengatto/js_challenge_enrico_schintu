@@ -21,7 +21,7 @@
             <div>{{ i.title }}</div>
             <div class="bag-item-details">
               <div class="ticket-number">{{ i.tickets }} x</div>
-              <div>€ {{ i.finalPrice.toFixed(2) }}</div>
+              <div>{{userCurrency}} {{ i.finalPrice.toFixed(2) }}</div>
               <div class="bag-sub-total">{{userCurrency}} {{(i.finalPrice *
                 i.tickets).toFixed(2)}}
               </div>
@@ -44,15 +44,15 @@
 </template>
 
 <script lang="ts">
-import { Component, Vue } from 'vue-property-decorator';
+import {Component, Vue} from 'vue-property-decorator';
 import CustomIcon from '@/components/commons/CustomIcon.vue';
-import CartItemModel from '@/models/cart-item.model';
 import cartStore from '@/store/cart/cart-store';
 import userStore from '@/store/user/user-store';
-import { CURRENCIES, Currency } from '@/models/currenc.model';
+import {CURRENCIES, Currency} from '@/models/currenc.model';
+import EventItem from '@/models/event.item';
 
   @Component({
-    components: { CustomIcon },
+    components: {CustomIcon},
   })
 export default class MiniBag extends Vue {
     showMenu = false;
@@ -67,7 +67,7 @@ export default class MiniBag extends Vue {
       return this.userCartData.numberOfTickets;
     }
 
-    get items(): CartItemModel[] {
+    get items(): EventItem[] {
       return this.userCartData.getItems;
     }
 
@@ -89,7 +89,7 @@ export default class MiniBag extends Vue {
       this.showMenu = !this.showMenu;
     }
 
-    removeItem(item: CartItemModel): void {
+    removeItem(item: EventItem): void {
       this.userCartData.removeSingle(item.uuid);
     }
 
@@ -122,6 +122,9 @@ export default class MiniBag extends Vue {
     }
 
     &.active {
+      border: 1px solid var(--darkblue);
+      border-right: none;
+      border-bottom: none;
       color: var(--white);
       border-color: var(--white);
       background-color: var(--darkblue);
@@ -139,6 +142,7 @@ export default class MiniBag extends Vue {
           height: auto;
           fill: #444A59;
           width: 17px;
+          margin-top: 4px;
         }
 
         .bag__item-counter {
@@ -155,7 +159,7 @@ export default class MiniBag extends Vue {
           color: var(--darkblue);
           background-color: var(--orange);
           position: absolute;
-          top: 0.2em;
+          top: 0;
           right: -1em;
         }
       }

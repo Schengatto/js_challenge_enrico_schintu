@@ -1,10 +1,11 @@
-import {Action, getModule, Module, Mutation, VuexModule} from "vuex-module-decorators";
-import {MusementItem} from "@/models/musement.models";
-import store from "@/store";
-import CartStoreModel from "@/store/cart/cart-store.model";
-import CartItemModel from "@/models/cart-item.model";
+import {Action, getModule, Module, Mutation, VuexModule} from 'vuex-module-decorators';
+import {MusementItem} from '@/models/musement.models';
+import store from '@/store';
+import CartStoreModel from '@/store/cart/cart-store.model';
+import EventItemModel from '@/models/event.item';
+import EventItem from "@/models/event.item";
 
-const STORAGE_KEY = "APP_CART_STORE";
+const STORAGE_KEY = 'APP_CART_STORE';
 const INIT_STATE: CartStoreModel = {items: [], totalPrice: 0};
 const persistOnLocalStorage = (cartStore: CartStoreModel) =>
   localStorage.setItem(STORAGE_KEY, JSON.stringify(cartStore));
@@ -14,7 +15,7 @@ const loadFromLocalStorage: () => any = () =>
 @Module({
   dynamic: true,
   namespaced: true,
-  name: "cart",
+  name: 'cart',
   store
 })
 class CartStore extends VuexModule {
@@ -23,7 +24,7 @@ class CartStore extends VuexModule {
   /**
    * All the items present in the user cart.
    */
-  get getItems(): CartItemModel[] {
+  get getItems(): EventItemModel[] {
     return this.cartStore.items;
   }
 
@@ -54,26 +55,20 @@ class CartStore extends VuexModule {
    * Add items into the user bag.
    * If is already present an item with the same id then the methods will increment the number of tickets.
    * Then the method saves the store status into the browser localstorage.
-   * @param originalItems
+   * @param items
    */
   @Mutation
-  ADD_TO_CART(originalItems: MusementItem[]): void {
-    const items: CartItemModel[] = originalItems.map(
-      CartStore.fromMusementItemToCartItem
-    );
+  async ADD_TO_CART(items: EventItemModel[]) {
     const updatedItems = [...this.cartStore.items];
     items.forEach(i => {
       const currentItem = updatedItems.find(e => e.uuid === i.uuid);
       if (currentItem) {
-        currentItem.tickets++;
+        currentItem.tickets = currentItem.tickets + 1;
       } else {
         updatedItems.push(i);
       }
     });
-    const totalPrice = updatedItems
-      .map(i => i.finalPrice * i.tickets)
-      .reduce((cur, acc) => acc + cur, 0);
-    this.cartStore = {items: updatedItems, totalPrice: totalPrice};
+    this.cartStore.items = updatedItems;
     persistOnLocalStorage(this.cartStore);
   }
 
@@ -82,14 +77,40 @@ class CartStore extends VuexModule {
    * @param ids
    */
   @Mutation
-  REMOVE_FROM_CART(ids: string[]): void {
-    const updatedItems = this.cartStore.items.filter(
+  async REMOVE_FROM_CART(ids: string[]) {
+    this.cartStore.items = this.cartStore.items.filter(
       item => !ids.includes(item.uuid)
     );
-    const totalPrice = updatedItems
-      .map(i => i.finalPrice)
-      .reduce((cur, acc) => acc + cur, 0);
-    this.cartStore = {items: updatedItems, totalPrice: totalPrice};
+    persistOnLocalStorage(this.cartStore);
+  }
+
+  /**
+   * Update the items present in the store with the information of the item provided in input.
+   * @param data
+   */
+  @Mutation
+  async UPDATE_CART_ITEMS(data: EventItemModel[]) {
+    let updatedItems: EventItemModel[] = [];
+    const currentItems = [...this.cartStore.items];
+    data.forEach(i => {
+      currentItems
+        .filter(e => e.uuid === i.uuid)
+        .map((e) => {
+          return {...i, tickets: e.tickets};
+        })
+        .forEach(e => updatedItems.push(e));
+    });
+    this.cartStore.items = [...updatedItems];
+    persistOnLocalStorage(this.cartStore);
+  }
+
+  /**
+   * Update the total amount of the cart items stored.
+   */
+  @Mutation
+  async UPDATE_TOTAL_AMOUNT() {
+    this.cartStore.totalPrice = this.cartStore.items
+      .reduce((acc, cur) => acc + (cur.tickets * cur.finalPrice), 0);
     persistOnLocalStorage(this.cartStore);
   }
 
@@ -97,7 +118,7 @@ class CartStore extends VuexModule {
    * Remove all the items from the user's wishlist and then save the store status in the browser localstorage.
    */
   @Mutation
-  CART_CLEAR(): void {
+  async CART_CLEAR() {
     this.cartStore = {...INIT_STATE};
     persistOnLocalStorage(this.cartStore);
   }
@@ -107,8 +128,9 @@ class CartStore extends VuexModule {
    * @param item
    */
   @Action
-  addSingle(item: MusementItem): void {
-    this.ADD_TO_CART([item]);
+  async addSingle(item: EventItem) {
+    await this.ADD_TO_CART([item]);
+    await this.UPDATE_TOTAL_AMOUNT();
   }
 
   /**
@@ -116,8 +138,9 @@ class CartStore extends VuexModule {
    * @param items
    */
   @Action
-  addMultiple(items: MusementItem[]): void {
-    this.ADD_TO_CART(items);
+  async addMultiple(items: EventItem[]) {
+    await this.ADD_TO_CART(items);
+    await this.UPDATE_TOTAL_AMOUNT();
   }
 
   /**
@@ -125,8 +148,9 @@ class CartStore extends VuexModule {
    * @param id
    */
   @Action
-  removeSingle(id: string): void {
-    this.REMOVE_FROM_CART([id]);
+  async removeSingle(id: string) {
+    await this.REMOVE_FROM_CART([id]);
+    await this.UPDATE_TOTAL_AMOUNT();
   }
 
   /**
@@ -134,34 +158,30 @@ class CartStore extends VuexModule {
    * @param ids
    */
   @Action
-  removeMultiple(ids: string[]): void {
-    this.REMOVE_FROM_CART(ids);
+  async removeMultiple(ids: string[]) {
+    await this.REMOVE_FROM_CART(ids);
+    await this.UPDATE_TOTAL_AMOUNT();
   }
 
   /**
    * Remove all the items present in the user's cart.
    */
   @Action
-  clear(): void {
-    this.CART_CLEAR();
+  async clear() {
+    await this.CART_CLEAR();
   }
 
   /**
-   * Transform the object of type {@link MusementItem} provided as argument into a {@link CartItemModel}.
-   * The output object keeps just the relevant information of the original object.
-   * @param musementItem
+   * Update the items present in the store with the information of the item provided in input.
+   * @param data
    */
-  private static fromMusementItemToCartItem(musementItem: MusementItem): CartItemModel {
-    return {
-      uuid: musementItem.uuid,
-      title: musementItem.title,
-      image: musementItem.cover_image_url,
-      discounted: musementItem.discount > 0,
-      originalPrice: musementItem.original_retail_price.value,
-      finalPrice: musementItem.retail_price.value,
-      tickets: 1
-    };
+  @Action
+  async updateItems(data: EventItemModel[]) {
+    await this.UPDATE_CART_ITEMS(data);
+    await this.UPDATE_TOTAL_AMOUNT();
   }
+
+
 }
 
 export default getModule(CartStore);

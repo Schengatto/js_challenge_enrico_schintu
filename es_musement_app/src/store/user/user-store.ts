@@ -7,7 +7,7 @@ import i18n from '@/i18n';
 
 const STORAGE_KEY = 'APP_USER_DATA_STORE';
 const USER_STORE_INIT_STATE: UserStoreModel = {
-  userData: { username: 'John Doe', email: 'johnDoe@test.org' },
+  userData: {username: 'John Doe', email: 'johnDoe@test.org'},
   currency: 'EUR',
   language: 'it',
 };
@@ -109,6 +109,7 @@ class UserStore extends VuexModule {
   CHANGE_CURRENCY(currency: string): void {
     this.userStore.currency = currency;
     persistOnLocalStorage(this.userStore);
+    dashboardStore.updateItems()
     dashboardStore.dashboardReset();
   }
 
@@ -122,6 +123,7 @@ class UserStore extends VuexModule {
     this.userStore.language = language;
     i18n.locale = language;
     persistOnLocalStorage(this.userStore);
+    dashboardStore.updateItems()
     dashboardStore.dashboardReset();
   }
 

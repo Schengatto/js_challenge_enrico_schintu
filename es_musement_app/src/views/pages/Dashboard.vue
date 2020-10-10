@@ -6,7 +6,7 @@
           class="product-list__item"
           v-for="item in items"
           v-bind:key="item.uuid">
-          <EventItem :item="item"></EventItem>
+          <EventItemCard :item="item"></EventItemCard>
         </li>
       </ul>
       <Pagination :currentPage="currentPage"
@@ -20,7 +20,7 @@
           class="product-list__item"
           v-for="(item, index) in items"
           v-bind:key="index">
-          <EventItem :item="item"></EventItem>
+          <EventItemCard :item="item"></EventItemCard>
         </li>
       </ul>
       <infinite-loading @infinite="infiniteHandler">
@@ -32,17 +32,18 @@
 </template>
 
 <script lang="ts">
-import { Component, Vue } from 'vue-property-decorator';
-import EventItem from '@/components/dashboard/EventItem.vue';
-import { MusementItem } from '@/models/musement.models';
+import {Component, Vue} from 'vue-property-decorator';
 import Pagination from '@/components/commons/Pagination.vue';
-import { API_SUFFIX, HttpCommon } from '@/http-common';
+import {API_SUFFIX, HttpCommon} from '@/http-common';
 import InfiniteLoading from 'vue-infinite-loading';
 import dashboardStore from '@/store/dashboard/dashboard-store';
-import { isMobile } from 'mobile-device-detect';
+import {isMobile} from 'mobile-device-detect';
+import EventItemCard from '@/components/dashboard/EventItemCard.vue';
+import AppUtils from '@/utils/app-utils';
+import EventItem from '@/models/event.item';
 
   @Component({
-    components: { Pagination, EventItem, InfiniteLoading },
+    components: {EventItemCard, Pagination, InfiniteLoading},
   })
 export default class Dashboard extends Vue {
     private dashboardStore = dashboardStore;
@@ -55,7 +56,7 @@ export default class Dashboard extends Vue {
       this.dashboardStore.moveToPage(pageNumber);
     }
 
-    get items(): MusementItem[] {
+    get items(): EventItem[] {
       return this.dashboardStore.pageItems;
     }
 
@@ -73,10 +74,11 @@ export default class Dashboard extends Vue {
         : (this.currentPage + 1) * 6;
 
       HttpCommon.getApi()
-        .get(API_SUFFIX, { params: { limit: 6, offset } })
-        .then(({ data }) => {
+        .get(API_SUFFIX, {params: {limit: 6, offset}})
+        .then(({data}) => {
           if (data.length) {
-            this.dashboardStore.ADD_PAGE_ITEMS(data);
+            const items = data.map(AppUtils.fromMusementItemToEventItem);
+            this.dashboardStore.ADD_PAGE_ITEMS(items);
             this.dashboardStore.UPDATE_PAGE_NUMBER(this.currentPage + 1);
             $state.loaded();
           } else {

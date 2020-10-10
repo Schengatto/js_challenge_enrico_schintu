@@ -1,7 +1,8 @@
 import {Action, getModule, Module, Mutation, VuexModule} from "vuex-module-decorators";
-import {MusementItem} from "@/models/musement.models";
 import store from "@/store";
 import WishlistStoreModel from "@/store/wishlist/wishlist-store.model";
+import EventItem from "@/models/event.item";
+import EventItemModel from "@/models/event.item";
 
 const STORAGE_KEY = "APP_WISHLIST_STORE";
 const INIT_STATE: WishlistStoreModel = {items: []};
@@ -20,9 +21,9 @@ class WishlistStore extends VuexModule {
   wishlistStore: WishlistStoreModel = loadFromLocalStorage() || INIT_STATE;
 
   /**
-   * List of {@link MusementItem} items in the wishlist store.
+   * List of {@link EventItem} items in the wishlist store.
    */
-  get getItems(): MusementItem[] {
+  get getItems(): EventItem[] {
     return this.wishlistStore.items;
   }
 
@@ -45,7 +46,7 @@ class WishlistStore extends VuexModule {
    * @param items
    */
   @Mutation
-  WISHLIST_ADD(items: MusementItem[]): void {
+  async WISHLIST_ADD(items: EventItem[]) {
     this.wishlistStore.items = [...this.wishlistStore.items, ...items];
     persistOnLocalStorage(this.wishlistStore);
   }
@@ -55,8 +56,25 @@ class WishlistStore extends VuexModule {
    * @param ids
    */
   @Mutation
-  WISHLIST_REMOVE(ids: string[]): void {
+  async WISHLIST_REMOVE(ids: string[]) {
     this.wishlistStore.items = this.wishlistStore.items.filter(item => !ids.includes(item.uuid));
+    persistOnLocalStorage(this.wishlistStore);
+  }
+
+  /**
+   * Update the items present in the store with the information of the item provided in input.
+   * @param data
+   */
+  @Mutation
+  async UPDATE_WISHLIST_ITEMS(data: EventItemModel[]) {
+    let updatedItems: EventItemModel[] = [];
+    const currentItems = [...this.wishlistStore.items];
+    data.forEach(i => {
+      currentItems
+        .filter(e => e.uuid === i.uuid)
+        .forEach(e=> updatedItems.push(i));
+    });
+    this.wishlistStore.items = [...updatedItems];
     persistOnLocalStorage(this.wishlistStore);
   }
 
@@ -64,7 +82,7 @@ class WishlistStore extends VuexModule {
    * Remove all the items from the user's wishlist and then save the store status in the browser localstorage.
    */
   @Mutation
-  WISHLIST_CLEAR(): void {
+  async WISHLIST_CLEAR() {
     this.wishlistStore.items = [];
     persistOnLocalStorage(this.wishlistStore);
   }
@@ -74,11 +92,11 @@ class WishlistStore extends VuexModule {
    * @param item
    */
   @Action
-  toggleItem(item: MusementItem): void {
+  async toggleItem(item: EventItem) {
     if (this.wishlistStore.items.find(i => i.uuid === item.uuid)) {
-      this.WISHLIST_REMOVE([item.uuid]);
+      await this.WISHLIST_REMOVE([item.uuid]);
     } else {
-      this.WISHLIST_ADD([item]);
+      await this.WISHLIST_ADD([item]);
     }
   }
 
@@ -87,8 +105,8 @@ class WishlistStore extends VuexModule {
    * @param item
    */
   @Action
-  addSingle(item: MusementItem): void {
-    this.WISHLIST_ADD([item]);
+  async addSingle(item: EventItem) {
+    await this.WISHLIST_ADD([item]);
   }
 
   /**
@@ -96,8 +114,8 @@ class WishlistStore extends VuexModule {
    * @param items
    */
   @Action
-  addMultiple(items: MusementItem[]): void {
-    this.WISHLIST_ADD(items);
+  async addMultiple(items: EventItem[]) {
+    await this.WISHLIST_ADD(items);
   }
 
   /**
@@ -105,8 +123,8 @@ class WishlistStore extends VuexModule {
    * @param id
    */
   @Action
-  removeSingle(id: string): void {
-    this.WISHLIST_REMOVE([id]);
+  async removeSingle(id: string) {
+    await this.WISHLIST_REMOVE([id]);
   }
 
   /**
@@ -114,17 +132,27 @@ class WishlistStore extends VuexModule {
    * @param ids
    */
   @Action
-  removeMultiple(ids: string[]): void {
-    this.WISHLIST_REMOVE(ids);
+  async removeMultiple(ids: string[]) {
+    await this.WISHLIST_REMOVE(ids);
   }
 
   /**
    * Remove all the items present in the user's wishlist.
    */
   @Action
-  clear(): void {
-    this.WISHLIST_CLEAR();
+  async clear() {
+    await this.WISHLIST_CLEAR();
   }
+
+  /**
+   * Update the items present in the store with the information of the item provided in input.
+   * @param data
+   */
+  @Action
+  async updateItems(data: EventItem[]) {
+    await this.UPDATE_WISHLIST_ITEMS(data);
+  }
+
 }
 
 export default getModule(WishlistStore);

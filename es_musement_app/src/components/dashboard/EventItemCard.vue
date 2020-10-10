@@ -1,6 +1,6 @@
 <template>
   <article class="product" itemscope>
-    <div class="product-header">
+    <div class="product-header unselectable">
       <figure class="product__image-wrapper">
         <img class="product__image product-image"
              :src="imageSrc"
@@ -10,7 +10,7 @@
         <button class="product__wishlist-button button button--round button--wishlist"
                 @click="addToWishlist()">
           <CustomIcon type="wishlist"
-                      width="'20px" height="'20px"
+                      width="20px" height="20px"
                       :title="$t('common.btn.add_to_wishlist')"
                       :color="presentInList ? 'orange' : 'gray'">
           </CustomIcon>
@@ -26,13 +26,13 @@
               @mouseenter="showCartLabel()" @mouseleave="hideCartLabel()">
         <template class="product__price" itemscope>
           <div v-if="displayAddToCart" class="add-to-cart-label">
-            {{ $t("common.btn.add_to_cart") }}
+            {{ $t('common.btn.add_to_cart') }}
           </div>
           <div>
-            <span v-if="item.discount > 0" class="product__price--strike">
-          {{item.original_retail_price.formatted_value}}</span>
+            <span v-if="item.discounted" class="product__price--strike">
+          {{item.originalPrice}}</span>
             <span class="product__price--discounted" itemprop="price">
-              {{item.retail_price.formatted_value}}</span>
+              {{item.finalPriceFormatted}}</span>
           </div>
         </template>
       </button>
@@ -41,17 +41,17 @@
 </template>
 
 <script lang="ts">
-import { Component, Prop, Vue } from 'vue-property-decorator';
-import { MusementItem } from '@/models/musement.models';
+import {Component, Prop, Vue} from 'vue-property-decorator';
 import CustomIcon from '@/components/commons/CustomIcon.vue';
 import wishlistStore from '@/store/wishlist/wishlist-store';
 import cartStore from '@/store/cart/cart-store';
+import EventItem from '@/models/event.item';
 
   @Component({
-    components: { CustomIcon },
+    components: {CustomIcon},
   })
-export default class EventItem extends Vue {
-    @Prop() item!: MusementItem;
+export default class EventItemCard extends Vue {
+    @Prop() item!: EventItem;
 
     displayAddToCart = false;
 
@@ -60,7 +60,7 @@ export default class EventItem extends Vue {
     }
 
     get imageSrc(): string {
-      return `${this.item.cover_image_url}?q=80&fit=crop&h=150&w=300`;
+      return `${this.item.image}?q=80&fit=crop&h=150&w=300`;
     }
 
     addToWishlist(): void {
