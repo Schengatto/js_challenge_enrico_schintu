@@ -7,5 +7,6 @@
   "user.menu.dashboard.views.title": "Dashboard View",
   "user.menu.dashboard.views.paginated": "Paginated",
   "user.menu.dashboard.views.scroll": "Scrollable",
-  "wishlist.emptylist.label" : "Your wishlist is empty!"
+  "wishlist.emptylist.label" : "Your wishlist is empty!",
+  "cart.emptylist.label" : "Your cart is empty!"
 }

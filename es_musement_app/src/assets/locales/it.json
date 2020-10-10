@@ -7,5 +7,6 @@
   "user.menu.dashboard.views.title": "Vista Dashboard",
   "user.menu.dashboard.views.paginated": "Paginata",
   "user.menu.dashboard.views.scroll": "Scrollabile",
-  "wishlist.emptylist.label" : "la tua wishlist è vuota!"
+  "wishlist.emptylist.label" : "la tua wishlist è vuota!",
+  "cart.emptylist.label" : "Il tuo carrello è vuoto!"
 }

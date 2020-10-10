@@ -1,5 +1,8 @@
 <template>
-  <div id="mini_bag_wrapper" @mouseleave="closeMenu()" @mouseenter="keepOpen()">
+  <div id="mini_bag_wrapper"
+       v-bind:class="{'active': showMenu}"
+       @mouseleave="closeMenu()"
+       @mouseenter="keepOpen()">
     <div class="header-bag__item header-bag__count" @click="toggleCart()">
       <div v-if="cartTotalAmount" class="header-bag__price">
         € {{ cartTotalAmount.toFixed(2) }}
@@ -7,7 +10,7 @@
       <CustomIcon title="My Cart" type="bag"></CustomIcon>
       <span v-if="numberOfItems" class="bag__item-counter">{{numberOfItems}}</span>
     </div>
-    <div class="bag-details-container" v-if="showDetails">
+    <div class="menu-container" v-if="showMenu">
       <template v-if="numberOfItems">
         <div v-for="i in items" v-bind:key="i.uuid" class="bag-item">
           <img :src="i.image+'?q=60&fit=crop&h=50&w=75'" :alt="i.uuid">
@@ -31,7 +34,7 @@
         </div>
       </template>
       <template v-else>
-        <div>Your bag is empty.</div>
+        <div>{{ $t('cart.emptylist.label') }}</div>
       </template>
     </div>
   </div>
@@ -48,7 +51,7 @@ import userStore from '@/store/user/user-store';
     components: { CustomIcon },
   })
 export default class MiniBag extends Vue {
-    showDetails = false;
+    showMenu = false;
 
     userCartData = cartStore;
 
@@ -74,7 +77,7 @@ export default class MiniBag extends Vue {
     }
 
     toggleCart(): void {
-      this.showDetails = !this.showDetails;
+      this.showMenu = !this.showMenu;
     }
 
     removeItem(item: CartItemModel): void {
@@ -83,7 +86,7 @@ export default class MiniBag extends Vue {
 
     closeMenu(): void {
       this.timeout = setTimeout(() => {
-        this.showDetails = false;
+        this.showMenu = false;
       }, 400);
     }
 
@@ -109,18 +112,25 @@ export default class MiniBag extends Vue {
       cursor: pointer;
     }
 
+    &.active {
+      border-color: var(--white);
+      background-color: var(--darkblue);
+      color: var(--orange);
+    }
+
     .bag-item {
       display: inline-grid;
       grid-template-columns: 7em auto 1em;
       padding: 0.5em 0.2em 0.5em 0.2em;
       border-bottom: 1px solid #8080802e;
+      position: relative;
 
       .bag-item-details {
         display: inline-grid;
-        grid-template-columns: 3em 22em 5em;
+        grid-template-columns: 3em 7em 5em;
 
         .ticket-number {
-          color: blue;
+          color: var(--orange);
         }
 
         .bag-sub-total {
@@ -130,26 +140,31 @@ export default class MiniBag extends Vue {
       }
     }
 
-    .bag-details-container {
-      position: absolute;
-      top: 4em;
+    .menu-container {
+      position: fixed;
+      top: 4.5em;
       right: 0;
-      background-color: #ffffff;
+      background-color: var(--darkblue);
+      color: var(--white);
+      min-height: 100%;
       padding: 1em 1em 1em 1em;
       margin: 0;
-      width: 40em;
+      width: 25em;
       text-align: left;
-      border: 1px solid lightgray;
       z-index: 3;
+    }
 
-      .item-remove-wrapper {
-        width: 100%;
+    .item-remove-wrapper {
+      width: 100%;
 
-        .item-remove-icon {
-          color: red;
-          cursor: pointer;
-          right: 1em;
-          position: absolute;
+      .item-remove-icon {
+        color: var(--red);
+        cursor: pointer;
+        right: 1em;
+        position: absolute;
+
+        &:hover {
+          color: var(--orange);
         }
       }
     }
