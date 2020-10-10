@@ -8,5 +8,7 @@
   "user.menu.dashboard.views.paginated": "Paginata",
   "user.menu.dashboard.views.scroll": "Scrollabile",
   "wishlist.emptylist.label" : "la tua wishlist è vuota!",
-  "cart.emptylist.label" : "Il tuo carrello è vuoto!"
+  "wishlist.remove.all": "Elimina tutti",
+  "cart.emptylist.label" : "Il tuo carrello è vuoto!",
+  "cart.total.label": "Totale"
 }

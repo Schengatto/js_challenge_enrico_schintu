@@ -8,5 +8,7 @@
   "user.menu.dashboard.views.paginated": "Paginated",
   "user.menu.dashboard.views.scroll": "Scrollable",
   "wishlist.emptylist.label" : "Your wishlist is empty!",
-  "cart.emptylist.label" : "Your cart is empty!"
+  "wishlist.remove.all": "Remove all",
+  "cart.emptylist.label" : "Your cart is empty!",
+  "cart.total.label": "Total"
 }

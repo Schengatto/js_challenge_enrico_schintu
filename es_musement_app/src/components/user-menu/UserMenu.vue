@@ -4,11 +4,12 @@
        @mouseleave="closeMenu()"
        @mouseenter="keepOpen()">
     <div class="clickable" @click="toggleMenu()">
-      <CustomIcon title="User menu" type="user"></CustomIcon>
+      <CustomIcon title="User menu" type="user" width="40px" height="40px"
+                  :color="iconColor"></CustomIcon>
     </div>
     <div class="menu-container" v-if="showMenu">
       <div class="menu-header">
-        <div>{{ $t("user.menu.header.hello") }} {{userData.username}}</div>
+        <div>{{ $t('user.menu.header.hello') }} {{userData.username}}</div>
         <div class="user-email-wrapper"><small>{{userData.email}}</small></div>
       </div>
       <div class="menu-section">
@@ -89,6 +90,10 @@ export default class UserMenu extends Vue {
 
     get availableCurrencies(): Currency[] {
       return this.currencies;
+    }
+
+    get iconColor(): string {
+      return this.showMenu ? 'snow' : '#143c53';
     }
 
     toggleMenu(): void {
@@ -197,6 +202,8 @@ export default class UserMenu extends Vue {
         .menu-option-item {
           padding: 1em;
           font-size: 12px;
+          border: 1px solid var(--orange);
+          width: 40%;
 
           &:hover {
             background-color: var(--orange);

@@ -2,7 +2,7 @@
   <div class="header-margin">
     <header class="header container">
       <div class="page-title">
-        Es Musement
+        Js-Challenge
       </div>
       <aside class="header-bag">
         <MiniBag></MiniBag>
@@ -48,6 +48,7 @@ export default class AppHeader extends Vue {
       margin-left: 2em;
       font-size: 20px;
       text-shadow: 1px 1px gray;
+      font-variant: all-petite-caps;
     }
 
   }

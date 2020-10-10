@@ -6,7 +6,7 @@
     <div class="wishlist-icon clickable"
          @click="toggleMenu()">
       <CustomIcon title="My Wishlist"
-                  type="wishlist-img"
+                  type="wishlist"
                   width="35px" height="35px"
                   :color="iconColor"></CustomIcon>
       <div v-if="numberOfItems" class="bag__item-counter">{{ numberOfItems }}</div>
@@ -20,6 +20,12 @@
           </div>
           <div class="item-remove-wrapper">
             <div class="item-remove-icon" @click="removeItem(i.uuid)">x</div>
+          </div>
+        </div>
+
+        <div class="remove-all-wrapper">
+          <div class="remove-all-btn clickable" @click="clearWishList">
+            {{ $t('wishlist.remove.all') }}
           </div>
         </div>
       </template>
@@ -55,7 +61,7 @@ export default class MiniWishlist extends Vue {
     }
 
     get iconColor(): string {
-      return this.numberOfItems ? 'orange' : 'gray';
+      return this.showMenu ? 'snow' : '#143c53';
     }
 
     clearWishList(): void {
@@ -158,37 +164,40 @@ export default class MiniWishlist extends Vue {
 
     .bag-item {
       display: inline-grid;
-      grid-template-columns: 7em auto 1em;
+      grid-template-columns: 7em 14em auto;
       padding: 0.5em 0.2em 0.5em 0.2em;
       border-bottom: 1px solid #8080802e;
       position: relative;
 
       .bag-item-details {
+        margin-top: 0.5em;
         display: inline-grid;
         grid-template-columns: 3em 22em 5em;
-
-        .ticket-number {
-          color: blue;
-        }
-
-        .bag-sub-total {
-          text-align: right;
-          font-style: italic;
-        }
       }
     }
 
     .item-remove-wrapper {
       width: 100%;
+      position: absolute;
+      left: 3em;
+      top: 0.5em;
 
       .item-remove-icon {
         color: var(--red);
         cursor: pointer;
         right: 1em;
         position: absolute;
+        border: solid 1px var(--red);;
+        border-radius: 2em;
+        font-size: 10px;
+        width: 20px;
+        text-align: center;
+        padding: 0.5em;
+        display: flex;
 
         &:hover {
-          color: var(--orange);
+          color: var(--snow);
+          background-color: var(--orange);
         }
       }
     }
@@ -207,6 +216,21 @@ export default class MiniWishlist extends Vue {
       .total-value {
         width: 50%;
         text-align: right;
+      }
+    }
+
+    .remove-all-wrapper {
+      text-align: center;
+
+      .remove-all-btn {
+        padding: 1em;
+        font-size: 12px;
+        border: 1px solid var(--orange);
+
+        &:hover {
+          background-color: var(--orange);
+          color: var(--white);
+        }
       }
     }
 

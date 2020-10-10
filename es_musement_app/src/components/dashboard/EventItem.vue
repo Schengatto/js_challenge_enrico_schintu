@@ -9,8 +9,10 @@
              height="150px"/>
         <button class="product__wishlist-button button button--round button--wishlist"
                 @click="addToWishlist()">
-          <CustomIcon type="wishlist" :title="$t('common.btn.add_to_wishlist')"
-                      v-bind:class="{'already-in-wishlist': presentInList}">
+          <CustomIcon type="wishlist"
+                      width="'20px" height="'20px"
+                      :title="$t('common.btn.add_to_wishlist')"
+                      :color="presentInList ? 'orange' : 'gray'">
           </CustomIcon>
         </button>
       </figure>
@@ -58,7 +60,7 @@ export default class EventItem extends Vue {
     }
 
     get imageSrc(): string {
-      return `${this.item.cover_image_url}?q=60&fit=crop&h=150&w=300`;
+      return `${this.item.cover_image_url}?q=80&fit=crop&h=150&w=300`;
     }
 
     addToWishlist(): void {
@@ -80,9 +82,25 @@ export default class EventItem extends Vue {
 </script>
 
 <style scoped lang="scss">
+
   .product {
     text-align: center;
     box-shadow: 3px 2px #9fa3a321;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    background-color: #ffffff;
+
+    .product__image-wrapper {
+      position: relative;
+      text-align: center;
+    }
+
+    .product__image {
+      max-width: 100%;
+      height: auto;
+      border-bottom: 4px solid lightseagreen;
+    }
 
     .product__wishlist-button {
       width: 35px;
@@ -119,6 +137,7 @@ export default class EventItem extends Vue {
         padding: 0.8em;
         border: solid 1px mediumaquamarine;
         border-radius: 0;
+        font-size: 11px;
 
         /*Magic*/
         background-image: linear-gradient(to left, snow 50%, mediumaquamarine 50%);
