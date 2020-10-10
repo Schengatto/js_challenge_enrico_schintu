@@ -1,16 +1,16 @@
 import {Action, getModule, Module, Mutation, VuexModule} from "vuex-module-decorators";
 import {MusementItem} from "@/models/musement.models";
 import store from "@/store";
-import Page from "@/models/pagination.model";
 import {API_SUFFIX, HttpCommon} from "@/http-common";
 import {AxiosResponse} from "axios";
 import {PAGE_SIZE} from "@/constants/app.constant";
 import DashboardStoreModel from "@/store/dashboard/dashboard-store.model";
-import userStore from "@/store/user/user-store";
+import {isMobile} from "mobile-device-detect";
 
 const INIT_STATE: DashboardStoreModel = {
   items: [],
-  currentPage: {page: 0, size: PAGE_SIZE}
+  currentPage: 0,
+  dashboardView: isMobile ? 'scroll' : 'paginated'
 };
 
 @Module({
@@ -32,8 +32,15 @@ class DashboardStore extends VuexModule {
   /**
    * The current page displayed in the dashboard.
    */
-  get currentPage(): Page {
+  get currentPage(): number {
     return this.dashboardStore.currentPage;
+  }
+
+  /**
+   * The current dashboard view. Possible values are 'scroll' or 'paginated'.
+   */
+  get dashboardViewType(): string {
+    return this.dashboardStore.dashboardView;
   }
 
   /**
@@ -41,16 +48,43 @@ class DashboardStore extends VuexModule {
    * @param newState
    */
   @Mutation
-  UPDATE_PAGE(newState: DashboardStoreModel): void {
-    this.dashboardStore = {...newState};
+  async UPDATE_PAGE_ITEMS(newState: DashboardStoreModel) {
+    this.dashboardStore = {dashboardView: newState.dashboardView, items: newState.items, currentPage: newState.currentPage};
+  }
+
+  /**
+   * Add items to the dashboard event list.
+   * @param items
+   */
+  @Mutation
+  async ADD_PAGE_ITEMS(items: MusementItem[]) {
+    this.dashboardStore.items = [...this.dashboardStore.items, ...items];
+  }
+
+  /**
+   * Update the current dashboard page number.
+   * @param pageNumber
+   */
+  @Mutation
+  async UPDATE_PAGE_NUMBER(pageNumber: number) {
+    this.dashboardStore.currentPage = pageNumber;
   }
 
   /**
    * Restore the initial state of the dashboard page.
    */
   @Mutation
-  CLEAR(): void {
+  async CLEAR() {
     this.dashboardStore = {...INIT_STATE};
+  }
+
+  /**
+   * Update the dashboard view. Possible values are 'scroll' or 'paginated'.
+   * @param viewType
+   */
+  @Mutation
+  async CHANGE_DASHBOARD_VIEW(viewType: string) {
+    this.dashboardStore.dashboardView = viewType;
   }
 
   /**
@@ -59,14 +93,8 @@ class DashboardStore extends VuexModule {
    * @param pageNumber
    */
   @Action
-  moveToPage(pageNumber: number): void {
-    const headers = {
-      'accept-language': userStore.language,
-      'content-type': 'application/json',
-      'x-musement-currency': userStore.currency,
-      'x-musement-version': '3.4.0'
-    };
-    HttpCommon.getApi(headers)
+  async moveToPage(pageNumber: number) {
+    HttpCommon.getApi()
       .get(
         API_SUFFIX, {
           params: {
@@ -77,11 +105,12 @@ class DashboardStore extends VuexModule {
       )
       .then((response: AxiosResponse<MusementItem[]>) => {
         if (response.data) {
-          const data = {
+          const data: DashboardStoreModel = {
             items: [...response.data],
-            currentPage: {page: pageNumber, size: PAGE_SIZE}
+            currentPage: pageNumber,
+            dashboardView: this.dashboardStore.dashboardView
           };
-          this.UPDATE_PAGE(data);
+          this.UPDATE_PAGE_ITEMS(data);
         } else {
           throw Error("No data found in the response");
         }
@@ -94,16 +123,27 @@ class DashboardStore extends VuexModule {
    * It should be used for stuff like language change or currency change.
    */
   @Action
-  reloadCurrentPage(): void {
-    this.moveToPage(this.currentPage.page);
+  async reloadCurrentPage() {
+    await this.moveToPage(this.currentPage);
+  }
+
+  /**
+   * Update the dashboard view. Possible values are 'scroll' or 'paginated'.
+   * @param viewType
+   */
+  @Action
+  async updateDashboardView(viewType: string) {
+    await this.dashboardReset();
+    await this.CHANGE_DASHBOARD_VIEW(viewType);
   }
 
   /**
    * Reset the store status.
    */
   @Action
-  cleanItems(): void {
-    this.CLEAR();
+  async dashboardReset() {
+    await this.CLEAR();
+    await this.moveToPage(0)
   }
 }
 

@@ -1,8 +1,5 @@
 <template>
-  <div class="container">
-    <div class="change-view-btn-wrapper">
-      <button class="change-view-btn" @click="toggleView()">Change View</button>
-    </div>
+  <div class="container" v-if="items.length">
     <template v-if="paginatorActive">
       <ul class="product-list">
         <li
@@ -12,7 +9,7 @@
           <EventItem :item="item"></EventItem>
         </li>
       </ul>
-      <Pagination :currentPage="currentPage.page"
+      <Pagination :currentPage="currentPage"
                   v-on:changePage="loadPage">
       </Pagination>
     </template>
@@ -21,8 +18,8 @@
       <ul class="product-list">
         <li
           class="product-list__item"
-          v-for="item in items"
-          v-bind:key="item.uuid">
+          v-for="(item, index) in items"
+          v-bind:key="index">
           <EventItem :item="item"></EventItem>
         </li>
       </ul>
@@ -39,28 +36,19 @@ import { Component, Vue } from 'vue-property-decorator';
 import EventItem from '@/components/dashboard/EventItem.vue';
 import { MusementItem } from '@/models/musement.models';
 import Pagination from '@/components/commons/Pagination.vue';
-import Page from '@/models/pagination.model';
 import { API_SUFFIX, HttpCommon } from '@/http-common';
 import InfiniteLoading from 'vue-infinite-loading';
 import dashboardStore from '@/store/dashboard/dashboard-store';
 import { isMobile } from 'mobile-device-detect';
 
-const api = '//hn.algolia.com/api/v1/search_by_date?tags=story';
-
   @Component({
     components: { Pagination, EventItem, InfiniteLoading },
   })
 export default class Dashboard extends Vue {
-    public paginatorActive = !isMobile;
-
     private dashboardStore = dashboardStore;
 
-    private pageNumber = 0;
-
     public created(): void {
-      if (this.paginatorActive) {
-        this.loadPage(this.pageNumber);
-      }
+      this.dashboardStore.updateDashboardView(isMobile ? 'scroll' : 'paginated');
     }
 
     public loadPage(pageNumber: number): void {
@@ -71,26 +59,25 @@ export default class Dashboard extends Vue {
       return this.dashboardStore.pageItems;
     }
 
-    get currentPage(): Page {
+    get currentPage(): number {
       return this.dashboardStore.currentPage;
     }
 
-    toggleView() {
-      this.paginatorActive = !this.paginatorActive;
-      if (this.paginatorActive) {
-        this.loadPage(0);
-      } else {
-        this.dashboardStore.cleanItems();
-      }
+    get paginatorActive(): boolean {
+      return this.dashboardStore.dashboardViewType === 'paginated';
     }
 
     infiniteHandler($state: { loaded: () => void; complete: () => void }) {
-      HttpCommon.getApi({})
-        .get(API_SUFFIX, { params: { limit: 9, offset: this.pageNumber * 12 } })
+      const offset: number = this.items.length === 0
+        ? 0
+        : (this.currentPage + 1) * 6;
+
+      HttpCommon.getApi()
+        .get(API_SUFFIX, { params: { limit: 6, offset } })
         .then(({ data }) => {
           if (data.length) {
-            this.pageNumber += 1;
-            this.items.push(...data);
+            this.dashboardStore.ADD_PAGE_ITEMS(data);
+            this.dashboardStore.UPDATE_PAGE_NUMBER(this.currentPage + 1);
             $state.loaded();
           } else {
             $state.complete();

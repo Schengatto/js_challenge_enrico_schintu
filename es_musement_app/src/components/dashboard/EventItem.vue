@@ -41,9 +41,9 @@
 <script lang="ts">
 import { Component, Prop, Vue } from 'vue-property-decorator';
 import { MusementItem } from '@/models/musement.models';
+import CustomIcon from '@/components/commons/CustomIcon.vue';
 import wishlistStore from '@/store/wishlist/wishlist-store';
 import cartStore from '@/store/cart/cart-store';
-import CustomIcon from '@/components/commons/CustomIcon.vue';
 
   @Component({
     components: { CustomIcon },

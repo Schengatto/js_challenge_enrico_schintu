@@ -1,24 +1,41 @@
 <template>
   <div id="user_menu_wrapper"
+       v-bind:class="{'active': showMenu}"
        @mouseleave="closeMenu()"
        @mouseenter="keepOpen()">
     <div class="clickable" @click="toggleMenu()">
       <CustomIcon title="User menu" type="user"></CustomIcon>
     </div>
-    <div class="bag-details-container" v-if="showMenu">
-      <div>Ciao {{userData.username}}</div>
-      <div>{{userData.email}}</div>
-      <hr>
-      <div>
-        <div>Lingua</div>
-        <div v-for="lang in languages"
-             v-bind:key="lang.id"
-             class="submenu-item clickable"
-             @click="setLanguage(lang.id)">
-          <CustomIcon :type="lang.icon"
-                      :title="lang.id">
-          </CustomIcon>
-          <span>{{lang.name}}</span>
+    <div class="menu-container" v-if="showMenu">
+      <div class="menu-header">
+        <div>{{ $t("user.menu.header.hello") }} {{userData.username}}</div>
+        <div>{{userData.email}}</div>
+      </div>
+      <div class="menu-section">
+        <div class="menu-section-title"> {{ $t('user.menu.languages') }}</div>
+        <div class="menu-option-list">
+          <div v-for="lang in availableLanguages"
+               v-bind:key="lang.id"
+               class="submenu-item clickable menu-option-item"
+               @click="setLanguage(lang.id)">
+            <CustomIcon :type="lang.icon"
+                        :title="lang.id">
+            </CustomIcon>
+            <span>{{lang.name}}</span>
+          </div>
+        </div>
+      </div>
+      <div class="menu-section">
+        <div class="menu-section-title">{{ $t('user.menu.dashboard.views.title') }}</div>
+        <div class="menu-option-list">
+          <div class="clickable menu-option-item"
+               @click="changeDashboardView('paginated')">{{
+            $t('user.menu.dashboard.views.paginated') }}
+          </div>
+          <div class="clickable menu-option-item"
+               @click="changeDashboardView('scroll')">
+            {{ $t('user.menu.dashboard.views.scroll') }}
+          </div>
         </div>
       </div>
     </div>
@@ -28,11 +45,11 @@
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator';
 import CustomIcon from '@/components/commons/CustomIcon.vue';
-import userStore from '@/store/user/user-store';
 import UserDataModel from '@/models/user-data.model';
 import { Locale, LOCALES } from '@/models/locale.model';
 import { CURRENCIES, Currency } from '@/models/currenc.model';
-import VueI18n, { LocaleMessages } from 'vue-i18n';
+import userStore from '@/store/user/user-store';
+import dashboardStore from '@/store/dashboard/dashboard-store';
 
   @Component({
     components: { CustomIcon },
@@ -40,18 +57,26 @@ import VueI18n, { LocaleMessages } from 'vue-i18n';
 export default class UserMenu extends Vue {
     showMenu = false;
 
-    private timeout: any;
+    private userStore = userStore;
+
+    private dashboardStore = dashboardStore;
+
+    private timeout!: NodeJS.Timeout;
+
+    private locales: Locale[] = LOCALES;
+
+    private currencies: Currency[] = CURRENCIES;
 
     get userData(): UserDataModel | null {
-      return userStore.userData;
+      return this.userStore.userData;
     }
 
-    get languages(): Locale[] {
-      return LOCALES;
+    get availableLanguages(): Locale[] {
+      return this.locales;
     }
 
-    get currencies(): Currency[] {
-      return CURRENCIES;
+    get availableCurrencies(): Currency[] {
+      return this.currencies;
     }
 
     toggleMenu(): void {
@@ -59,7 +84,9 @@ export default class UserMenu extends Vue {
     }
 
     closeMenu(): void {
-      this.timeout = setTimeout(() => this.showMenu = false, 600);
+      this.timeout = setTimeout(() => {
+        this.showMenu = true;
+      }, 300);
     }
 
     keepOpen(): void {
@@ -69,23 +96,33 @@ export default class UserMenu extends Vue {
     }
 
     setLanguage(language: string): void {
-      userStore.changeLanguage(language);
+      this.userStore.changeLanguage(language);
     }
 
     setCurrency(currency: string): void {
-      userStore.changeCurrency(currency);
+      this.userStore.changeCurrency(currency);
+    }
+
+    changeDashboardView(dashboardView: string): void {
+      this.dashboardStore.updateDashboardView(dashboardView);
     }
 }
 </script>
 
 <style lang="scss" scoped>
-  #user_menu_wrapper {
-    padding: 0.3em 2em 1em 0;
 
-    .submenu-item {
-      display: inline-grid;
-      grid-template-columns: 2em auto;
-      padding: 0.4em;
+  #user_menu_wrapper {
+    padding: 0.3em 2.5em 2em 1.2em;
+    margin: 0;
+    border-radius: 2em 0 0 0;
+    border: 1px solid transparent;
+    border-right: none;
+    border-bottom: none;
+    height: 4.5em;
+
+    &.active {
+      border-color: var(--white);
+      background-color: var(--darkblue);
     }
 
     .clickable {
@@ -96,20 +133,63 @@ export default class UserMenu extends Vue {
       }
     }
 
-    .bag-details-container {
-      position: absolute;
-      top: 2.5em;
-      left: 0;
-      background-color: #ffffff;
+    .menu-container {
+      position: fixed;
+      top: 4.5em;
+      right: 0;
+      background-color: var(--darkblue);
+      color: var(--white);
+      min-height: 100%;
       padding: 1em 1em 1em 1em;
       margin: 0;
-      width: 20em;
+      width: 25em;
       text-align: left;
-      border: 1px solid lightgray;
       z-index: 3;
 
+      .menu-header {
+        padding-bottom: 1em;
+        font-weight: bolder;
+        margin: 1em 0 1em 0;
+        border-bottom: 1px solid gray;
+        text-align: center;
+      }
+
+      .menu-section {
+        margin: 1em 0 1em 0;
+        border-bottom: 1px solid gray;
+
+        .menu-section-title {
+          font-weight: bolder;
+        }
+      }
+
+      .submenu-item {
+        display: inline-grid;
+        grid-template-columns: 2em auto;
+        padding: 0.4em;
+      }
+
+      .menu-option-list {
+        margin: 1em 0 1em 0;
+        display: flex;
+        width: 100%;
+        align-items: center;
+        justify-content: space-around;
+        grid-auto-flow: row;
+
+        .menu-option-item {
+          padding: 1em;
+          font-size: 12px;
+
+          &:hover {
+            background-color: var(--orange);
+            color: var(--white);
+          }
+        }
+      }
+
       .item-remove-icon {
-        color: red;
+        color: var(--red);
         cursor: pointer;
       }
     }
@@ -120,5 +200,6 @@ export default class UserMenu extends Vue {
       margin-top: 1em;
       padding-top: 0.5em;
     }
+
   }
 </style>

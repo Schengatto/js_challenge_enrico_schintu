@@ -1,5 +1,10 @@
 {
   "message": "hello i18n !!",
   "common.btn.add_to_cart": "Add to cart",
-  "common.btn.add_to_wishlist": "Add to wishlist"
+  "common.btn.add_to_wishlist": "Add to wishlist",
+  "user.menu.header.hello" : "Hello",
+  "user.menu.languages": "Available languages",
+  "user.menu.dashboard.views.title": "Dashboard View",
+  "user.menu.dashboard.views.paginated": "Paginated",
+  "user.menu.dashboard.views.scroll": "Scrollable"
 }

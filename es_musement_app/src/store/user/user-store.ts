@@ -1,19 +1,23 @@
-import {Action, getModule, Module, Mutation, VuexModule} from "vuex-module-decorators";
-import UserDataModel from "@/models/user-data.model";
-import UserStoreModel from "@/store/user/user-store.model";
-import store from "@/store";
-import dashboardStore from "@/store/dashboard/dashboard-store.ts";
-import i18n from "@/i18n";
-import {USER_STORE_INIT_STATE} from "@/constants/app.constant";
+import {Action, getModule, Module, Mutation, VuexModule} from 'vuex-module-decorators';
+import UserDataModel from '@/models/user-data.model';
+import UserStoreModel from '@/store/user/user-store.model';
+import store from '@/store';
+import dashboardStore from '@/store/dashboard/dashboard-store.ts';
+import i18n from '@/i18n';
 
-const STORAGE_KEY = "APP_USER_DATA_STORE";
+const STORAGE_KEY = 'APP_USER_DATA_STORE';
+const USER_STORE_INIT_STATE: UserStoreModel = {
+  userData: { username: 'John Doe', email: 'johnDoe@test.org' },
+  currency: 'EUR',
+  language: 'it',
+};
 const persistOnLocalStorage = (userStore: UserStoreModel) => localStorage.setItem(STORAGE_KEY, JSON.stringify(userStore));
 const loadFromLocalStorage: () => any = () => JSON.parse(localStorage.getItem(STORAGE_KEY) as string);
 
 @Module({
   dynamic: true,
   namespaced: true,
-  name: "user",
+  name: 'user',
   store
 })
 class UserStore extends VuexModule {
@@ -105,7 +109,7 @@ class UserStore extends VuexModule {
   CHANGE_CURRENCY(currency: string): void {
     this.userStore.currency = currency;
     persistOnLocalStorage(this.userStore);
-    dashboardStore.reloadCurrentPage();
+    dashboardStore.dashboardReset();
   }
 
   /**
@@ -118,8 +122,10 @@ class UserStore extends VuexModule {
     this.userStore.language = language;
     i18n.locale = language;
     persistOnLocalStorage(this.userStore);
-    dashboardStore.reloadCurrentPage();
+    dashboardStore.dashboardReset();
   }
+
+
 }
 
 export default getModule(UserStore);
