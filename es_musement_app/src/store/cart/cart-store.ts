@@ -1,9 +1,8 @@
 import {Action, getModule, Module, Mutation, VuexModule} from 'vuex-module-decorators';
-import {MusementItem} from '@/models/musement.models';
 import store from '@/store';
 import CartStoreModel from '@/store/cart/cart-store.model';
 import EventItemModel from '@/models/event.item';
-import EventItem from "@/models/event.item";
+import EventItem from '@/models/event.item';
 
 const STORAGE_KEY = 'APP_CART_STORE';
 const INIT_STATE: CartStoreModel = {items: [], totalPrice: 0};
@@ -73,7 +72,7 @@ class CartStore extends VuexModule {
   }
 
   /**
-   * Remove items from the user's cart  and then save the store status in the browser localstorage.
+   * Remove items from the user's cart and then save the store status in the browser localstorage.
    * @param ids
    */
   @Mutation
@@ -81,6 +80,23 @@ class CartStore extends VuexModule {
     this.cartStore.items = this.cartStore.items.filter(
       item => !ids.includes(item.uuid)
     );
+    persistOnLocalStorage(this.cartStore);
+  }
+
+  /**
+   * Remove a ticket from the event provided as argument and then save the store status in the browser localstorage.
+   * @param ids
+   */
+  @Mutation
+  async REMOVE_ITEM_TICKET(ids: string[]) {
+    this.cartStore.items.filter(
+      item => ids.includes(item.uuid)
+    ).forEach(i => {
+      if (i.tickets > 1) {
+        i.tickets = i.tickets - 1;
+      }
+      return i;
+    });
     persistOnLocalStorage(this.cartStore);
   }
 
@@ -142,6 +158,17 @@ class CartStore extends VuexModule {
     await this.ADD_TO_CART(items);
     await this.UPDATE_TOTAL_AMOUNT();
   }
+
+  /**
+   * Remove a ticket of an item from the user's cart.
+   * @param id
+   */
+  @Action
+  async removeTicket(id: string) {
+    await this.REMOVE_ITEM_TICKET([id]);
+    await this.UPDATE_TOTAL_AMOUNT();
+  }
+
 
   /**
    * Remove a single item from the user's cart.

@@ -28,6 +28,10 @@ body {
   box-sizing: border-box;
 }
 
+*:focus {
+  outline: none;
+}
+
 h1, p, figure {
   margin: 0;
   font-weight: normal;

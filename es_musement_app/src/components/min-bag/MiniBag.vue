@@ -27,7 +27,11 @@
               </div>
             </div>
             <div class="bag-item-details">
-              <div class="ticket-number">{{ i.tickets }} x</div>
+              <div class="ticket-wrapper unselectable">
+                <div class="ticket-btn remove-ticket-btn" @click="removeTicket(i)">-</div>
+                <div class="ticket-number">{{ i.tickets }}<small> x</small></div>
+                <div class="ticket-btn add-ticket-btn" @click="addTicket(i)">+</div>
+              </div>
               <div>{{userCurrency}} {{ i.finalPrice.toFixed(2) }}</div>
               <div class="bag-sub-total">{{userCurrency}} {{(i.finalPrice *
                 i.tickets).toFixed(2)}}
@@ -129,6 +133,16 @@ export default class MiniBag extends Vue {
       }
     }
 
+    removeTicket(item: EventItem): void {
+      if (item.tickets > 1) {
+        this.userCartData.removeTicket(item.uuid);
+      }
+    }
+
+    addTicket(item: EventItem): void {
+      this.userCartData.addSingle(item);
+    }
+
     buyNow(): void {
       window.alert('Not implemented yet :)');
     }
@@ -200,12 +214,46 @@ export default class MiniBag extends Vue {
       }
 
       .bag-item-details {
-        margin-top: 0.5em;
+        margin-top: 0.8em;
         display: inline-grid;
-        grid-template-columns: 3em 6em 5em;
+        grid-template-columns: 7em 8.5em 5.5em;
 
-        .ticket-number {
-          color: var(--orange);
+        .ticket-wrapper {
+          display: flex;
+          justify-content: space-evenly;
+          position: relative;
+          width: 6em;
+
+          .ticket-btn {
+            padding: 0.2em;
+            border: 1px solid white;
+            width: 1.5em;
+            text-align: center;
+          }
+
+          .remove-ticket-btn {
+            position: absolute;
+            left: 0;
+            bottom: 0;
+
+            &:hover {
+              background-color: var(--red);
+            }
+          }
+
+          .ticket-number {
+            color: var(--orange);
+          }
+
+          .add-ticket-btn {
+            position: absolute;
+            right: 0.1em;
+            bottom: 0;
+
+            &:hover {
+              background-color: var(--green);
+            }
+          }
         }
 
         .bag-sub-total {
@@ -229,7 +277,7 @@ export default class MiniBag extends Vue {
       .total-value {
         width: 50%;
         text-align: right;
-        margin-right: 3em;
+        margin-right: 1.5em;
       }
     }
   }
