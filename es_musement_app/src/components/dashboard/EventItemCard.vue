@@ -110,19 +110,25 @@ export default class EventItemCard extends Vue {
     .product__wishlist-button {
       width: 35px;
       height: 35px;
-
       display: flex;
       justify-content: center;
       align-items: center;
-
       position: absolute;
       top: 10px;
       right: 10px;
+      border-radius: 50%;
     }
 
     .product-image {
       height: 250px;
       background-color: var(--darkblue);
+    }
+
+    .product__subtitle {
+      font-size: 1.1em;
+      margin: 0.5em 0 0 0;
+      max-height: 5.5em;
+      overflow: auto;
     }
 
     .product__details {
@@ -131,36 +137,80 @@ export default class EventItemCard extends Vue {
       flex-direction: column;
       padding: 10px 20px 20px;
       text-align: center;
-      height: 18em;
+      height: 19em;
+    }
 
-      .product__add-to-cart {
-        width: 100%;
-        margin-top: auto;
+    .product__add-to-cart {
+      width: 100%;
+      margin-top: auto;
+    }
+
+    .cart-btn {
+      color: black;
+      padding: 0.8em;
+      border: 1px solid mediumaquamarine;
+      border-radius: 100px;
+      font-size: 11px;
+      background-image: linear-gradient(to left, snow 50%, mediumaquamarine 50%);
+      background-size: 200% 100%;
+      background-position: right bottom;
+      transition: all ease .3s;
+      background-color: #ffffff;
+      cursor: pointer;
+
+      &:hover {
+        display: inline-grid;
+        grid-template-columns: 70% 30%;
+        background-position: left bottom;
       }
 
-      .cart-btn {
-        color: black;
-        padding: 0.8em;
-        border: solid 1px mediumaquamarine;
-        border-radius: 0;
-        font-size: 11px;
-
-        /*Magic*/
-        background-image: linear-gradient(to left, snow 50%, mediumaquamarine 50%);
-        background-size: 200% 100%;
-        background-position: right bottom;
-        transition: all ease .3s;
-
-        &:hover {
-          display: inline-grid;
-          grid-template-columns: 70% 30%;
-          background-position: left bottom;
-        }
-
-        .add-to-cart-label {
-          color: snow;
-        }
+      .add-to-cart-label {
+        color: snow;
       }
+    }
+
+    .product__price {
+      padding-bottom: 20px;
+
+      font-family: 'Lato-Bold', sans-serif;
+      font-size: 14px;
+      letter-spacing: 2.33px;
+    }
+
+    .product__price--strike {
+      margin-right: 10px;
+      text-decoration: line-through;
+    }
+
+    .button--round {
+      display: block;
+      border-radius: 50%;
+    }
+
+    .button--primary {
+      padding: 13px;
+      font-family: 'Lato-Bold', sans-serif;
+      font-size: 13px;
+      text-transform: uppercase;
+      letter-spacing: 1.39px;
+
+      &:hover {
+        border: 1px solid #444A59;
+        color: #ffffff;
+        background-color: #444A59;
+      }
+    }
+
+    .button--wishlist:hover {
+      border: 1px solid #444A59;
+    }
+
+    .already-in-wishlist > .icon {
+      fill: orange;
+    }
+
+    .button--wishlist:hover > .icon {
+      fill: #444A59;
     }
 
   }

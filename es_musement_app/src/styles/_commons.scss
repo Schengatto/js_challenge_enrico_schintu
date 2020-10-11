@@ -1,0 +1,229 @@
+/* ==========================================================================
+   Main Styles
+   ========================================================================== */
+html {
+  height: 100%;
+}
+
+body {
+  min-height: 100%;
+  margin: 0;
+
+  display: flex;
+  flex-direction: column;
+  flex: 1 0 auto;
+
+  font-family: 'Lato-Regular', sans-serif;
+  font-size: 13px;
+  text-rendering: optimizeLegibility;
+
+  -moz-osx-font-smoothing: grayscale; /* Font smoothing tweaks for MacOSx in Gecko */
+  -webkit-font-smoothing: antialiased;
+
+  color: #444A59;
+  background-color: #f8f8f8;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+h1, p, figure {
+  margin: 0;
+  font-weight: normal;
+}
+
+a,
+a:hover,
+a:visited {
+  text-decoration: none;
+  color: #444A59;
+}
+
+ul, li {
+  margin: 0;
+  padding: 0;
+  list-style-type: none;
+}
+
+button {
+  appearance: none;
+  border: 0;
+}
+
+header,
+footer {
+  height: 60px;
+
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+
+  text-transform: uppercase;
+  background-color: #ffffff;
+}
+
+main {
+  display: flex;
+  flex-direction: row;
+  flex: 1 0 auto;
+  margin: 30px 0 20px;
+}
+
+.container {
+  width: 100%;
+  max-width: 1240px;
+  padding: 0 40px;
+  margin: 0 auto;
+}
+
+.unselectable {
+  -webkit-user-select: none; /* Safari */
+  -moz-user-select: none; /* Firefox */
+  -ms-user-select: none; /* IE10+/Edge */
+  user-select: none; /* Standard */
+}
+
+.clickable {
+  cursor: pointer;
+}
+
+
+/* ==========================================================================
+   Menu
+   ========================================================================== */
+.menu-container {
+  position: fixed;
+  top: 4.5em;
+  right: 0;
+  background-color: var(--darkblue);
+  color: var(--white);
+  min-height: 100%;
+  padding: 1em 1em 1em 1em;
+  margin: 0;
+  width: 25em;
+  text-align: left;
+  z-index: 3;
+
+  .list-container {
+    max-height: 65vh;
+    overflow: auto;
+  }
+
+  .close-menu-btn {
+    width: 25px;
+    height: 25px;
+    display: flex;
+    align-self: flex-start;
+    justify-content: center;
+    align-items: center;
+    font-family: "Lato-Bold", sans-serif;
+    font-size: 12px;
+    text-align: center;
+    border-radius: 50%;
+    color: var(--white);
+    border: 3px solid var(--white);
+    margin-bottom: 1em;
+
+    &:hover {
+      color: var(--darkblue);
+      background-color: var(--white);
+    }
+  }
+
+  .clickable:hover {
+    color: orange;
+  }
+
+  .menu-header {
+    padding-bottom: 1em;
+    font-weight: bolder;
+    margin: 1em 0 1em 0;
+    border-bottom: 1px solid gray;
+    text-align: center;
+  }
+
+  .menu-section {
+    margin: 1em 0 1em 0;
+    border-bottom: 1px solid gray;
+
+    .menu-section-title {
+      font-weight: bolder;
+    }
+  }
+
+  .item-remove-wrapper {
+    width: 100%;
+    position: absolute;
+    left: 0em;
+    top: 0.5em;
+
+    .item-remove-icon {
+      color: var(--red);
+      cursor: pointer;
+      right: 1em;
+      border: solid 2px var(--red);;
+      font-size: 10px;
+      width: 20px;
+      text-align: center;
+      padding: 0.5em;
+      display: flex;
+      height: 20px;
+      align-self: flex-start;
+      justify-content: center;
+      align-items: center;
+      font-family: "Lato-Bold", sans-serif;
+      border-radius: 50%;
+      position: absolute;
+      top: 0;
+
+      &:hover {
+        color: var(--snow);
+        background-color: var(--red);
+      }
+    }
+  }
+
+  .menu-footer {
+    text-align: center;
+
+    .menu-footer-btn {
+      margin: 1em 0.5em 0 0;
+      padding: 1em;
+      font-size: 12px;
+      border: 1px solid var(--orange);
+
+      &:hover {
+        background-color: var(--orange);
+        color: var(--white);
+      }
+    }
+  }
+}
+
+/* ==========================================================================
+   Bag
+   ========================================================================== */
+
+.header-bag {
+  display: flex;
+  flex-direction: row;
+  align-items: flex-end;
+}
+
+.header-bag__price {
+  margin-right: 5px;
+  font-size: 12px;
+  line-height: 12px;
+}
+
+.header-bag__wishlist-count {
+  margin-left: 10px;
+}
+
+.icon {
+  width: 20px;
+  height: 20px;
+  fill: #d9d9d9;
+  transition: .3s fill;
+}

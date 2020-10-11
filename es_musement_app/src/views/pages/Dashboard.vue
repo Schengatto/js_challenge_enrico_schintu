@@ -107,4 +107,18 @@ export default class Dashboard extends Vue {
       }
     }
   }
+
+  .product-list {
+    display: flex;
+    flex: 0 1 auto;
+    flex-flow: row wrap;
+    margin: 0 -10px;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .product-list__item {
+    padding: 10px;
+    max-width: 370px;
+  }
 </style>

@@ -2,7 +2,6 @@
   <div id="user_menu_wrapper"
        class="unselectable"
        v-bind:class="{'active': showMenu}"
-       @mouseleave="closeMenuWithDelay()"
        @mouseenter="keepOpen()">
     <div class="clickable" @click="toggleMenu()">
       <CustomIcon title="User menu" type="user" width="40px" height="40px"
@@ -162,109 +161,48 @@ export default class UserMenu extends Vue {
       background-color: var(--darkblue);
     }
 
-    .clickable {
-      cursor: pointer;
-
-      &:hover {
-        color: orange;
-      }
+    .user-email-wrapper {
+      margin: 0.5em;
+      font-style: italic;
     }
 
-    .menu-container {
-      position: fixed;
-      top: 4.5em;
-      right: 0;
-      background-color: var(--darkblue);
-      color: var(--white);
-      min-height: 100%;
-      padding: 1em 1em 1em 1em;
-      margin: 0;
-      width: 25em;
-      text-align: left;
-      z-index: 3;
+    .submenu-item {
+      display: inline-grid;
+      grid-template-columns: 2em auto;
+      padding: 0.4em;
+    }
 
-      .close-menu-btn {
-        width: 25px;
-        height: 25px;
-        display: flex;
-        align-self: flex-start;
-        justify-content: center;
-        align-items: center;
-        font-family: "Lato-Bold", sans-serif;
+    .menu-option-list {
+      margin: 1em 0 1em 0;
+      display: flex;
+      width: 100%;
+      align-items: center;
+      justify-content: space-around;
+      grid-auto-flow: row;
+
+      .menu-option-item {
+        padding: 1em;
         font-size: 12px;
-        text-align: center;
-        border-radius: 50%;
-        color: var(--white);
-        border: 3px solid var(--white);
-        margin-bottom: 1em;
+        border: 1px solid var(--orange);
+        width: 40%;
 
         &:hover {
-          color: var(--darkblue);
-          background-color: var(--white);
+          background-color: var(--orange);
+          color: var(--white);
         }
-      }
-
-      .menu-header {
-        padding-bottom: 1em;
-        font-weight: bolder;
-        margin: 1em 0 1em 0;
-        border-bottom: 1px solid gray;
-        text-align: center;
-
-        .user-email-wrapper {
-          margin: 0.5em;
-          font-style: italic;
-        }
-      }
-
-      .menu-section {
-        margin: 1em 0 1em 0;
-        border-bottom: 1px solid gray;
-
-        .menu-section-title {
-          font-weight: bolder;
-        }
-      }
-
-      .submenu-item {
-        display: inline-grid;
-        grid-template-columns: 2em auto;
-        padding: 0.4em;
-      }
-
-      .menu-option-list {
-        margin: 1em 0 1em 0;
-        display: flex;
-        width: 100%;
-        align-items: center;
-        justify-content: space-around;
-        grid-auto-flow: row;
-
-        .menu-option-item {
-          padding: 1em;
-          font-size: 12px;
-          border: 1px solid var(--orange);
-          width: 40%;
-
-          &:hover {
-            background-color: var(--orange);
-            color: var(--white);
-          }
-        }
-      }
-
-      .item-remove-icon {
-        color: var(--red);
-        cursor: pointer;
       }
     }
 
-    .bag-total-price {
-      border-top: 2px solid lightgray;
-      font-weight: bold;
-      margin-top: 1em;
-      padding-top: 0.5em;
+    .item-remove-icon {
+      color: var(--red);
+      cursor: pointer;
     }
+  }
 
+  .bag-total-price {
+    border-top: 2px solid lightgray;
+    font-weight: bold;
+    margin-top: 1em;
+    padding-top: 0.5em;
   }
 </style>

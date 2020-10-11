@@ -42,7 +42,9 @@ export default class AppHeader extends Vue {
     min-width: 100%;
     height: 4.5em;
     background-color: var(--gray);
-    /*box-shadow: 0 3px lightgrey;*/
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
 
     .page-title {
       margin-left: 2%;
@@ -53,6 +55,6 @@ export default class AppHeader extends Vue {
   }
 
   .header-margin {
-    margin: 7em 0 0 0;
+    margin: 6em 0 0 0;
   }
 </style>

@@ -1,7 +1,6 @@
 <template>
   <div id="mini_wishlist_wrapper"
        v-bind:class="{'active': showMenu}"
-       @mouseleave="closeMenuWithDelay()"
        @mouseenter="keepOpen()">
     <div class="wishlist-icon clickable"
          @click="toggleMenu()">
@@ -16,18 +15,20 @@
         <div class="close-menu-btn clickable" @click="closeMenu()">x</div>
         <div class="list-container">
           <div v-for="i in wishListItems" v-bind:key="i.uuid" class="bag-item">
-            <img :src="i.image+'?q=60&fit=crop&h=50&w=75'" :alt="i.uuid">
-            <div>
-              <div>{{ i.title }}</div>
-            </div>
-            <div class="item-remove-wrapper">
-              <div class="item-remove-icon" @click="removeItem(i.uuid)">x</div>
+            <div class="bag-item-info">
+              <img :src="i.image+'?q=60&fit=crop&h=50&w=75'" :alt="i.uuid">
+              <div>
+                <div>{{ i.title }}</div>
+              </div>
+              <div class="item-remove-wrapper">
+                <div class="item-remove-icon" @click="removeItem(i.uuid)">x</div>
+              </div>
             </div>
           </div>
         </div>
 
-        <div class="remove-all-wrapper">
-          <div class="remove-all-btn clickable" @click="clearWishList">
+        <div class="menu-footer">
+          <div class="menu-footer-btn clickable" @click="clearWishList">
             {{ $t('wishlist.remove.all') }}
           </div>
         </div>
@@ -144,107 +145,27 @@ export default class MiniWishlist extends Vue {
         width: 15px;
         height: 15px;
         margin-left: -1px;
-
         display: flex;
         align-self: flex-start;
         justify-content: center;
         align-items: center;
-
         font-family: 'Lato-Bold', sans-serif;
         font-size: 8px;
         text-align: center;
-
         border-radius: 50%;
         color: var(--darkblue);
         background-color: var(--orange);
       }
     }
 
-    .clickable {
-      cursor: pointer;
-
-      &:hover {
-        color: orange;
-      }
-    }
-
-    .close-menu-btn {
-      width: 25px;
-      height: 25px;
-      display: flex;
-      align-self: flex-start;
-      justify-content: center;
-      align-items: center;
-      font-family: "Lato-Bold", sans-serif;
-      font-size: 12px;
-      text-align: center;
-      border-radius: 50%;
-      color: var(--white);
-      border: 3px solid var(--white);
-      margin-bottom: 1em;
-
-      &:hover {
-        color: var(--darkblue);
-        background-color: var(--white);
-      }
-    }
-
-    .menu-container {
-      position: fixed;
-      top: 4.5em;
-      right: 0;
-      background-color: var(--darkblue);
-      color: var(--white);
-      min-height: 100%;
-      padding: 1em 0.2em 1em 1em;
-      margin: 0;
-      width: 25em;
-      text-align: left;
-      z-index: 3;
-
-      .list-container {
-        max-height: 65vh;
-        overflow: auto;
-      }
-    }
-
     .bag-item {
-      display: inline-grid;
-      grid-template-columns: 6.5em 12em auto;
       padding: 0.5em 0.2em 0.5em 0.2em;
       border-bottom: 1px solid #8080802e;
       position: relative;
-    }
 
-    .item-remove-wrapper {
-      width: 100%;
-      position: absolute;
-      left: 3em;
-      top: 0.5em;
-
-      .item-remove-icon {
-        color: var(--red);
-        cursor: pointer;
-        right: 1em;
-        border: solid 2px var(--red);;
-        font-size: 10px;
-        width: 20px;
-        text-align: center;
-        padding: 0.5em;
-        display: flex;
-        height: 20px;
-        align-self: flex-start;
-        justify-content: center;
-        align-items: center;
-        font-family: "Lato-Bold", sans-serif;
-        border-radius: 50%;
-        position: absolute;
-        top: 0;
-
-        &:hover {
-          color: var(--snow);
-          background-color: var(--red);
-        }
+      .bag-item-info {
+        display: inline-grid;
+        grid-template-columns: 6.5em 12em auto;
       }
     }
 
@@ -265,26 +186,9 @@ export default class MiniWishlist extends Vue {
       }
     }
 
-    .remove-all-wrapper {
-      text-align: center;
-
-      .remove-all-btn {
-        margin: 1em 0.5em 0 0;
-        padding: 1em;
-        font-size: 12px;
-        border: 1px solid var(--orange);
-
-        &:hover {
-          background-color: var(--orange);
-          color: var(--white);
-        }
-      }
-    }
-
     .empty-list {
       text-align: center;
     }
-
   }
 
 </style>

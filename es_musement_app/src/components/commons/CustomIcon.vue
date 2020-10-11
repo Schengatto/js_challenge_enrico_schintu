@@ -75,9 +75,3 @@ export default class AppHeader extends Vue {
         @Prop() color!: string;
 }
 </script>
-
-<style lang="scss" scoped>
-    .clickable {
-        cursor: pointer;
-    }
-</style>
