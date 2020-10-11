@@ -69,12 +69,13 @@ export default class Dashboard extends Vue {
     }
 
     infiniteHandler($state: { loaded: () => void; complete: () => void }) {
+      const numElements = 3;
       const offset: number = this.items.length === 0
         ? 0
-        : (this.currentPage + 1) * 6;
+        : (this.currentPage + 1) * numElements;
 
       HttpCommon.getApi()
-        .get(API_SUFFIX, {params: {limit: 6, offset}})
+        .get(API_SUFFIX, {params: {limit: numElements, offset}})
         .then(({data}) => {
           if (data.length) {
             const items = data.map(AppUtils.fromMusementItemToEventItem);

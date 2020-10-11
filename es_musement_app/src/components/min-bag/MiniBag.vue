@@ -1,9 +1,9 @@
 <template>
   <div id="mini_bag_wrapper"
        v-bind:class="{'active': showMenu}"
-       @mouseleave="closeMenu()"
+       @mouseleave="closeMenuWithDelay()"
        @mouseenter="keepOpen()">
-    <div class="mini-bag-header-wrapper" @click="toggleCart()">
+    <div class="mini-bag-header-wrapper" @click="toggleMenu()">
       <div v-if="cartTotalAmount" class="header-bag__price">
         {{userCurrency}} {{ cartTotalAmount.toFixed(2) }}
       </div>
@@ -14,26 +14,34 @@
       </div>
     </div>
     <div class="menu-container" v-if="showMenu">
+      <div class="close-menu-btn clickable" @click="closeMenu()">x</div>
       <template v-if="numberOfItems">
-        <div v-for="i in items" v-bind:key="i.uuid" class="bag-item">
-          <img :src="i.image+'?q=60&fit=crop&h=50&w=75'" :alt="i.uuid">
-          <div>
-            <div>{{ i.title }}</div>
-            <div class="bag-item-details">
-              <div class="ticket-number">{{ i.tickets }} x</div>
-              <div>{{userCurrency}} {{ i.finalPrice.toFixed(2) }}</div>
-              <div class="bag-sub-total">{{userCurrency}} {{(i.finalPrice *
-                i.tickets).toFixed(2)}}
+        <div class="list-container">
+          <div v-for="i in items" v-bind:key="i.uuid" class="bag-item">
+            <img :src="i.image+'?q=60&fit=crop&h=50&w=75'" :alt="i.uuid">
+            <div>
+              <div>{{ i.title }}</div>
+              <div class="bag-item-details">
+                <div class="ticket-number">{{ i.tickets }} x</div>
+                <div>{{userCurrency}} {{ i.finalPrice.toFixed(2) }}</div>
+                <div class="bag-sub-total">{{userCurrency}} {{(i.finalPrice *
+                  i.tickets).toFixed(2)}}
+                </div>
               </div>
             </div>
-          </div>
-          <div class="item-remove-wrapper">
-            <div class="item-remove-icon" @click="removeItem(i)">x</div>
+            <div class="item-remove-wrapper">
+              <div class="item-remove-icon" @click="removeItem(i)">x</div>
+            </div>
           </div>
         </div>
         <div class="bag-total-price">
           <div class="total-label">{{ $t('cart.total.label') }}</div>
           <div class="total-value">{{userCurrency}} {{ cartTotalAmount.toFixed(2) }}</div>
+        </div>
+        <div class="buy-all-wrapper">
+          <div class="buy-all-btn clickable" @click="buyNow()">
+            {{ $t('cart.buy.all') }}
+          </div>
         </div>
       </template>
       <template v-else>
@@ -46,22 +54,27 @@
 <script lang="ts">
 import {Component, Vue} from 'vue-property-decorator';
 import CustomIcon from '@/components/commons/CustomIcon.vue';
-import cartStore from '@/store/cart/cart-store';
-import userStore from '@/store/user/user-store';
 import {CURRENCIES, Currency} from '@/models/currenc.model';
 import EventItem from '@/models/event.item';
+import cartStore from '@/store/cart/cart-store';
+import userStore from '@/store/user/user-store';
+import appDataStore from '@/store/app-data/app-data-store';
 
   @Component({
     components: {CustomIcon},
   })
 export default class MiniBag extends Vue {
-    showMenu = false;
+    private userCartData = cartStore;
 
-    userCartData = cartStore;
+    private userData = userStore;
 
-    userData = userStore;
+    private appDataStore = appDataStore;
 
     private timeout!: NodeJS.Timeout;
+
+    get showMenu(): boolean {
+      return this.appDataStore.currentActiveMenu === 'CART';
+    }
 
     get numberOfItems(): number {
       return this.userCartData.numberOfTickets;
@@ -85,24 +98,38 @@ export default class MiniBag extends Vue {
       return this.showMenu ? 'snow' : '#143c53';
     }
 
-    toggleCart(): void {
-      this.showMenu = !this.showMenu;
+    toggleMenu(): void {
+      if (this.showMenu) {
+        this.closeMenu();
+      } else {
+        this.appDataStore.changeActiveMenu('CART');
+      }
     }
 
     removeItem(item: EventItem): void {
       this.userCartData.removeSingle(item.uuid);
     }
 
-    closeMenu(): void {
+    closeMenuWithDelay(): void {
       this.timeout = setTimeout(() => {
-        this.showMenu = false;
+        if (this.showMenu) {
+          this.closeMenu();
+        }
       }, 400);
+    }
+
+    closeMenu(): void {
+      this.appDataStore.changeActiveMenu('NONE');
     }
 
     keepOpen(): void {
       if (this.timeout) {
         clearInterval(this.timeout);
       }
+    }
+
+    buyNow(): void {
+      window.alert('Not implemented yet :)');
     }
 }
 </script>
@@ -165,9 +192,30 @@ export default class MiniBag extends Vue {
       }
     }
 
+    .close-menu-btn {
+      width: 25px;
+      height: 25px;
+      display: flex;
+      align-self: flex-start;
+      justify-content: center;
+      align-items: center;
+      font-family: "Lato-Bold", sans-serif;
+      font-size: 12px;
+      text-align: center;
+      border-radius: 50%;
+      color: var(--white);
+      border: 3px solid var(--white);
+      margin-bottom: 1em;
+
+      &:hover {
+        color: var(--darkblue);
+        background-color: var(--white);
+      }
+    }
+
     .bag-item {
       display: inline-grid;
-      grid-template-columns: 7em 14em auto;
+      grid-template-columns: 6.5em 12em auto;
       padding: 0.5em 0.2em 0.5em 0.2em;
       border-bottom: 1px solid #8080802e;
       position: relative;
@@ -175,7 +223,7 @@ export default class MiniBag extends Vue {
       .bag-item-details {
         margin-top: 0.5em;
         display: inline-grid;
-        grid-template-columns: 3em 7em 5em;
+        grid-template-columns: 3em 6em 5em;
 
         .ticket-number {
           color: var(--orange);
@@ -195,11 +243,16 @@ export default class MiniBag extends Vue {
       background-color: var(--darkblue);
       color: var(--white);
       min-height: 100%;
-      padding: 1em 1em 1em 1em;
+      padding: 1em 0.2em 1em 1em;
       margin: 0;
       width: 25em;
       text-align: left;
       z-index: 3;
+
+      .list-container {
+        max-height: 65vh;
+        overflow: auto;
+      }
     }
 
     .item-remove-wrapper {
@@ -212,18 +265,24 @@ export default class MiniBag extends Vue {
         color: var(--red);
         cursor: pointer;
         right: 1em;
-        position: absolute;
-        border: solid 1px var(--red);;
-        border-radius: 2em;
+        border: solid 2px var(--red);;
         font-size: 10px;
         width: 20px;
         text-align: center;
         padding: 0.5em;
         display: flex;
+        height: 20px;
+        align-self: flex-start;
+        justify-content: center;
+        align-items: center;
+        font-family: "Lato-Bold", sans-serif;
+        border-radius: 50%;
+        position: absolute;
+        top: 0;
 
         &:hover {
           color: var(--snow);
-          background-color: var(--orange);
+          background-color: var(--red);
         }
       }
     }
@@ -242,6 +301,23 @@ export default class MiniBag extends Vue {
       .total-value {
         width: 50%;
         text-align: right;
+        margin-right: 3em;
+      }
+    }
+
+    .buy-all-wrapper {
+      text-align: center;
+
+      .buy-all-btn {
+        margin: 1em 0.5em 0 0;
+        padding: 1em;
+        font-size: 12px;
+        border: 1px solid var(--orange);
+
+        &:hover {
+          background-color: var(--orange);
+          color: var(--white);
+        }
       }
     }
   }

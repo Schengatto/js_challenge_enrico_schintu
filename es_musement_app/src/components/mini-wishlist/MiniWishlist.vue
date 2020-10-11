@@ -1,7 +1,7 @@
 <template>
   <div id="mini_wishlist_wrapper"
        v-bind:class="{'active': showMenu}"
-       @mouseleave="closeMenu()"
+       @mouseleave="closeMenuWithDelay()"
        @mouseenter="keepOpen()">
     <div class="wishlist-icon clickable"
          @click="toggleMenu()">
@@ -13,13 +13,16 @@
     </div>
     <div class="menu-container" v-if="showMenu">
       <template v-if="numberOfItems">
-        <div v-for="i in wishListItems" v-bind:key="i.uuid" class="bag-item">
-          <img :src="i.image+'?q=60&fit=crop&h=50&w=75'" :alt="i.uuid">
-          <div>
-            <div>{{ i.title }}</div>
-          </div>
-          <div class="item-remove-wrapper">
-            <div class="item-remove-icon" @click="removeItem(i.uuid)">x</div>
+        <div class="close-menu-btn clickable" @click="closeMenu()">x</div>
+        <div class="list-container">
+          <div v-for="i in wishListItems" v-bind:key="i.uuid" class="bag-item">
+            <img :src="i.image+'?q=60&fit=crop&h=50&w=75'" :alt="i.uuid">
+            <div>
+              <div>{{ i.title }}</div>
+            </div>
+            <div class="item-remove-wrapper">
+              <div class="item-remove-icon" @click="removeItem(i.uuid)">x</div>
+            </div>
           </div>
         </div>
 
@@ -37,20 +40,25 @@
 </template>
 
 <script lang="ts">
-import { Component, Vue } from 'vue-property-decorator';
+import {Component, Vue} from 'vue-property-decorator';
 import CustomIcon from '@/components/commons/CustomIcon.vue';
-import wishlistStore from '@/store/wishlist/wishlist-store';
 import EventItem from '@/models/event.item';
+import wishlistStore from '@/store/wishlist/wishlist-store';
+import appDataStore from '@/store/app-data/app-data-store';
 
   @Component({
-    components: { CustomIcon },
+    components: {CustomIcon},
   })
 export default class MiniWishlist extends Vue {
-    showMenu = false;
+    private wishlistStore = wishlistStore;
+
+    private appDataStore = appDataStore;
 
     private timeout!: NodeJS.Timeout;
 
-    private wishlistStore = wishlistStore;
+    get showMenu(): boolean {
+      return this.appDataStore.currentActiveMenu === 'WISHLIST';
+    }
 
     get numberOfItems(): number {
       return this.wishlistStore.numberOfItems;
@@ -69,13 +77,23 @@ export default class MiniWishlist extends Vue {
     }
 
     toggleMenu(): void {
-      this.showMenu = !this.showMenu;
+      if (this.showMenu) {
+        this.closeMenu();
+      } else {
+        this.appDataStore.changeActiveMenu('WISHLIST');
+      }
+    }
+
+    closeMenuWithDelay(): void {
+      this.timeout = setTimeout(() => {
+        if (this.showMenu) {
+          this.closeMenu();
+        }
+      }, 400);
     }
 
     closeMenu(): void {
-      this.timeout = setTimeout(() => {
-        this.showMenu = false;
-      }, 400);
+      this.appDataStore.changeActiveMenu('NONE');
     }
 
     keepOpen(): void {
@@ -116,14 +134,13 @@ export default class MiniWishlist extends Vue {
       margin-right: 10px;
 
       .icon {
-        /*height: auto;*/
         fill: #444A59;
       }
 
       .bag__item-counter {
         position: absolute;
         left: 3em;
-        top: 0em;
+        top: 0;
         width: 15px;
         height: 15px;
         margin-left: -1px;
@@ -151,6 +168,27 @@ export default class MiniWishlist extends Vue {
       }
     }
 
+    .close-menu-btn {
+      width: 25px;
+      height: 25px;
+      display: flex;
+      align-self: flex-start;
+      justify-content: center;
+      align-items: center;
+      font-family: "Lato-Bold", sans-serif;
+      font-size: 12px;
+      text-align: center;
+      border-radius: 50%;
+      color: var(--white);
+      border: 3px solid var(--white);
+      margin-bottom: 1em;
+
+      &:hover {
+        color: var(--darkblue);
+        background-color: var(--white);
+      }
+    }
+
     .menu-container {
       position: fixed;
       top: 4.5em;
@@ -158,25 +196,24 @@ export default class MiniWishlist extends Vue {
       background-color: var(--darkblue);
       color: var(--white);
       min-height: 100%;
-      padding: 1em 1em 1em 1em;
+      padding: 1em 0.2em 1em 1em;
       margin: 0;
       width: 25em;
       text-align: left;
       z-index: 3;
+
+      .list-container {
+        max-height: 65vh;
+        overflow: auto;
+      }
     }
 
     .bag-item {
       display: inline-grid;
-      grid-template-columns: 7em 14em auto;
+      grid-template-columns: 6.5em 12em auto;
       padding: 0.5em 0.2em 0.5em 0.2em;
       border-bottom: 1px solid #8080802e;
       position: relative;
-
-      .bag-item-details {
-        margin-top: 0.5em;
-        display: inline-grid;
-        grid-template-columns: 3em 22em 5em;
-      }
     }
 
     .item-remove-wrapper {
@@ -189,18 +226,24 @@ export default class MiniWishlist extends Vue {
         color: var(--red);
         cursor: pointer;
         right: 1em;
-        position: absolute;
-        border: solid 1px var(--red);;
-        border-radius: 2em;
+        border: solid 2px var(--red);;
         font-size: 10px;
         width: 20px;
         text-align: center;
         padding: 0.5em;
         display: flex;
+        height: 20px;
+        align-self: flex-start;
+        justify-content: center;
+        align-items: center;
+        font-family: "Lato-Bold", sans-serif;
+        border-radius: 50%;
+        position: absolute;
+        top: 0;
 
         &:hover {
           color: var(--snow);
-          background-color: var(--orange);
+          background-color: var(--red);
         }
       }
     }
@@ -226,6 +269,7 @@ export default class MiniWishlist extends Vue {
       text-align: center;
 
       .remove-all-btn {
+        margin: 1em 0.5em 0 0;
         padding: 1em;
         font-size: 12px;
         border: 1px solid var(--orange);

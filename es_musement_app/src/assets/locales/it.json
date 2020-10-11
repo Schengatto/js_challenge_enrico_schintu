@@ -11,5 +11,6 @@
   "wishlist.emptylist.label" : "la tua wishlist è vuota!",
   "wishlist.remove.all": "Elimina tutti",
   "cart.emptylist.label" : "Il tuo carrello è vuoto!",
-  "cart.total.label": "Totale"
+  "cart.total.label": "Totale",
+  "cart.buy.all": "Compra biglietti"
 }

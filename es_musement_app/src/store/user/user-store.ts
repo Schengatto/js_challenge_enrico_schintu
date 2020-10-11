@@ -49,16 +49,16 @@ class UserStore extends VuexModule {
    * @param user
    */
   @Action
-  doLogin(user: UserDataModel): void {
-    this.USER_LOGIN(user);
+  async doLogin(user: UserDataModel) {
+    await this.USER_LOGIN(user);
   }
 
   /**
    * User logout action logic.
    */
   @Action
-  doLogout(): void {
-    this.USER_LOGOUT();
+  async doLogout() {
+    await this.USER_LOGOUT();
   }
 
   /**
@@ -66,8 +66,8 @@ class UserStore extends VuexModule {
    * @param currency
    */
   @Action
-  changeCurrency(currency: string): void {
-    this.CHANGE_CURRENCY(currency);
+  async changeCurrency(currency: string) {
+    await this.CHANGE_CURRENCY(currency);
   }
 
   /**
@@ -75,8 +75,8 @@ class UserStore extends VuexModule {
    * @param language
    */
   @Action
-  changeLanguage(language: string): void {
-    this.CHANGE_LANGUAGE(language);
+  async changeLanguage(language: string) {
+    await this.CHANGE_LANGUAGE(language);
   }
 
   /**
@@ -85,7 +85,7 @@ class UserStore extends VuexModule {
    * @param user
    */
   @Mutation
-  USER_LOGIN(user: UserDataModel): void {
+  async USER_LOGIN(user: UserDataModel) {
     this.userStore.userData = {...user};
     persistOnLocalStorage(this.userStore);
   }
@@ -95,7 +95,7 @@ class UserStore extends VuexModule {
    * Then this method saves the store status in the browser localstorage.
    */
   @Mutation
-  USER_LOGOUT(): void {
+  async USER_LOGOUT() {
     this.userStore.userData = null;
     persistOnLocalStorage(this.userStore);
   }
@@ -106,11 +106,11 @@ class UserStore extends VuexModule {
    * @param currency
    */
   @Mutation
-  CHANGE_CURRENCY(currency: string): void {
+  async CHANGE_CURRENCY(currency: string) {
     this.userStore.currency = currency;
     persistOnLocalStorage(this.userStore);
-    dashboardStore.updateItems()
-    dashboardStore.dashboardReset();
+    await dashboardStore.updateItems()
+    await dashboardStore.dashboardReset();
   }
 
   /**
@@ -119,12 +119,12 @@ class UserStore extends VuexModule {
    * @param language
    */
   @Mutation
-  CHANGE_LANGUAGE(language: string): void {
+  async CHANGE_LANGUAGE(language: string) {
     this.userStore.language = language;
     i18n.locale = language;
     persistOnLocalStorage(this.userStore);
-    dashboardStore.updateItems()
-    dashboardStore.dashboardReset();
+    await dashboardStore.updateItems()
+    await dashboardStore.dashboardReset();
   }
 
 

@@ -2,13 +2,14 @@
   <div id="user_menu_wrapper"
        class="unselectable"
        v-bind:class="{'active': showMenu}"
-       @mouseleave="closeMenu()"
+       @mouseleave="closeMenuWithDelay()"
        @mouseenter="keepOpen()">
     <div class="clickable" @click="toggleMenu()">
       <CustomIcon title="User menu" type="user" width="40px" height="40px"
                   :color="iconColor"></CustomIcon>
     </div>
     <div class="menu-container" v-if="showMenu">
+      <div class="close-menu-btn clickable" @click="closeMenu()">x</div>
       <div class="menu-header">
         <div>{{ $t('user.menu.header.hello') }} {{userData.username}}</div>
         <div class="user-email-wrapper"><small>{{userData.email}}</small></div>
@@ -64,16 +65,17 @@ import {Locale, LOCALES} from '@/models/locale.model';
 import {CURRENCIES, Currency} from '@/models/currenc.model';
 import userStore from '@/store/user/user-store';
 import dashboardStore from '@/store/dashboard/dashboard-store';
+import appDataStore from '@/store/app-data/app-data-store';
 
   @Component({
     components: {CustomIcon},
   })
 export default class UserMenu extends Vue {
-    showMenu = false;
-
     private userStore = userStore;
 
     private dashboardStore = dashboardStore;
+
+    private appDataStore = appDataStore;
 
     private timeout!: NodeJS.Timeout;
 
@@ -97,14 +99,28 @@ export default class UserMenu extends Vue {
       return this.showMenu ? 'snow' : '#143c53';
     }
 
+    get showMenu(): boolean {
+      return this.appDataStore.currentActiveMenu === 'USER';
+    }
+
     toggleMenu(): void {
-      this.showMenu = !this.showMenu;
+      if (this.showMenu) {
+        this.closeMenu();
+      } else {
+        this.appDataStore.changeActiveMenu('USER');
+      }
+    }
+
+    closeMenuWithDelay(): void {
+      this.timeout = setTimeout(() => {
+        if (this.showMenu) {
+          this.closeMenu();
+        }
+      }, 400);
     }
 
     closeMenu(): void {
-      this.timeout = setTimeout(() => {
-        this.showMenu = false;
-      }, 300);
+      this.appDataStore.changeActiveMenu('NONE');
     }
 
     keepOpen(): void {
@@ -166,6 +182,27 @@ export default class UserMenu extends Vue {
       width: 25em;
       text-align: left;
       z-index: 3;
+
+      .close-menu-btn {
+        width: 25px;
+        height: 25px;
+        display: flex;
+        align-self: flex-start;
+        justify-content: center;
+        align-items: center;
+        font-family: "Lato-Bold", sans-serif;
+        font-size: 12px;
+        text-align: center;
+        border-radius: 50%;
+        color: var(--white);
+        border: 3px solid var(--white);
+        margin-bottom: 1em;
+
+        &:hover {
+          color: var(--darkblue);
+          background-color: var(--white);
+        }
+      }
 
       .menu-header {
         padding-bottom: 1em;

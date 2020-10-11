@@ -23,6 +23,8 @@ module.exports = {
     'jsx-quotes': 1,
     'quote-props': 1,
     quotes: 1,
+    'class-methods-use-this': "off",
+    'no-alert': "off"
   },
   overrides: [
     {

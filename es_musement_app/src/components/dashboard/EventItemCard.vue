@@ -60,7 +60,7 @@ export default class EventItemCard extends Vue {
     }
 
     get imageSrc(): string {
-      return `${this.item.image}?q=80&fit=crop&h=150&w=300`;
+      return `${this.item.image}?q=70&fit=crop&h=150&w=300`;
     }
 
     addToWishlist(): void {
@@ -91,15 +91,20 @@ export default class EventItemCard extends Vue {
     height: 100%;
     background-color: #ffffff;
 
+    .product__image {
+      max-width: 100%;
+      height: auto;
+    }
+
     .product__image-wrapper {
       position: relative;
       text-align: center;
+      background-color: var(--green);
     }
 
     .product__image {
       max-width: 100%;
       height: auto;
-      border-bottom: 4px solid lightseagreen;
     }
 
     .product__wishlist-button {
@@ -117,6 +122,7 @@ export default class EventItemCard extends Vue {
 
     .product-image {
       height: 250px;
+      background-color: var(--darkblue);
     }
 
     .product__details {
