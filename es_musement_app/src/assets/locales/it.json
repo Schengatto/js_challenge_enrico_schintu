@@ -1,5 +1,16 @@
 {
   "message": "hello i18n !!",
   "common.btn.add_to_cart": "Aggiungi al carrello",
-  "common.btn.add_to_wishlist": "Aggiungi ai desiderati"
+  "common.btn.add_to_wishlist": "Aggiungi ai desiderati",
+  "user.menu.header.hello" : "Ciao",
+  "user.menu.languages": "Lingue disponibili",
+  "user.menu.dashboard.views.title": "Vista Dashboard",
+  "user.menu.dashboard.views.paginated": "Paginata",
+  "user.menu.dashboard.views.scroll": "Scrollabile",
+  "user.menu.currencies": "Valute disponibili",
+  "wishlist.emptylist.label" : "la tua wishlist è vuota!",
+  "wishlist.remove.all": "Elimina tutti",
+  "cart.emptylist.label" : "Il tuo carrello è vuoto!",
+  "cart.total.label": "Totale",
+  "cart.buy.all": "Compra biglietti"
 }

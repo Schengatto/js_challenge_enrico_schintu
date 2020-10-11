@@ -1,16 +1,20 @@
 import {Action, getModule, Module, Mutation, VuexModule} from "vuex-module-decorators";
 import {MusementItem} from "@/models/musement.models";
-import store from "@/store";
-import Page from "@/models/pagination.model";
 import {HttpCommon} from "@/http-common";
 import {AxiosResponse} from "axios";
 import {PAGE_SIZE} from "@/constants/app.constant";
 import DashboardStoreModel from "@/store/dashboard/dashboard-store.model";
-import userStore from "@/store/user/user-store";
+import {isMobile} from "mobile-device-detect";
+import store from "@/store";
+import cartStore from "@/store/cart/cart-store";
+import wishlistStore from "@/store/wishlist/wishlist-store";
+import AppUtils from "@/utils/app-utils";
+import EventItem from "@/models/event.item";
 
 const INIT_STATE: DashboardStoreModel = {
   items: [],
-  currentPage: {page: 0, size: PAGE_SIZE}
+  currentPage: 0,
+  dashboardView: isMobile ? 'scroll' : 'paginated'
 };
 
 @Module({
@@ -22,18 +26,29 @@ const INIT_STATE: DashboardStoreModel = {
 class DashboardStore extends VuexModule {
   dashboardStore: DashboardStoreModel = {...INIT_STATE};
 
+  userCartData = cartStore;
+
+  wishlistStore = wishlistStore;
+
   /**
    * The items present in the current page of the dashboard.
    */
-  get pageItems(): MusementItem[] {
+  get pageItems(): EventItem[] {
     return this.dashboardStore.items;
   }
 
   /**
    * The current page displayed in the dashboard.
    */
-  get currentPage(): Page {
+  get currentPage(): number {
     return this.dashboardStore.currentPage;
+  }
+
+  /**
+   * The current dashboard view. Possible values are 'scroll' or 'paginated'.
+   */
+  get dashboardViewType(): string {
+    return this.dashboardStore.dashboardView;
   }
 
   /**
@@ -41,16 +56,47 @@ class DashboardStore extends VuexModule {
    * @param newState
    */
   @Mutation
-  UPDATE_PAGE(newState: DashboardStoreModel): void {
-    this.dashboardStore = {...newState};
+  async UPDATE_PAGE_ITEMS(newState: DashboardStoreModel) {
+    this.dashboardStore = {
+      dashboardView: newState.dashboardView,
+      items: newState.items,
+      currentPage: newState.currentPage
+    };
+  }
+
+  /**
+   * Add items to the dashboard event list.
+   * @param items
+   */
+  @Mutation
+  async ADD_PAGE_ITEMS(items: EventItem[]) {
+    this.dashboardStore.items = [...this.dashboardStore.items, ...items];
+  }
+
+  /**
+   * Update the current dashboard page number.
+   * @param pageNumber
+   */
+  @Mutation
+  async UPDATE_PAGE_NUMBER(pageNumber: number) {
+    this.dashboardStore.currentPage = pageNumber;
   }
 
   /**
    * Restore the initial state of the dashboard page.
    */
   @Mutation
-  CLEAR(): void {
+  async CLEAR() {
     this.dashboardStore = {...INIT_STATE};
+  }
+
+  /**
+   * Update the dashboard view. Possible values are 'scroll' or 'paginated'.
+   * @param viewType
+   */
+  @Mutation
+  async CHANGE_DASHBOARD_VIEW(viewType: string) {
+    this.dashboardStore.dashboardView = viewType;
   }
 
   /**
@@ -59,30 +105,21 @@ class DashboardStore extends VuexModule {
    * @param pageNumber
    */
   @Action
-  moveToPage(pageNumber: number): void {
-    const headers = {
-      'accept-language': userStore.language,
-      'content-type': 'application/json',
-      'x-musement-currency': userStore.currency,
-      'x-musement-version': '3.4.0'
-    };
-    HttpCommon.getApi()
-      .get(
-        `/venues/164/activities?limit=${PAGE_SIZE}&offset=${pageNumber *
-        PAGE_SIZE}`, {headers: headers}
-      )
+  async moveToPage(pageNumber: number) {
+    HttpCommon.getEventItems(PAGE_SIZE, pageNumber * PAGE_SIZE)
       .then((response: AxiosResponse<MusementItem[]>) => {
         if (response.data) {
-          const data = {
-            items: [...response.data],
-            currentPage: {page: pageNumber, size: PAGE_SIZE}
+          const data: DashboardStoreModel = {
+            items: [...response.data.map(AppUtils.fromMusementItemToEventItem)],
+            currentPage: pageNumber,
+            dashboardView: this.dashboardStore.dashboardView
           };
-          this.UPDATE_PAGE(data);
+          this.UPDATE_PAGE_ITEMS(data);
         } else {
           throw Error("No data found in the response");
         }
       })
-      .catch(error => console.error);
+      .catch(() => console.error);
   }
 
   /**
@@ -90,16 +127,42 @@ class DashboardStore extends VuexModule {
    * It should be used for stuff like language change or currency change.
    */
   @Action
-  reloadCurrentPage(): void {
-    this.moveToPage(this.currentPage.page);
+  async reloadCurrentPage() {
+    await this.moveToPage(this.currentPage);
+  }
+
+  /**
+   * Update the dashboard view. Possible values are 'scroll' or 'paginated'.
+   * @param viewType
+   */
+  @Action
+  async updateDashboardView(viewType: string) {
+    await this.dashboardReset();
+    await this.CHANGE_DASHBOARD_VIEW(viewType);
   }
 
   /**
    * Reset the store status.
    */
   @Action
-  cleanItems(): void {
-    this.CLEAR();
+  async dashboardReset() {
+    await this.CLEAR();
+    await this.moveToPage(0)
+  }
+
+  @Action
+  async updateItems() {
+    HttpCommon.getEventItems(100, 0)
+      .then((response: AxiosResponse<MusementItem[]>) => {
+        if (response.data) {
+          const eventItems = response.data.map(AppUtils.fromMusementItemToEventItem);
+          this.wishlistStore.updateItems(eventItems);
+          this.userCartData.updateItems(eventItems);
+        } else {
+          throw Error("No data found in the response");
+        }
+      })
+      .catch(() => console.error);
   }
 }
 

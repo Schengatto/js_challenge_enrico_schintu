@@ -1,28 +1,27 @@
-import {Action, getModule, Module, Mutation, VuexModule} from "vuex-module-decorators";
-import UserDataModel from "@/models/user-data.model";
-import UserStoreModel from "@/store/user/user-store.model";
-import store from "@/store";
-import dashboardStore from "@/store/dashboard/dashboard-store.ts";
+import {Action, getModule, Module, Mutation, VuexModule} from 'vuex-module-decorators';
+import UserDataModel from '@/models/user-data.model';
+import UserStoreModel from '@/store/user/user-store.model';
+import store from '@/store';
+import dashboardStore from '@/store/dashboard/dashboard-store.ts';
+import i18n from '@/i18n';
 
-const STORAGE_KEY = "APP_USER_DATA_STORE";
-const INIT_STATE: UserStoreModel = {
-  userData: {username: "John Doe", email: "johnDoe@test.org"},
-  currency: "EUR",
-  language: "it"
+const STORAGE_KEY = 'APP_USER_DATA_STORE';
+const USER_STORE_INIT_STATE: UserStoreModel = {
+  userData: {username: 'John Doe', email: 'johnDoe@test.org'},
+  currency: 'EUR',
+  language: 'it',
 };
-const persistOnLocalStorage = (userStore: UserStoreModel) =>
-  localStorage.setItem(STORAGE_KEY, JSON.stringify(userStore));
-const loadFromLocalStorage: () => any = () =>
-  JSON.parse(localStorage.getItem(STORAGE_KEY) as string);
+const persistOnLocalStorage = (userStore: UserStoreModel) => localStorage.setItem(STORAGE_KEY, JSON.stringify(userStore));
+const loadFromLocalStorage: () => any = () => JSON.parse(localStorage.getItem(STORAGE_KEY) as string);
 
 @Module({
   dynamic: true,
   namespaced: true,
-  name: "user",
+  name: 'user',
   store
 })
 class UserStore extends VuexModule {
-  userStore: UserStoreModel = loadFromLocalStorage() || INIT_STATE;
+  userStore: UserStoreModel = loadFromLocalStorage() || USER_STORE_INIT_STATE;
 
   /**
    * Return the information of the current user.
@@ -50,16 +49,16 @@ class UserStore extends VuexModule {
    * @param user
    */
   @Action
-  doLogin(user: UserDataModel): void {
-    this.USER_LOGIN(user);
+  async doLogin(user: UserDataModel) {
+    await this.USER_LOGIN(user);
   }
 
   /**
    * User logout action logic.
    */
   @Action
-  doLogout(): void {
-    this.USER_LOGOUT();
+  async doLogout() {
+    await this.USER_LOGOUT();
   }
 
   /**
@@ -67,8 +66,8 @@ class UserStore extends VuexModule {
    * @param currency
    */
   @Action
-  changeCurrency(currency: string): void {
-    this.CHANGE_CURRENCY(currency);
+  async changeCurrency(currency: string) {
+    await this.CHANGE_CURRENCY(currency);
   }
 
   /**
@@ -76,8 +75,8 @@ class UserStore extends VuexModule {
    * @param language
    */
   @Action
-  changeLanguage(language: string): void {
-    this.CHANGE_LANGUAGE(language);
+  async changeLanguage(language: string) {
+    await this.CHANGE_LANGUAGE(language);
   }
 
   /**
@@ -86,7 +85,7 @@ class UserStore extends VuexModule {
    * @param user
    */
   @Mutation
-  USER_LOGIN(user: UserDataModel): void {
+  async USER_LOGIN(user: UserDataModel) {
     this.userStore.userData = {...user};
     persistOnLocalStorage(this.userStore);
   }
@@ -96,7 +95,7 @@ class UserStore extends VuexModule {
    * Then this method saves the store status in the browser localstorage.
    */
   @Mutation
-  USER_LOGOUT(): void {
+  async USER_LOGOUT() {
     this.userStore.userData = null;
     persistOnLocalStorage(this.userStore);
   }
@@ -107,10 +106,11 @@ class UserStore extends VuexModule {
    * @param currency
    */
   @Mutation
-  CHANGE_CURRENCY(currency: string): void {
+  async CHANGE_CURRENCY(currency: string) {
     this.userStore.currency = currency;
     persistOnLocalStorage(this.userStore);
-    dashboardStore.reloadCurrentPage();
+    await dashboardStore.updateItems()
+    await dashboardStore.dashboardReset();
   }
 
   /**
@@ -119,11 +119,15 @@ class UserStore extends VuexModule {
    * @param language
    */
   @Mutation
-  CHANGE_LANGUAGE(language: string): void {
+  async CHANGE_LANGUAGE(language: string) {
     this.userStore.language = language;
+    i18n.locale = language;
     persistOnLocalStorage(this.userStore);
-    dashboardStore.reloadCurrentPage();
+    await dashboardStore.updateItems()
+    await dashboardStore.dashboardReset();
   }
+
+
 }
 
 export default getModule(UserStore);

@@ -1,9 +1,9 @@
-import CartItemModel from "@/models/cart-item.model";
+import EventItemModel from '@/models/event.item';
 
 /**
  * This interface describes the structure of the cart store.
  */
 export default interface CartStoreModel {
-  items: CartItemModel[];
+  items: EventItemModel[];
   totalPrice: number;
 }

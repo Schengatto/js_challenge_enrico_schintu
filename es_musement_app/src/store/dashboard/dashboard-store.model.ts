@@ -1,10 +1,10 @@
-import { MusementItem } from "@/models/musement.models";
-import Page from "@/models/pagination.model";
+import EventItem from "@/models/event.item";
 
 /**
  * This interface describes the structure of the dashboard store.
  */
 export default interface DashboardStoreModel {
-  items: MusementItem[];
-  currentPage: Page;
+  items: EventItem[];
+  currentPage: number;
+  dashboardView: string;
 }
