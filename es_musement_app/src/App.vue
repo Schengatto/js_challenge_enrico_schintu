@@ -15,7 +15,7 @@
           <p>Anyway, it is possible to access the application but the user experience will not be
             guaranteed.</p>
         </div>
-        <button class="force-btn clickable" @click="forceAccess()">Let me access</button>
+        <button id="force-btn" class="clickable" @click="forceAccess()">Let me access</button>
       </div>
     </div>
   </div>
@@ -37,7 +37,7 @@ import {
   @Component({
     components: {},
   })
-export default class Home extends Vue {
+export default class App extends Vue {
     private force = false;
 
     get isCompatibleBrowser() {
@@ -68,7 +68,7 @@ export default class Home extends Vue {
       font-style: italic;
     }
 
-    .force-btn {
+    #force-btn {
       padding: 0.5em;
       border: 1px solid grey;
       margin-top: 1em;

@@ -1,35 +1,66 @@
 import VueRouter from 'vue-router'
 import Vue from 'vue'
 import {shallowMount, Wrapper} from "@vue/test-utils";
-import App from "@/App.vue";
+import ImageWrapper from "@/components/commons/ImageWrapper.vue";
 
 Vue.use(VueRouter);
 
-describe("Test App Component", () => {
-  let component!:Wrapper<App>;
+describe("Test PageWrapper Component", () => {
+  let component!: Wrapper<ImageWrapper>;
 
   beforeEach(() => {
-    component = shallowMount(App);
+    component = shallowMount(ImageWrapper);
   });
 
-  it('The browser is not compatible', () => {
-    component.setData({force: false});
-    const target = component.findComponent({name: '#incompatible_browser_wrapper'});
-    expect(target).toBeTruthy();
+  it('Image not loaded', async () => {
+    component.setData({startLoading: false});
+    component.setData({loaded: false});
+    await Vue.nextTick();
+    const img = component.find('img');
+    const svg = component.find('svg');
+    expect(img.exists()).toBeFalsy();
+    expect(svg.exists()).toBeTruthy();
   });
 
-  it('The access is forced and the client can access the app', () => {
-    component.setData({force: true});
-    const target = component.findComponent({name: '#app'});
-    expect(target).toBeTruthy();
+  it('While image is loading', async () => {
+    component.setData({startLoading: true});
+    component.setData({loaded: false});
+    await Vue.nextTick();
+    const img = component.find('img');
+    const svg = component.find('svg');
+    expect(img.isVisible()).toBeTruthy();
+    expect(svg.isVisible()).toBeTruthy();
   });
 
-  it('The browser is not compatible, and the client click on the force access button', () => {
-    component.setData({force: false});
-    const button = component.find('#force-btn');
-    button.trigger('click');
-    Vue.nextTick();
-    const target = component.findComponent({name: '#app'});
-    expect(target).toBeTruthy();
+  it('Image loaded', async () => {
+    component.setData({startLoading: true});
+    component.setData({loaded: true});
+    await Vue.nextTick();
+    const img = component.find('img');
+    const svg = component.find('svg');
+    await Vue.nextTick();
+    expect(img.isVisible()).toBeTruthy();
+    expect(svg.exists()).toBeFalsy();
   });
+
+  it('The img element should use the input property',
+    async () => {
+      component.setProps({
+        title: 'test',
+        width: '200px',
+        height: '100px',
+        src: 'http://test.com/test.png',
+        backgroundColor: 'black'
+      });
+      component.setData({startLoading: true});
+      component.setData({loaded: true});
+      await Vue.nextTick();
+      const container = component.findAll('.image-container').at(0);
+      const img = component.find('img');
+      expect(container.attributes('style')).toBe('background-color: black; width: 200px; height: 100px;');
+      expect(img.attributes('alt')).toBe('test');
+      expect(img.attributes('width')).toBe('200px');
+      expect(img.attributes('height')).toBe('100px');
+      expect(img.attributes('src')).toBe('http://test.com/test.png');
+    });
 });

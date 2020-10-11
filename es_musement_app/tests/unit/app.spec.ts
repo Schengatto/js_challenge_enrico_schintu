@@ -5,7 +5,7 @@ import App from "@/App.vue";
 
 Vue.use(VueRouter);
 
-describe("Test App.vue", () => {
+describe("Test App Component", () => {
   let component!:Wrapper<App>;
 
   beforeEach(() => {
