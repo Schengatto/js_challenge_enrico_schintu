@@ -1,4 +1,28 @@
 /* ==========================================================================
+   Fonts
+   ========================================================================== */
+@font-face {
+  font-family: 'Lato-Bold';
+  src: url('/assets/font/Lato-Bold.ttf') format('ttf');
+}
+
+@font-face {
+  font-family: 'Lato-BoldItalic';
+  src: url('/assets//font/Lato-BoldItalic.ttf') format('ttf');
+}
+
+//noinspection ALL
+@font-face {
+  font-family: 'Lato-Italic';
+  src: url('/assets/font/Lato-Italic.ttf') format('ttf');
+}
+
+@font-face {
+  font-family: 'Lato-Regular';
+  src: url('/assets/font/Lato-Regular.ttf') format('ttf');
+}
+
+/* ==========================================================================
    Main Styles
    ========================================================================== */
 html {
@@ -159,7 +183,7 @@ main {
   .item-remove-wrapper {
     width: 100%;
     position: absolute;
-    left: 0em;
+    left: 0;
     top: 0.5em;
 
     .item-remove-icon {
@@ -219,10 +243,6 @@ main {
   margin-right: 5px;
   font-size: 12px;
   line-height: 12px;
-}
-
-.header-bag__wishlist-count {
-  margin-left: 10px;
 }
 
 .icon {

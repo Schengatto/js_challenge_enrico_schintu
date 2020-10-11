@@ -50,9 +50,7 @@
 </template>
 
 <script lang="ts">
-import {
-  Component, Prop, Vue, Watch,
-} from 'vue-property-decorator';
+import {Component, Prop, Vue, Watch} from 'vue-property-decorator';
 import CustomIcon from '@/components/commons/CustomIcon.vue';
 
 const PAGES_LINKS_NUMBER = 3;
@@ -147,10 +145,6 @@ export default class Pagination extends Vue {
     color: #444a59;
     background-color: lightgray;
     border-radius: 0.8em;
-  }
-
-  .current__page {
-    background-color: mediumaquamarine;
   }
 
   .pagination__item {

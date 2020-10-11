@@ -11,12 +11,12 @@
       <div v-if="numberOfItems" class="bag__item-counter">{{ numberOfItems }}</div>
     </div>
     <div class="menu-container" v-if="showMenu">
+      <div class="close-menu-btn clickable" @click="closeMenu()">x</div>
       <template v-if="numberOfItems">
-        <div class="close-menu-btn clickable" @click="closeMenu()">x</div>
         <div class="list-container">
           <div v-for="i in wishListItems" v-bind:key="i.uuid" class="bag-item">
             <div class="bag-item-info">
-              <img :src="i.image+'?q=60&fit=crop&h=50&w=75'" :alt="i.uuid">
+              <img :src="i.image+'?q=50&fit=crop&h=50&w=75'" :alt="i.uuid" height="50">
               <div>
                 <div>{{ i.title }}</div>
               </div>

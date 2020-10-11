@@ -2,7 +2,8 @@
   <div class="header-margin">
     <header class="header container">
       <div class="page-title">
-        Js Challenge
+        <div>Js Challenge</div>
+        <div>Enrico Schintu</div>
       </div>
       <aside class="header-bag">
         <MiniBag></MiniBag>
@@ -14,7 +15,7 @@
 </template>
 
 <script lang="ts">
-import { Component, Vue } from 'vue-property-decorator';
+import {Component, Vue} from 'vue-property-decorator';
 import CustomIcon from '@/components/commons/CustomIcon.vue';
 import MiniBag from '@/components/min-bag/MiniBag.vue';
 import UserMenu from '@/components/user-menu/UserMenu.vue';

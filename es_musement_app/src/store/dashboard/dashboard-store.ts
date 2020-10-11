@@ -119,7 +119,7 @@ class DashboardStore extends VuexModule {
           throw Error("No data found in the response");
         }
       })
-      .catch(error => console.error);
+      .catch(() => console.error);
   }
 
   /**
@@ -162,7 +162,7 @@ class DashboardStore extends VuexModule {
           throw Error("No data found in the response");
         }
       })
-      .catch(error => console.error);
+      .catch(() => console.error);
   }
 }
 

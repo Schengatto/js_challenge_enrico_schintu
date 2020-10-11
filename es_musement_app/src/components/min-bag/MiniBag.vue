@@ -2,7 +2,7 @@
   <div id="mini_bag_wrapper"
        v-bind:class="{'active': showMenu}"
        @mouseenter="keepOpen()">
-    <div class="mini-bag-header-wrapper" @click="toggleMenu()">
+    <div class="mini-bag-header-wrapper unselectable clickable" @click="toggleMenu()">
       <div v-if="cartTotalAmount" class="header-bag__price">
         {{userCurrency}} {{ cartTotalAmount.toFixed(2) }}
       </div>
@@ -18,7 +18,7 @@
         <div class="list-container">
           <div v-for="i in items" v-bind:key="i.uuid" class="bag-item">
             <div class="bag-item-info">
-              <img :src="i.image+'?q=60&fit=crop&h=50&w=75'" :alt="i.uuid">
+              <img :src="i.image+'?q=50&fit=crop&h=50&w=75'" :alt="i.uuid" height="50">
               <div>
                 <div>{{ i.title }}</div>
               </div>
@@ -197,7 +197,7 @@ export default class MiniBag extends Vue {
           color: var(--darkblue);
           background-color: var(--orange);
           position: absolute;
-          top: 0;
+          bottom: 4em;
           right: -1em;
         }
       }

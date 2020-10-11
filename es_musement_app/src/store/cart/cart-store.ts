@@ -59,7 +59,7 @@ class CartStore extends VuexModule {
   @Mutation
   async ADD_TO_CART(items: EventItemModel[]) {
     const updatedItems = [...this.cartStore.items];
-    items.forEach(i => {
+    [...items].forEach(i => {
       const currentItem = updatedItems.find(e => e.uuid === i.uuid);
       if (currentItem) {
         currentItem.tickets = currentItem.tickets + 1;

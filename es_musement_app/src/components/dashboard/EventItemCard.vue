@@ -2,11 +2,11 @@
   <article class="product" itemscope>
     <div class="product-header unselectable">
       <figure class="product__image-wrapper">
-        <img class="product__image product-image"
-             :src="imageSrc"
-             alt="Product"
-             itemprop="image"
-             height="150px"/>
+        <ImageWrapper :src="imageSrc"
+                      height="200px"
+                      width="350px"
+                      background-color="#1C768F">
+        </ImageWrapper>
         <button class="product__wishlist-button button button--round button--wishlist"
                 @click="addToWishlist()">
           <CustomIcon type="wishlist"
@@ -46,9 +46,10 @@ import CustomIcon from '@/components/commons/CustomIcon.vue';
 import wishlistStore from '@/store/wishlist/wishlist-store';
 import cartStore from '@/store/cart/cart-store';
 import EventItem from '@/models/event.item';
+import ImageWrapper from '@/components/commons/ImageWrapper.vue';
 
   @Component({
-    components: {CustomIcon},
+    components: {ImageWrapper, CustomIcon},
   })
 export default class EventItemCard extends Vue {
     @Prop() item!: EventItem;
@@ -60,7 +61,7 @@ export default class EventItemCard extends Vue {
     }
 
     get imageSrc(): string {
-      return `${this.item.image}?q=70&fit=crop&h=150&w=300`;
+      return `${this.item.image}?q=65&fit=crop&&w=200h=120`;
     }
 
     addToWishlist(): void {
@@ -120,14 +121,15 @@ export default class EventItemCard extends Vue {
     }
 
     .product-image {
-      height: 250px;
+      height: 200px;
+      width: 350px;
       background-color: var(--darkblue);
     }
 
     .product__subtitle {
       font-size: 1.1em;
       margin: 0.5em 0 0 0;
-      max-height: 5.5em;
+      max-height: 6.5em;
       overflow: auto;
     }
 

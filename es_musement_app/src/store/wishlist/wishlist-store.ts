@@ -72,7 +72,7 @@ class WishlistStore extends VuexModule {
     data.forEach(i => {
       currentItems
         .filter(e => e.uuid === i.uuid)
-        .forEach(e=> updatedItems.push(i));
+        .forEach(()=> updatedItems.push(i));
     });
     this.wishlistStore.items = [...updatedItems];
     persistOnLocalStorage(this.wishlistStore);
