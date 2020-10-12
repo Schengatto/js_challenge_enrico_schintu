@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<coverage generated="1602525181502" clover="3.2.0">
-  <project timestamp="1602525181502" name="All files">
-    <metrics statements="191" coveredstatements="113" conditionals="48" coveredconditionals="13" methods="72" coveredmethods="23" elements="311" coveredelements="149" complexity="0" loc="191" ncloc="191" packages="9" files="12" classes="12"/>
+<coverage generated="1602543074206" clover="3.2.0">
+  <project timestamp="1602543074206" name="All files">
+    <metrics statements="201" coveredstatements="134" conditionals="48" coveredconditionals="18" methods="75" coveredmethods="38" elements="324" coveredelements="190" complexity="0" loc="201" ncloc="201" packages="10" files="13" classes="13"/>
     <package name="src">
       <metrics statements="6" coveredstatements="6" conditionals="8" coveredconditionals="8" methods="3" coveredmethods="3"/>
       <file name="App.vue" path="C:\workspace\js_challenge\js_challenge_enrico_schintu\es_musement_app\src\App.vue">
@@ -18,14 +18,14 @@
       <metrics statements="41" coveredstatements="40" conditionals="4" coveredconditionals="2" methods="11" coveredmethods="10"/>
       <file name="CustomIcon.vue" path="C:\workspace\js_challenge\js_challenge_enrico_schintu\es_musement_app\src\components\commons\CustomIcon.vue">
         <metrics statements="8" coveredstatements="8" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0"/>
-        <line num="88" count="4" type="stmt"/>
-        <line num="91" count="8" type="stmt"/>
-        <line num="92" count="4" type="stmt"/>
-        <line num="94" count="4" type="stmt"/>
-        <line num="96" count="4" type="stmt"/>
-        <line num="98" count="4" type="stmt"/>
-        <line num="100" count="4" type="stmt"/>
-        <line num="102" count="4" type="stmt"/>
+        <line num="88" count="5" type="stmt"/>
+        <line num="91" count="10" type="stmt"/>
+        <line num="92" count="5" type="stmt"/>
+        <line num="94" count="5" type="stmt"/>
+        <line num="96" count="5" type="stmt"/>
+        <line num="98" count="5" type="stmt"/>
+        <line num="100" count="5" type="stmt"/>
+        <line num="102" count="5" type="stmt"/>
       </file>
       <file name="ImageWrapper.vue" path="C:\workspace\js_challenge\js_challenge_enrico_schintu\es_musement_app\src\components\commons\ImageWrapper.vue">
         <metrics statements="15" coveredstatements="14" conditionals="2" coveredconditionals="1" methods="5" coveredmethods="4"/>
@@ -67,29 +67,6 @@
         <line num="95" count="12" type="stmt"/>
       </file>
     </package>
-    <package name="src.components.dashboard">
-      <metrics statements="17" coveredstatements="17" conditionals="2" coveredconditionals="2" methods="7" coveredmethods="7"/>
-      <file name="EventItemCard.vue" path="C:\workspace\js_challenge\js_challenge_enrico_schintu\es_musement_app\src\components\dashboard\EventItemCard.vue">
-        <metrics statements="17" coveredstatements="17" conditionals="2" coveredconditionals="2" methods="7" coveredmethods="7"/>
-        <line num="52" count="2" type="stmt"/>
-        <line num="53" count="2" type="stmt"/>
-        <line num="54" count="2" type="stmt"/>
-        <line num="55" count="2" type="stmt"/>
-        <line num="57" count="2" type="stmt"/>
-        <line num="58" count="2" type="stmt"/>
-        <line num="65" count="2" type="stmt"/>
-        <line num="66" count="2" type="stmt"/>
-        <line num="68" count="5" type="stmt"/>
-        <line num="69" count="5" type="stmt"/>
-        <line num="71" count="5" type="stmt"/>
-        <line num="74" count="8" type="stmt"/>
-        <line num="78" count="6" type="cond" truecount="2" falsecount="0"/>
-        <line num="82" count="1" type="stmt"/>
-        <line num="86" count="1" type="stmt"/>
-        <line num="90" count="1" type="stmt"/>
-        <line num="94" count="1" type="stmt"/>
-      </file>
-    </package>
     <package name="src.components.layout">
       <metrics statements="8" coveredstatements="8" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0"/>
       <file name="AppFooter.vue" path="C:\workspace\js_challenge\js_challenge_enrico_schintu\es_musement_app\src\components\layout\AppFooter.vue">
@@ -108,36 +85,36 @@
       </file>
     </package>
     <package name="src.components.min-bag">
-      <metrics statements="33" coveredstatements="8" conditionals="12" coveredconditionals="0" methods="17" coveredmethods="0"/>
+      <metrics statements="33" coveredstatements="24" conditionals="12" coveredconditionals="5" methods="17" coveredmethods="11"/>
       <file name="MiniBag.vue" path="C:\workspace\js_challenge\js_challenge_enrico_schintu\es_musement_app\src\components\min-bag\MiniBag.vue">
-        <metrics statements="33" coveredstatements="8" conditionals="12" coveredconditionals="0" methods="17" coveredmethods="0"/>
-        <line num="63" count="1" type="stmt"/>
-        <line num="64" count="1" type="stmt"/>
-        <line num="65" count="1" type="stmt"/>
-        <line num="67" count="1" type="stmt"/>
-        <line num="68" count="1" type="stmt"/>
-        <line num="69" count="1" type="stmt"/>
-        <line num="70" count="1" type="stmt"/>
-        <line num="75" count="1" type="stmt"/>
-        <line num="76" count="0" type="stmt"/>
-        <line num="78" count="0" type="stmt"/>
-        <line num="80" count="0" type="stmt"/>
-        <line num="85" count="0" type="stmt"/>
-        <line num="89" count="0" type="stmt"/>
-        <line num="93" count="0" type="stmt"/>
-        <line num="97" count="0" type="stmt"/>
-        <line num="98" count="0" type="stmt"/>
-        <line num="102" count="0" type="stmt"/>
-        <line num="103" count="0" type="cond" truecount="0" falsecount="2"/>
-        <line num="107" count="0" type="cond" truecount="0" falsecount="2"/>
-        <line num="111" count="0" type="cond" truecount="0" falsecount="2"/>
-        <line num="112" count="0" type="stmt"/>
-        <line num="114" count="0" type="stmt"/>
-        <line num="119" count="0" type="stmt"/>
+        <metrics statements="33" coveredstatements="24" conditionals="12" coveredconditionals="5" methods="17" coveredmethods="11"/>
+        <line num="63" count="2" type="stmt"/>
+        <line num="64" count="2" type="stmt"/>
+        <line num="65" count="2" type="stmt"/>
+        <line num="67" count="2" type="stmt"/>
+        <line num="68" count="2" type="stmt"/>
+        <line num="69" count="2" type="stmt"/>
+        <line num="70" count="2" type="stmt"/>
+        <line num="75" count="2" type="stmt"/>
+        <line num="76" count="4" type="stmt"/>
+        <line num="78" count="4" type="stmt"/>
+        <line num="80" count="4" type="stmt"/>
+        <line num="85" count="13" type="stmt"/>
+        <line num="89" count="21" type="stmt"/>
+        <line num="93" count="7" type="stmt"/>
+        <line num="97" count="13" type="stmt"/>
+        <line num="98" count="13" type="stmt"/>
+        <line num="102" count="12" type="stmt"/>
+        <line num="103" count="4" type="cond" truecount="1" falsecount="1"/>
+        <line num="107" count="13" type="cond" truecount="2" falsecount="0"/>
+        <line num="111" count="3" type="cond" truecount="2" falsecount="0"/>
+        <line num="112" count="2" type="stmt"/>
+        <line num="114" count="1" type="stmt"/>
+        <line num="119" count="1" type="stmt"/>
         <line num="123" count="0" type="stmt"/>
         <line num="124" count="0" type="cond" truecount="0" falsecount="2"/>
         <line num="125" count="0" type="stmt"/>
-        <line num="131" count="0" type="stmt"/>
+        <line num="131" count="2" type="stmt"/>
         <line num="135" count="0" type="cond" truecount="0" falsecount="2"/>
         <line num="136" count="0" type="stmt"/>
         <line num="141" count="0" type="cond" truecount="0" falsecount="2"/>
@@ -173,6 +150,62 @@
         <line num="104" count="0" type="cond" truecount="0" falsecount="2"/>
         <line num="105" count="0" type="stmt"/>
         <line num="110" count="0" type="stmt"/>
+      </file>
+    </package>
+    <package name="src.components.showcase">
+      <metrics statements="27" coveredstatements="20" conditionals="4" coveredconditionals="1" methods="9" coveredmethods="7"/>
+      <file name="Showcase.vue" path="C:\workspace\js_challenge\js_challenge_enrico_schintu\es_musement_app\src\components\showcase\Showcase.vue">
+        <metrics statements="27" coveredstatements="20" conditionals="4" coveredconditionals="1" methods="9" coveredmethods="7"/>
+        <line num="31" count="1" type="stmt"/>
+        <line num="32" count="1" type="stmt"/>
+        <line num="33" count="1" type="stmt"/>
+        <line num="34" count="1" type="stmt"/>
+        <line num="35" count="1" type="stmt"/>
+        <line num="36" count="1" type="stmt"/>
+        <line num="41" count="1" type="stmt"/>
+        <line num="42" count="1" type="stmt"/>
+        <line num="43" count="1" type="stmt"/>
+        <line num="48" count="1" type="stmt"/>
+        <line num="49" count="5" type="stmt"/>
+        <line num="50" count="5" type="stmt"/>
+        <line num="53" count="1" type="stmt"/>
+        <line num="57" count="9" type="stmt"/>
+        <line num="61" count="9" type="stmt"/>
+        <line num="65" count="15" type="stmt"/>
+        <line num="69" count="1" type="stmt"/>
+        <line num="70" count="1" type="cond" truecount="1" falsecount="1"/>
+        <line num="71" count="1" type="stmt"/>
+        <line num="79" count="1" type="stmt"/>
+        <line num="84" count="0" type="stmt"/>
+        <line num="92" count="0" type="cond" truecount="0" falsecount="2"/>
+        <line num="93" count="0" type="stmt"/>
+        <line num="94" count="0" type="stmt"/>
+        <line num="95" count="0" type="stmt"/>
+        <line num="96" count="0" type="stmt"/>
+        <line num="98" count="0" type="stmt"/>
+      </file>
+    </package>
+    <package name="src.components.showcase.elements">
+      <metrics statements="17" coveredstatements="17" conditionals="2" coveredconditionals="2" methods="7" coveredmethods="7"/>
+      <file name="EventItemCard.vue" path="C:\workspace\js_challenge\js_challenge_enrico_schintu\es_musement_app\src\components\showcase\elements\EventItemCard.vue">
+        <metrics statements="17" coveredstatements="17" conditionals="2" coveredconditionals="2" methods="7" coveredmethods="7"/>
+        <line num="52" count="2" type="stmt"/>
+        <line num="53" count="2" type="stmt"/>
+        <line num="54" count="2" type="stmt"/>
+        <line num="55" count="2" type="stmt"/>
+        <line num="57" count="2" type="stmt"/>
+        <line num="58" count="2" type="stmt"/>
+        <line num="65" count="2" type="stmt"/>
+        <line num="66" count="2" type="stmt"/>
+        <line num="68" count="5" type="stmt"/>
+        <line num="69" count="5" type="stmt"/>
+        <line num="71" count="5" type="stmt"/>
+        <line num="74" count="8" type="stmt"/>
+        <line num="78" count="6" type="cond" truecount="2" falsecount="0"/>
+        <line num="82" count="1" type="stmt"/>
+        <line num="86" count="1" type="stmt"/>
+        <line num="90" count="1" type="stmt"/>
+        <line num="94" count="1" type="stmt"/>
       </file>
     </package>
     <package name="src.components.user-menu">
@@ -223,37 +256,20 @@
       </file>
     </package>
     <package name="src.views.pages">
-      <metrics statements="28" coveredstatements="15" conditionals="6" coveredconditionals="1" methods="8" coveredmethods="3"/>
-      <file name="Dashboard.vue" path="C:\workspace\js_challenge\js_challenge_enrico_schintu\es_musement_app\src\views\pages\Dashboard.vue">
-        <metrics statements="28" coveredstatements="15" conditionals="6" coveredconditionals="1" methods="8" coveredmethods="3"/>
-        <line num="27" count="1" type="stmt"/>
-        <line num="28" count="1" type="stmt"/>
-        <line num="29" count="1" type="stmt"/>
-        <line num="30" count="1" type="stmt"/>
-        <line num="31" count="1" type="stmt"/>
-        <line num="32" count="1" type="stmt"/>
-        <line num="33" count="1" type="stmt"/>
-        <line num="36" count="1" type="stmt"/>
-        <line num="37" count="1" type="stmt"/>
-        <line num="40" count="1" type="stmt"/>
-        <line num="45" count="1" type="stmt"/>
-        <line num="46" count="2" type="stmt"/>
-        <line num="47" count="2" type="stmt"/>
-        <line num="50" count="2" type="cond" truecount="1" falsecount="1"/>
-        <line num="54" count="0" type="stmt"/>
-        <line num="58" count="3" type="stmt"/>
-        <line num="62" count="0" type="stmt"/>
-        <line num="66" count="0" type="stmt"/>
-        <line num="70" count="0" type="stmt"/>
-        <line num="71" count="0" type="cond" truecount="0" falsecount="2"/>
-        <line num="73" count="0" type="stmt"/>
-        <line num="74" count="0" type="cond" truecount="0" falsecount="2"/>
-        <line num="75" count="0" type="stmt"/>
-        <line num="76" count="0" type="stmt"/>
-        <line num="77" count="0" type="stmt"/>
-        <line num="78" count="0" type="stmt"/>
-        <line num="80" count="0" type="stmt"/>
-        <line num="84" count="0" type="stmt"/>
+      <metrics statements="11" coveredstatements="0" conditionals="2" coveredconditionals="0" methods="2" coveredmethods="0"/>
+      <file name="ShowcaseWrapper.vue" path="C:\workspace\js_challenge\js_challenge_enrico_schintu\es_musement_app\src\views\pages\ShowcaseWrapper.vue">
+        <metrics statements="11" coveredstatements="0" conditionals="2" coveredconditionals="0" methods="2" coveredmethods="0"/>
+        <line num="6" count="0" type="stmt"/>
+        <line num="7" count="0" type="stmt"/>
+        <line num="8" count="0" type="stmt"/>
+        <line num="9" count="0" type="stmt"/>
+        <line num="10" count="0" type="stmt"/>
+        <line num="11" count="0" type="stmt"/>
+        <line num="12" count="0" type="stmt"/>
+        <line num="14" count="0" type="stmt"/>
+        <line num="19" count="0" type="stmt"/>
+        <line num="20" count="0" type="stmt"/>
+        <line num="23" count="0" type="cond" truecount="0" falsecount="2"/>
       </file>
     </package>
   </project>

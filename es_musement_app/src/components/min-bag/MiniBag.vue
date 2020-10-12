@@ -17,7 +17,7 @@
     </div>
     <div class="menu-container" v-if="showMenu">
       <div class="close-menu-btn clickable" @click="closeMenu()">x</div>
-      <template v-if="numberOfItems">
+      <div v-if="numberOfItems">
         <div class="list-container">
           <div v-for="i in items" v-bind:key="i.uuid" class="bag-item">
             <div class="bag-item-info">
@@ -26,7 +26,7 @@
                 <div>{{ i.title }}</div>
               </div>
               <div class="item-remove-wrapper">
-                <div class="item-remove-icon" @click="removeItem(i)">x</div>
+                <div class="item-remove-icon" @click.prevent="removeItem(i.uuid)">x</div>
               </div>
             </div>
             <div class="bag-item-details">
@@ -51,10 +51,10 @@
             {{ $t("cart.buy.all") }}
           </div>
         </div>
-      </template>
-      <template v-else>
+      </div>
+      <div v-else>
         <div>{{ $t("cart.emptylist.label") }}</div>
-      </template>
+      </div>
     </div>
   </div>
 </template>
@@ -115,8 +115,8 @@ export default class MiniBag extends Vue {
     }
   }
 
-  removeItem(item: EventItem): void {
-    this.cartStore.removeSingle(item.uuid);
+  removeItem(item: string): void {
+    this.cartStore.removeSingle(item);
   }
 
   closeMenuWithDelay(): void {

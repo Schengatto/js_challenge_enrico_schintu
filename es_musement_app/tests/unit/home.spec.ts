@@ -3,6 +3,7 @@ import Vue from "vue";
 import { shallowMount, Wrapper } from "@vue/test-utils";
 import Home from "@/views/Home.vue";
 import VueI18n from "vue-i18n";
+import { TestUtils } from "./test.utils";
 
 Vue.use(VueRouter);
 Vue.use(VueI18n);
@@ -14,7 +15,8 @@ describe("Test Home Component", () => {
     component = shallowMount(Home, {
       mocks: {
         $t: (key: any) => key
-      }
+      },
+      store: TestUtils.store
     });
   });
 

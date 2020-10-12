@@ -1,9 +1,9 @@
 import { Action, getModule, Module, Mutation, VuexModule } from "vuex-module-decorators";
 import UserDataModel from "@/models/user-data.model";
 import store from "@/store";
-import DashboardStore from "@/store/dashboard/dashboard-store.ts";
 import i18n from "@/i18n";
 import { UserStoreInterface, UserStoreModel } from "@/store/user/user-store.model";
+import ShowcaseStore from "@/store/showcase/showcase-store";
 
 const STORAGE_KEY = "APP_USER_DATA_STORE";
 const USER_STORE_INIT_STATE: UserStoreModel = {
@@ -16,7 +16,7 @@ const persistOnLocalStorage = (userStore: UserStoreModel) =>
 const loadFromLocalStorage: () => any = () =>
   JSON.parse(localStorage.getItem(STORAGE_KEY) as string);
 
-const dashboardStore = getModule(DashboardStore);
+const dashboardStore = getModule(ShowcaseStore);
 
 @Module({
   dynamic: true,
@@ -114,7 +114,7 @@ export default class UserStore extends VuexModule implements UserStoreInterface 
     this.userStore.currency = currency;
     persistOnLocalStorage(this.userStore);
     await dashboardStore.updateItems();
-    await dashboardStore.dashboardReset();
+    await dashboardStore.storeReset();
   }
 
   /**
@@ -128,6 +128,6 @@ export default class UserStore extends VuexModule implements UserStoreInterface 
     i18n.locale = language;
     persistOnLocalStorage(this.userStore);
     await dashboardStore.updateItems();
-    await dashboardStore.dashboardReset();
+    await dashboardStore.storeReset();
   }
 }

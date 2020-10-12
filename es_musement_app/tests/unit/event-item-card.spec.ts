@@ -1,7 +1,7 @@
 import VueRouter from "vue-router";
 import Vue from "vue";
 import { shallowMount, Wrapper } from "@vue/test-utils";
-import EventItemCard from "@/components/dashboard/EventItemCard.vue";
+import EventItemCard from "@/components/showcase/elements/EventItemCard.vue";
 import EventItem from "@/models/event.item";
 
 Vue.use(VueRouter);

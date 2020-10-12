@@ -32,7 +32,7 @@ export class HttpCommon {
       params: { limit, offset }
     });
     if (callback) {
-      result = result.then(response => callback.apply(this, response.data));
+      result = result.then(response => callback.apply(this, [response.data]));
     }
     return result;
   }

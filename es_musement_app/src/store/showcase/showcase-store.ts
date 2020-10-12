@@ -2,10 +2,7 @@ import { Action, getModule, Module, Mutation, VuexModule } from "vuex-module-dec
 import { MusementItem } from "@/models/musement.models";
 import { HttpCommon } from "@/http-common";
 import { AxiosResponse } from "axios";
-import {
-  DashboardStoreModel,
-  DashboardStoreInterface
-} from "@/store/dashboard/dashboard-store.model";
+import { ShowcaseStoreInterface, ShowcaseStoreModel } from "@/store/showcase/showcase-store.model";
 import { isMobile } from "mobile-device-detect";
 import store from "@/store";
 import AppUtils from "@/utils/app-utils";
@@ -13,10 +10,10 @@ import EventItem from "@/models/event.item";
 import CartStore from "@/store/cart/cart-store";
 import WishlistStore from "@/store/wishlist/wishlist-store";
 
-const INIT_STATE: DashboardStoreModel = {
+const INIT_STATE: ShowcaseStoreModel = {
   items: [],
   currentPage: 0,
-  dashboardView: isMobile ? "scroll" : "paginated"
+  showcaseView: isMobile ? "scroll" : "paginated"
 };
 
 const cartStore = getModule(CartStore);
@@ -25,11 +22,11 @@ const wishlistStore = getModule(WishlistStore);
 @Module({
   dynamic: true,
   namespaced: true,
-  name: "dashboard",
+  name: "showcase",
   store
 })
-export default class DashboardStore extends VuexModule implements DashboardStoreInterface {
-  dashboardStore: DashboardStoreModel = { ...INIT_STATE };
+export default class ShowcaseStore extends VuexModule implements ShowcaseStoreInterface {
+  showcaseStore: ShowcaseStoreModel = { ...INIT_STATE };
   userCartData = cartStore;
   wishlistStore = wishlistStore;
 
@@ -37,21 +34,21 @@ export default class DashboardStore extends VuexModule implements DashboardStore
    * The items present in the current page of the dashboard.
    */
   get pageItems(): EventItem[] {
-    return this.dashboardStore.items;
+    return this.showcaseStore.items;
   }
 
   /**
    * The current page displayed in the dashboard.
    */
   get currentPage(): number {
-    return this.dashboardStore.currentPage;
+    return this.showcaseStore.currentPage;
   }
 
   /**
    * The current dashboard view. Possible values are 'scroll' or 'paginated'.
    */
-  get dashboardViewType(): string {
-    return this.dashboardStore.dashboardView;
+  get showcaseViewType(): string {
+    return this.showcaseStore.showcaseView;
   }
 
   /**
@@ -59,9 +56,9 @@ export default class DashboardStore extends VuexModule implements DashboardStore
    * @param newState
    */
   @Mutation
-  async UPDATE_PAGE_ITEMS(newState: DashboardStoreModel) {
-    this.dashboardStore = {
-      dashboardView: newState.dashboardView,
+  async UPDATE_PAGE_ITEMS(newState: ShowcaseStoreModel) {
+    this.showcaseStore = {
+      showcaseView: newState.showcaseView,
       items: newState.items,
       currentPage: newState.currentPage
     };
@@ -73,7 +70,7 @@ export default class DashboardStore extends VuexModule implements DashboardStore
    */
   @Mutation
   async ADD_PAGE_ITEMS(items: EventItem[]) {
-    this.dashboardStore.items = [...this.dashboardStore.items, ...items];
+    this.showcaseStore.items = [...this.showcaseStore.items, ...items];
   }
 
   /**
@@ -82,7 +79,7 @@ export default class DashboardStore extends VuexModule implements DashboardStore
    */
   @Mutation
   async UPDATE_PAGE_NUMBER(pageNumber: number) {
-    this.dashboardStore.currentPage = pageNumber;
+    this.showcaseStore.currentPage = pageNumber;
   }
 
   /**
@@ -90,7 +87,7 @@ export default class DashboardStore extends VuexModule implements DashboardStore
    */
   @Mutation
   async CLEAR() {
-    this.dashboardStore = { ...INIT_STATE };
+    this.showcaseStore = { ...INIT_STATE };
   }
 
   /**
@@ -99,7 +96,7 @@ export default class DashboardStore extends VuexModule implements DashboardStore
    */
   @Mutation
   async CHANGE_DASHBOARD_VIEW(viewType: string) {
-    this.dashboardStore.dashboardView = viewType;
+    this.showcaseStore.showcaseView = viewType;
   }
 
   /**
@@ -112,10 +109,10 @@ export default class DashboardStore extends VuexModule implements DashboardStore
     HttpCommon.getEventItems({ limit: 6, offset: pageNumber * 6 })
       .then((response: AxiosResponse<MusementItem[]>) => {
         if (response.data) {
-          const data: DashboardStoreModel = {
+          const data: ShowcaseStoreModel = {
             items: [...response.data.map(AppUtils.fromMusementItemToEventItem)],
             currentPage: pageNumber,
-            dashboardView: this.dashboardStore.dashboardView
+            showcaseView: this.showcaseStore.showcaseView
           };
           this.UPDATE_PAGE_ITEMS(data);
         } else {
@@ -139,8 +136,8 @@ export default class DashboardStore extends VuexModule implements DashboardStore
    * @param viewType
    */
   @Action
-  async updateDashboardView(viewType: string) {
-    await this.dashboardReset();
+  async updateShowcaseView(viewType: string) {
+    await this.storeReset();
     await this.CHANGE_DASHBOARD_VIEW(viewType);
   }
 
@@ -148,7 +145,7 @@ export default class DashboardStore extends VuexModule implements DashboardStore
    * Reset the store status.
    */
   @Action
-  async dashboardReset() {
+  async storeReset() {
     await this.CLEAR();
     await this.moveToPage(0);
   }

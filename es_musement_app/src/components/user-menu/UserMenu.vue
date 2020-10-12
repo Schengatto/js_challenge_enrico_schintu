@@ -72,11 +72,11 @@ import UserDataModel from "@/models/user-data.model";
 import { Locale, LOCALES } from "@/models/locale.model";
 import { CURRENCIES, Currency } from "@/models/currenc.model";
 import UserStore from "@/store/user/user-store";
-import DashboardStore from "@/store/dashboard/dashboard-store";
+import ShowcaseStore from "@/store/showcase/showcase-store";
 import AppDataStore from "@/store/app-data/app-data-store";
 import { getModule } from "vuex-module-decorators";
 import { UserStoreInterface } from "@/store/user/user-store.model";
-import { DashboardStoreInterface } from "@/store/dashboard/dashboard-store.model";
+import { ShowcaseStoreInterface } from "@/store/showcase/showcase-store.model";
 import { AppDataStoreInterface } from "@/store/app-data/app-data-store-model";
 
 @Component({
@@ -84,7 +84,7 @@ import { AppDataStoreInterface } from "@/store/app-data/app-data-store-model";
 })
 export default class UserMenu extends Vue {
   userStore: UserStoreInterface = getModule(UserStore);
-  dashboardStore: DashboardStoreInterface = getModule(DashboardStore);
+  showcaseStore: ShowcaseStoreInterface = getModule(ShowcaseStore);
   appDataStore: AppDataStoreInterface = getModule(AppDataStore);
 
   private timeout!: NodeJS.Timeout;
@@ -147,8 +147,8 @@ export default class UserMenu extends Vue {
     this.userStore.changeCurrency(currency);
   }
 
-  changeDashboardView(dashboardView: string): void {
-    this.dashboardStore.updateDashboardView(dashboardView);
+  changeDashboardView(showcaseView: string): void {
+    this.showcaseStore.updateShowcaseView(showcaseView);
   }
 }
 </script>

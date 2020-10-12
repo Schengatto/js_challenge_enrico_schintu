@@ -1,7 +1,7 @@
 import Vue from "vue";
 import VueRouter, { RouteConfig } from "vue-router";
 import Home from "@/views/Home.vue";
-import Dashboard from "@/views/pages/Dashboard.vue";
+import ShowcaseWrapper from "@/views/pages/ShowcaseWrapper.vue";
 
 Vue.use(VueRouter);
 
@@ -10,12 +10,12 @@ const routes: Array<RouteConfig> = [
     path: "/",
     name: "Home",
     component: Home,
-    redirect: { name: "dashboard" },
+    redirect: { name: "showcase" },
     children: [
       {
-        path: "/dashboard",
-        name: "dashboard",
-        component: Dashboard
+        path: "/showcase",
+        name: "showcase",
+        component: ShowcaseWrapper
       }
     ]
   },
