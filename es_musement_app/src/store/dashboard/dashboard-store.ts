@@ -1,21 +1,26 @@
-import {Action, getModule, Module, Mutation, VuexModule} from "vuex-module-decorators";
-import {MusementItem} from "@/models/musement.models";
-import {HttpCommon} from "@/http-common";
-import {AxiosResponse} from "axios";
-import {PAGE_SIZE} from "@/constants/app.constant";
-import DashboardStoreModel from "@/store/dashboard/dashboard-store.model";
-import {isMobile} from "mobile-device-detect";
+import { Action, getModule, Module, Mutation, VuexModule } from "vuex-module-decorators";
+import { MusementItem } from "@/models/musement.models";
+import { HttpCommon } from "@/http-common";
+import { AxiosResponse } from "axios";
+import {
+  DashboardStoreModel,
+  DashboardStoreInterface
+} from "@/store/dashboard/dashboard-store.model";
+import { isMobile } from "mobile-device-detect";
 import store from "@/store";
-import cartStore from "@/store/cart/cart-store";
-import wishlistStore from "@/store/wishlist/wishlist-store";
 import AppUtils from "@/utils/app-utils";
 import EventItem from "@/models/event.item";
+import CartStore from "@/store/cart/cart-store";
+import WishlistStore from "@/store/wishlist/wishlist-store";
 
 const INIT_STATE: DashboardStoreModel = {
   items: [],
   currentPage: 0,
-  dashboardView: isMobile ? 'scroll' : 'paginated'
+  dashboardView: isMobile ? "scroll" : "paginated"
 };
+
+const cartStore = getModule(CartStore);
+const wishlistStore = getModule(WishlistStore);
 
 @Module({
   dynamic: true,
@@ -23,11 +28,9 @@ const INIT_STATE: DashboardStoreModel = {
   name: "dashboard",
   store
 })
-class DashboardStore extends VuexModule {
-  dashboardStore: DashboardStoreModel = {...INIT_STATE};
-
+export default class DashboardStore extends VuexModule implements DashboardStoreInterface {
+  dashboardStore: DashboardStoreModel = { ...INIT_STATE };
   userCartData = cartStore;
-
   wishlistStore = wishlistStore;
 
   /**
@@ -87,7 +90,7 @@ class DashboardStore extends VuexModule {
    */
   @Mutation
   async CLEAR() {
-    this.dashboardStore = {...INIT_STATE};
+    this.dashboardStore = { ...INIT_STATE };
   }
 
   /**
@@ -106,7 +109,7 @@ class DashboardStore extends VuexModule {
    */
   @Action
   async moveToPage(pageNumber: number) {
-    HttpCommon.getEventItems(PAGE_SIZE, pageNumber * PAGE_SIZE)
+    HttpCommon.getEventItems({ limit: 6, offset: pageNumber * 6 })
       .then((response: AxiosResponse<MusementItem[]>) => {
         if (response.data) {
           const data: DashboardStoreModel = {
@@ -147,12 +150,20 @@ class DashboardStore extends VuexModule {
   @Action
   async dashboardReset() {
     await this.CLEAR();
-    await this.moveToPage(0)
+    await this.moveToPage(0);
   }
 
+  /**
+   *  This method should contact an API that return the current items with the updated data.
+   *  @Example when the user change the language or the currency this method should contact the API
+   *  to have the updated items back.
+   *
+   *  TODO: Actually this method is contacting the wrong API and so it may result incomplete.
+   *  Assume this is done just for demonstrative purpose until a real endpoint is available for this kind of stuff.
+   */
   @Action
   async updateItems() {
-    HttpCommon.getEventItems(100, 0)
+    HttpCommon.getEventItems({ limit: 100, offset: 0 })
       .then((response: AxiosResponse<MusementItem[]>) => {
         if (response.data) {
           const eventItems = response.data.map(AppUtils.fromMusementItemToEventItem);
@@ -165,5 +176,3 @@ class DashboardStore extends VuexModule {
       .catch(() => console.error);
   }
 }
-
-export default getModule(DashboardStore);

@@ -22,9 +22,9 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">26.09% </span>
+                <span class="strong">29.17% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>6/23</span>
+                <span class='fraction'>7/24</span>
             </div>
         
             
@@ -43,9 +43,9 @@
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">22.73% </span>
+                <span class="strong">26.09% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>5/22</span>
+                <span class='fraction'>6/23</span>
             </div>
         
             
@@ -250,7 +250,9 @@
 <a name='L192'></a><a href='#L192'>192</a>
 <a name='L193'></a><a href='#L193'>193</a>
 <a name='L194'></a><a href='#L194'>194</a>
-<a name='L195'></a><a href='#L195'>195</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+<a name='L195'></a><a href='#L195'>195</a>
+<a name='L196'></a><a href='#L196'>196</a>
+<a name='L197'></a><a href='#L197'>197</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -298,6 +300,9 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -357,7 +362,6 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -445,15 +449,15 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">&lt;template&gt;
-  &lt;div id="mini_wishlist_wrapper"
-       v-bind:class="{'active': showMenu}"
-       @mouseenter="keepOpen()"&gt;
-    &lt;div class="wishlist-icon clickable"
-         @click="toggleMenu()"&gt;
-      &lt;CustomIcon title="My Wishlist"
-                  type="wishlist"
-                  width="35px" height="35px"
-                  :color="iconColor"&gt;&lt;/CustomIcon&gt;
+  &lt;div id="mini_wishlist_wrapper" v-bind:class="{ active: showMenu }" @mouseenter="keepOpen()"&gt;
+    &lt;div class="wishlist-icon clickable" @click="toggleMenu()"&gt;
+      &lt;CustomIcon
+        title="My Wishlist"
+        type="wishlist"
+        width="35px"
+        height="35px"
+        :color="iconColor"
+      &gt;&lt;/CustomIcon&gt;
       &lt;div v-if="numberOfItems" class="bag__item-counter"&gt;{{ numberOfItems }}&lt;/div&gt;
     &lt;/div&gt;
     &lt;div class="menu-container" v-if="showMenu"&gt;
@@ -462,7 +466,7 @@
         &lt;div class="list-container"&gt;
           &lt;div v-for="i in wishListItems" v-bind:key="i.uuid" class="bag-item"&gt;
             &lt;div class="bag-item-info"&gt;
-              &lt;img :src="i.image+'?q=50&amp;fit=crop&amp;h=50&amp;w=75'" :alt="i.uuid" height="50"&gt;
+              &lt;img :src="i.image + '?q=50&amp;fit=crop&amp;h=40&amp;w=50'" :alt="i.uuid" height="50" /&gt;
               &lt;div&gt;
                 &lt;div&gt;{{ i.title }}&lt;/div&gt;
               &lt;/div&gt;
@@ -475,168 +479,170 @@
 &nbsp;
         &lt;div class="menu-footer"&gt;
           &lt;div class="menu-footer-btn clickable" @click="clearWishList"&gt;
-            {{ $t('wishlist.remove.all') }}
+            {{ $t("wishlist.remove.all") }}
           &lt;/div&gt;
         &lt;/div&gt;
       &lt;/template&gt;
       &lt;template v-else&gt;
-        &lt;div class="empty-list"&gt; {{ $t('wishlist.emptylist.label') }}&lt;/div&gt;
+        &lt;div class="empty-list"&gt;{{ $t("wishlist.emptylist.label") }}&lt;/div&gt;
       &lt;/template&gt;
     &lt;/div&gt;
   &lt;/div&gt;
 &lt;/template&gt;
 &nbsp;
 &lt;script lang="ts"&gt;
-import {Component, Vue} from 'vue-property-decorator';
-import CustomIcon from '@/components/commons/CustomIcon.vue';
-import EventItem from '@/models/event.item';
-import wishlistStore from '@/store/wishlist/wishlist-store';
-import appDataStore from '@/store/app-data/app-data-store';
+import { Component, Vue } from "vue-property-decorator";
+import CustomIcon from "@/components/commons/CustomIcon.vue";
+import EventItem from "@/models/event.item";
+import { getModule } from "vuex-module-decorators";
+import WishlistStore from "@/store/wishlist/wishlist-store";
+import AppDataStore from "@/store/app-data/app-data-store";
+import { AppDataStoreInterface } from "@/store/app-data/app-data-store-model";
+import { WishlistStoreInterface } from "@/store/wishlist/wishlist-store.model";
 &nbsp;
-  @Component({
-    components: {CustomIcon},
-  })
+@Component({
+  components: { CustomIcon }
+})
 <span class="fstat-no" title="function not covered" >export default class MiniWishlist extends Vue {</span>
-<span class="cstat-no" title="statement not covered" >    private wishlistStore = wishlistStore;</span>
+<span class="cstat-no" title="statement not covered" >  private wishlistStore: WishlistStoreInterface = getModule(WishlistStore);</span>
 &nbsp;
-<span class="cstat-no" title="statement not covered" >    private appDataStore = appDataStore;</span>
+<span class="cstat-no" title="statement not covered" >  private appDataStore: AppDataStoreInterface = getModule(AppDataStore);</span>
 &nbsp;
-    private timeout!: NodeJS.Timeout;
+  private timeout!: NodeJS.Timeout;
 &nbsp;
-<span class="fstat-no" title="function not covered" >    get showMenu(): boolean {</span>
-<span class="cstat-no" title="statement not covered" >      return this.appDataStore.currentActiveMenu === 'WISHLIST';</span>
+<span class="fstat-no" title="function not covered" >  get showMenu(): boolean {</span>
+<span class="cstat-no" title="statement not covered" >    return this.appDataStore.currentActiveMenu === "WISHLIST";</span>
+  }
+&nbsp;
+<span class="fstat-no" title="function not covered" >  get numberOfItems(): number {</span>
+<span class="cstat-no" title="statement not covered" >    return this.wishlistStore.numberOfItems;</span>
+  }
+&nbsp;
+<span class="fstat-no" title="function not covered" >  get wishListItems(): EventItem[] {</span>
+<span class="cstat-no" title="statement not covered" >    return this.wishlistStore.getItems;</span>
+  }
+&nbsp;
+<span class="fstat-no" title="function not covered" >  get iconColor(): string {</span>
+<span class="cstat-no" title="statement not covered" >    return this.showMenu ? "snow" : "#143c53";</span>
+  }
+&nbsp;
+<span class="fstat-no" title="function not covered" >  clearWishList(): void {</span>
+<span class="cstat-no" title="statement not covered" >    this.wishlistStore.clear();</span>
+  }
+&nbsp;
+<span class="fstat-no" title="function not covered" >  toggleMenu(): void {</span>
+<span class="cstat-no" title="statement not covered" >    if (this.showMenu) {</span>
+<span class="cstat-no" title="statement not covered" >      this.closeMenu();</span>
+    } else {
+<span class="cstat-no" title="statement not covered" >      this.appDataStore.changeActiveMenu("WISHLIST");</span>
     }
+  }
 &nbsp;
-<span class="fstat-no" title="function not covered" >    get numberOfItems(): number {</span>
-<span class="cstat-no" title="statement not covered" >      return this.wishlistStore.numberOfItems;</span>
-    }
-&nbsp;
-<span class="fstat-no" title="function not covered" >    get wishListItems(): EventItem[] {</span>
-<span class="cstat-no" title="statement not covered" >      return this.wishlistStore.getItems;</span>
-    }
-&nbsp;
-<span class="fstat-no" title="function not covered" >    get iconColor(): string {</span>
-<span class="cstat-no" title="statement not covered" >      return this.showMenu ? 'snow' : '#143c53';</span>
-    }
-&nbsp;
-<span class="fstat-no" title="function not covered" >    clearWishList(): void {</span>
-<span class="cstat-no" title="statement not covered" >      this.wishlistStore.clear();</span>
-    }
-&nbsp;
-<span class="fstat-no" title="function not covered" >    toggleMenu(): void {</span>
+<span class="fstat-no" title="function not covered" >  closeMenuWithDelay(): void {</span>
+<span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >    this.timeout = setTimeout(() =&gt; {</span></span>
 <span class="cstat-no" title="statement not covered" >      if (this.showMenu) {</span>
 <span class="cstat-no" title="statement not covered" >        this.closeMenu();</span>
-      } else {
-<span class="cstat-no" title="statement not covered" >        this.appDataStore.changeActiveMenu('WISHLIST');</span>
       }
-    }
+    }, 400);
+  }
 &nbsp;
-<span class="fstat-no" title="function not covered" >    closeMenuWithDelay(): void {</span>
-<span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >      this.timeout = setTimeout(() =&gt; {</span></span>
-<span class="cstat-no" title="statement not covered" >        if (this.showMenu) {</span>
-<span class="cstat-no" title="statement not covered" >          this.closeMenu();</span>
-        }
-      }, 400);
-    }
+<span class="fstat-no" title="function not covered" >  closeMenu(): void {</span>
+<span class="cstat-no" title="statement not covered" >    this.appDataStore.changeActiveMenu("NONE");</span>
+  }
 &nbsp;
-<span class="fstat-no" title="function not covered" >    closeMenu(): void {</span>
-<span class="cstat-no" title="statement not covered" >      this.appDataStore.changeActiveMenu('NONE');</span>
+<span class="fstat-no" title="function not covered" >  keepOpen(): void {</span>
+<span class="cstat-no" title="statement not covered" >    if (this.timeout) {</span>
+<span class="cstat-no" title="statement not covered" >      clearInterval(this.timeout);</span>
     }
+  }
 &nbsp;
-<span class="fstat-no" title="function not covered" >    keepOpen(): void {</span>
-<span class="cstat-no" title="statement not covered" >      if (this.timeout) {</span>
-<span class="cstat-no" title="statement not covered" >        clearInterval(this.timeout);</span>
-      }
-    }
-&nbsp;
-<span class="fstat-no" title="function not covered" >    removeItem(id: string): void {</span>
-<span class="cstat-no" title="statement not covered" >      this.wishlistStore.removeSingle(id);</span>
-    }
+<span class="fstat-no" title="function not covered" >  removeItem(id: string): void {</span>
+<span class="cstat-no" title="statement not covered" >    this.wishlistStore.removeSingle(id);</span>
+  }
 }
 &lt;/script&gt;
 &nbsp;
 &lt;style lang="scss" scoped&gt;
-  #mini_wishlist_wrapper {
-    padding: 0.3em 1em 2em 1.2em;
-    margin: 0;
-    border-radius: 2em 0 0 0;
-    border: 1px solid transparent;
+#mini_wishlist_wrapper {
+  padding: 0.3em 1em 2em 1.2em;
+  margin: 0;
+  border-radius: 2em 0 0 0;
+  border: 1px solid transparent;
+  border-right: none;
+  border-bottom: none;
+  height: 4.5em;
+&nbsp;
+  &amp;.active {
+    border: 1px solid var(--darkblue);
     border-right: none;
     border-bottom: none;
-    height: 4.5em;
+    border-color: var(--white);
+    background-color: var(--darkblue);
+  }
 &nbsp;
-    &amp;.active {
-      border: 1px solid var(--darkblue);
-      border-right: none;
-      border-bottom: none;
-      border-color: var(--white);
-      background-color: var(--darkblue);
+  .wishlist-icon {
+    height: 25px;
+    display: flex;
+    align-items: flex-end;
+    position: relative;
+    margin-right: 10px;
+&nbsp;
+    .icon {
+      fill: #444a59;
     }
 &nbsp;
-    .wishlist-icon {
-      height: 25px;
+    .bag__item-counter {
+      position: absolute;
+      left: 3em;
+      top: 0;
+      width: 15px;
+      height: 15px;
+      margin-left: -1px;
       display: flex;
-      align-items: flex-end;
-      position: relative;
-      margin-right: 10px;
-&nbsp;
-      .icon {
-        fill: #444A59;
-      }
-&nbsp;
-      .bag__item-counter {
-        position: absolute;
-        left: 3em;
-        top: 0;
-        width: 15px;
-        height: 15px;
-        margin-left: -1px;
-        display: flex;
-        align-self: flex-start;
-        justify-content: center;
-        align-items: center;
-        font-family: 'Lato-Bold', sans-serif;
-        font-size: 8px;
-        text-align: center;
-        border-radius: 50%;
-        color: var(--darkblue);
-        background-color: var(--orange);
-      }
-    }
-&nbsp;
-    .bag-item {
-      padding: 0.5em 0.2em 0.5em 0.2em;
-      border-bottom: 1px solid #8080802e;
-      position: relative;
-&nbsp;
-      .bag-item-info {
-        display: inline-grid;
-        grid-template-columns: 6.5em 12em auto;
-      }
-    }
-&nbsp;
-    .bag-total-price {
-      font-weight: bold;
-      margin-top: 1em;
-      padding-top: 0.5em;
-      display: inline-flex;
-      width: 100%;
-&nbsp;
-      .total-label {
-        width: 50%;
-      }
-&nbsp;
-      .total-value {
-        width: 50%;
-        text-align: right;
-      }
-    }
-&nbsp;
-    .empty-list {
+      align-self: flex-start;
+      justify-content: center;
+      align-items: center;
+      font-family: "Lato-Bold", sans-serif;
+      font-size: 8px;
       text-align: center;
+      border-radius: 50%;
+      color: var(--darkblue);
+      background-color: var(--orange);
     }
   }
 &nbsp;
+  .bag-item {
+    padding: 0.5em 0.2em 0.5em 0.2em;
+    border-bottom: 1px solid #8080802e;
+    position: relative;
+&nbsp;
+    .bag-item-info {
+      display: inline-grid;
+      grid-template-columns: 6.5em 12em auto;
+    }
+  }
+&nbsp;
+  .bag-total-price {
+    font-weight: bold;
+    margin-top: 1em;
+    padding-top: 0.5em;
+    display: inline-flex;
+    width: 100%;
+&nbsp;
+    .total-label {
+      width: 50%;
+    }
+&nbsp;
+    .total-value {
+      width: 50%;
+      text-align: right;
+    }
+  }
+&nbsp;
+  .empty-list {
+    text-align: center;
+  }
+}
 &lt;/style&gt;
 &nbsp;</pre></td></tr></table></pre>
 
@@ -645,7 +651,7 @@ import appDataStore from '@/store/app-data/app-data-store';
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank">istanbul</a>
-                at Mon Oct 12 2020 00:39:58 GMT+0200 (GMT+02:00)
+                at Mon Oct 12 2020 19:53:01 GMT+0200 (GMT+02:00)
             </div>
         </div>
         <script src="..\..\..\prettify.js"></script>

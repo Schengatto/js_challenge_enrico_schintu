@@ -1,8 +1,7 @@
-import {MusementItem} from "@/models/musement.models";
+import { MusementItem } from "@/models/musement.models";
 import EventItemModel from "@/models/event.item";
 
 export default class AppUtils {
-
   /**
    * Transform the object of type {@link MusementItem} provided as argument
    * into a {@link EventItemModel}.The output object keeps just the relevant

@@ -145,7 +145,17 @@
 <a name='L87'></a><a href='#L87'>87</a>
 <a name='L88'></a><a href='#L88'>88</a>
 <a name='L89'></a><a href='#L89'>89</a>
-<a name='L90'></a><a href='#L90'>90</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+<a name='L90'></a><a href='#L90'>90</a>
+<a name='L91'></a><a href='#L91'>91</a>
+<a name='L92'></a><a href='#L92'>92</a>
+<a name='L93'></a><a href='#L93'>93</a>
+<a name='L94'></a><a href='#L94'>94</a>
+<a name='L95'></a><a href='#L95'>95</a>
+<a name='L96'></a><a href='#L96'>96</a>
+<a name='L97'></a><a href='#L97'>97</a>
+<a name='L98'></a><a href='#L98'>98</a>
+<a name='L99'></a><a href='#L99'>99</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -192,8 +202,16 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -237,7 +255,7 @@
 <span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">&lt;template&gt;
   &lt;div v-if="isCompatibleBrowser"&gt;
     &lt;div id="app"&gt;
-      &lt;router-view/&gt;
+      &lt;router-view /&gt;
     &lt;/div&gt;
   &lt;/div&gt;
   &lt;div v-else&gt;
@@ -248,8 +266,10 @@
       &lt;/div&gt;
       &lt;div class="force-access-wrapper"&gt;
         &lt;div class="force-access-message"&gt;
-          &lt;p&gt;Anyway, it is possible to access the application but the user experience will not be
-            guaranteed.&lt;/p&gt;
+          &lt;p&gt;
+            Anyway, it is possible to access the application but the user experience will not be
+            guaranteed.
+          &lt;/p&gt;
         &lt;/div&gt;
         &lt;button id="force-btn" class="clickable" @click="forceAccess()"&gt;Let me access&lt;/button&gt;
       &lt;/div&gt;
@@ -258,8 +278,7 @@
 &lt;/template&gt;
 &nbsp;
 &lt;script lang="ts"&gt;
-&nbsp;
-import {Component, Vue} from 'vue-property-decorator';
+import { Component, Vue } from "vue-property-decorator";
 import {
   isChrome,
   isChromium,
@@ -267,61 +286,69 @@ import {
   isEdgeChromium,
   isFirefox,
   isMobileSafari,
-  isSafari,
-} from 'mobile-device-detect';
+  isSafari
+} from "mobile-device-detect";
 &nbsp;
-  @Component({
-    components: {},
-  })
+@Component({
+  components: {}
+})
 export default class App extends Vue {
-    private force = false;
+  private force = false;
 &nbsp;
-    get isCompatibleBrowser() {
-      return this.force || (isChrome || isFirefox || isEdge || isEdgeChromium || isSafari || isMobileSafari || isChromium);
-    }
+  get isCompatibleBrowser() {
+    return (
+      this.force ||
+      isChrome ||
+      isFirefox ||
+      isEdge ||
+      isEdgeChromium ||
+      isSafari ||
+      isMobileSafari ||
+      isChromium
+    );
+  }
 &nbsp;
-    public forceAccess() {
-      this.force = true;
-    }
+  public forceAccess() {
+    this.force = true;
+  }
 }
 &lt;/script&gt;
 &nbsp;
 &lt;style lang="scss"&gt;
+#incompatible_browser_wrapper {
+  padding: 2em;
 &nbsp;
-  #incompatible_browser_wrapper {
-    padding: 2em;
-&nbsp;
-    .old-browser-message {
-      font-weight: bold;
-      font-size: 18pt;
-    }
-&nbsp;
-    .force-access-message {
-      border: 1px solid #ecd091;
-      background-color: #ecd091;
-      margin-top: 1em;
-      padding: 0.5em 0 0 0.5em;
-      font-style: italic;
-    }
-&nbsp;
-    #force-btn {
-      padding: 0.5em;
-      border: 1px solid grey;
-      margin-top: 1em;
-&nbsp;
-      &amp;:hover {
-        background-color: orange;
-      }
-    }
+  .old-browser-message {
+    font-weight: bold;
+    font-size: 18pt;
   }
 &nbsp;
-  #app {
-    font-family: Avenir, Helvetica, Arial, sans-serif;
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
-    text-align: center;
-    color: #2c3e50;
+  .force-access-message {
+    border: 1px solid #ecd091;
+    background-color: #ecd091;
+    margin-top: 1em;
+    padding: 0.5em 0 0 0.5em;
+    font-style: italic;
   }
+&nbsp;
+  #force-btn {
+    padding: 0.5em;
+    border: 1px solid grey;
+    margin-top: 1em;
+&nbsp;
+    &amp;:hover {
+      background-color: orange;
+    }
+  }
+}
+&nbsp;
+#app {
+  font-family: Avenir, Helvetica, Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-align: center;
+  color: #2c3e50;
+}
 &lt;/style&gt;
 &nbsp;</pre></td></tr></table></pre>
 
@@ -330,7 +357,7 @@ export default class App extends Vue {
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank">istanbul</a>
-                at Mon Oct 12 2020 00:39:58 GMT+0200 (GMT+02:00)
+                at Mon Oct 12 2020 19:53:01 GMT+0200 (GMT+02:00)
             </div>
         </div>
         <script src="..\prettify.js"></script>

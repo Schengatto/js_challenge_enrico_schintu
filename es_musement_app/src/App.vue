@@ -1,7 +1,7 @@
 <template>
   <div v-if="isCompatibleBrowser">
     <div id="app">
-      <router-view/>
+      <router-view />
     </div>
   </div>
   <div v-else>
@@ -12,8 +12,10 @@
       </div>
       <div class="force-access-wrapper">
         <div class="force-access-message">
-          <p>Anyway, it is possible to access the application but the user experience will not be
-            guaranteed.</p>
+          <p>
+            Anyway, it is possible to access the application but the user experience will not be
+            guaranteed.
+          </p>
         </div>
         <button id="force-btn" class="clickable" @click="forceAccess()">Let me access</button>
       </div>
@@ -22,8 +24,7 @@
 </template>
 
 <script lang="ts">
-
-import {Component, Vue} from 'vue-property-decorator';
+import { Component, Vue } from "vue-property-decorator";
 import {
   isChrome,
   isChromium,
@@ -31,59 +32,67 @@ import {
   isEdgeChromium,
   isFirefox,
   isMobileSafari,
-  isSafari,
-} from 'mobile-device-detect';
+  isSafari
+} from "mobile-device-detect";
 
-  @Component({
-    components: {},
-  })
+@Component({
+  components: {}
+})
 export default class App extends Vue {
-    private force = false;
+  private force = false;
 
-    get isCompatibleBrowser() {
-      return this.force || (isChrome || isFirefox || isEdge || isEdgeChromium || isSafari || isMobileSafari || isChromium);
-    }
+  get isCompatibleBrowser() {
+    return (
+      this.force ||
+      isChrome ||
+      isFirefox ||
+      isEdge ||
+      isEdgeChromium ||
+      isSafari ||
+      isMobileSafari ||
+      isChromium
+    );
+  }
 
-    public forceAccess() {
-      this.force = true;
-    }
+  public forceAccess() {
+    this.force = true;
+  }
 }
 </script>
 
 <style lang="scss">
+#incompatible_browser_wrapper {
+  padding: 2em;
 
-  #incompatible_browser_wrapper {
-    padding: 2em;
-
-    .old-browser-message {
-      font-weight: bold;
-      font-size: 18pt;
-    }
-
-    .force-access-message {
-      border: 1px solid #ecd091;
-      background-color: #ecd091;
-      margin-top: 1em;
-      padding: 0.5em 0 0 0.5em;
-      font-style: italic;
-    }
-
-    #force-btn {
-      padding: 0.5em;
-      border: 1px solid grey;
-      margin-top: 1em;
-
-      &:hover {
-        background-color: orange;
-      }
-    }
+  .old-browser-message {
+    font-weight: bold;
+    font-size: 18pt;
   }
 
-  #app {
-    font-family: Avenir, Helvetica, Arial, sans-serif;
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
-    text-align: center;
-    color: #2c3e50;
+  .force-access-message {
+    border: 1px solid #ecd091;
+    background-color: #ecd091;
+    margin-top: 1em;
+    padding: 0.5em 0 0 0.5em;
+    font-style: italic;
   }
+
+  #force-btn {
+    padding: 0.5em;
+    border: 1px solid grey;
+    margin-top: 1em;
+
+    &:hover {
+      background-color: orange;
+    }
+  }
+}
+
+#app {
+  font-family: Avenir, Helvetica, Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-align: center;
+  color: #2c3e50;
+}
 </style>

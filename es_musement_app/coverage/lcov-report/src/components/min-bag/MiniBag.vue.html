@@ -22,9 +22,9 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">24.24% </span>
+                <span class="strong">26.47% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>8/33</span>
+                <span class='fraction'>9/34</span>
             </div>
         
             
@@ -43,9 +43,9 @@
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">21.88% </span>
+                <span class="strong">24.24% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>7/32</span>
+                <span class='fraction'>8/33</span>
             </div>
         
             
@@ -341,7 +341,10 @@
 <a name='L283'></a><a href='#L283'>283</a>
 <a name='L284'></a><a href='#L284'>284</a>
 <a name='L285'></a><a href='#L285'>285</a>
-<a name='L286'></a><a href='#L286'>286</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+<a name='L286'></a><a href='#L286'>286</a>
+<a name='L287'></a><a href='#L287'>287</a>
+<a name='L288'></a><a href='#L288'>288</a>
+<a name='L289'></a><a href='#L289'>289</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -399,19 +402,23 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
@@ -488,7 +495,6 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -627,17 +633,20 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">&lt;template&gt;
-  &lt;div id="mini_bag_wrapper"
-       v-bind:class="{'active': showMenu}"
-       @mouseenter="keepOpen()"&gt;
+  &lt;div id="mini_bag_wrapper" v-bind:class="{ active: showMenu }" @mouseenter="keepOpen()"&gt;
     &lt;div class="mini-bag-header-wrapper unselectable clickable" @click="toggleMenu()"&gt;
       &lt;div v-if="cartTotalAmount" class="header-bag__price"&gt;
-        {{userCurrency}} {{ cartTotalAmount.toFixed(2) }}
+        {{ userCurrency }} {{ cartTotalAmount.toFixed(2) }}
       &lt;/div&gt;
       &lt;div class="mini-bag-header-icon"&gt;
-        &lt;CustomIcon title="My Cart" type="bag" width="40px" height="40px"
-                    :color="iconColor"&gt;&lt;/CustomIcon&gt;
-        &lt;div v-if="numberOfItems" class="bag__item-counter"&gt;{{numberOfItems}}&lt;/div&gt;
+        &lt;CustomIcon
+          title="My Cart"
+          type="bag"
+          width="40px"
+          height="40px"
+          :color="iconColor"
+        &gt;&lt;/CustomIcon&gt;
+        &lt;div v-if="numberOfItems" class="bag__item-counter"&gt;{{ numberOfItems }}&lt;/div&gt;
       &lt;/div&gt;
     &lt;/div&gt;
     &lt;div class="menu-container" v-if="showMenu"&gt;
@@ -646,7 +655,7 @@
         &lt;div class="list-container"&gt;
           &lt;div v-for="i in items" v-bind:key="i.uuid" class="bag-item"&gt;
             &lt;div class="bag-item-info"&gt;
-              &lt;img :src="i.image+'?q=50&amp;fit=crop&amp;h=50&amp;w=75'" :alt="i.uuid" height="50"&gt;
+              &lt;img :src="i.image + '?q=50&amp;fit=crop&amp;h=40&amp;w=50'" :alt="i.uuid" height="50" /&gt;
               &lt;div&gt;
                 &lt;div&gt;{{ i.title }}&lt;/div&gt;
               &lt;/div&gt;
@@ -660,256 +669,256 @@
                 &lt;div class="ticket-number"&gt;{{ i.tickets }}&lt;small&gt; x&lt;/small&gt;&lt;/div&gt;
                 &lt;div class="ticket-btn add-ticket-btn" @click="addTicket(i)"&gt;+&lt;/div&gt;
               &lt;/div&gt;
-              &lt;div&gt;{{userCurrency}} {{ i.finalPrice.toFixed(2) }}&lt;/div&gt;
-              &lt;div class="bag-sub-total"&gt;{{userCurrency}} {{(i.finalPrice *
-                i.tickets).toFixed(2)}}
+              &lt;div&gt;{{ userCurrency }} {{ i.finalPrice.toFixed(2) }}&lt;/div&gt;
+              &lt;div class="bag-sub-total"&gt;
+                {{ userCurrency }} {{ (i.finalPrice * i.tickets).toFixed(2) }}
               &lt;/div&gt;
             &lt;/div&gt;
           &lt;/div&gt;
         &lt;/div&gt;
         &lt;div class="bag-total-price"&gt;
-          &lt;div class="total-label"&gt;{{ $t('cart.total.label') }}&lt;/div&gt;
-          &lt;div class="total-value"&gt;{{userCurrency}} {{ cartTotalAmount.toFixed(2) }}&lt;/div&gt;
+          &lt;div class="total-label"&gt;{{ $t("cart.total.label") }}&lt;/div&gt;
+          &lt;div class="total-value"&gt;{{ userCurrency }} {{ cartTotalAmount.toFixed(2) }}&lt;/div&gt;
         &lt;/div&gt;
         &lt;div class="menu-footer"&gt;
           &lt;div class="menu-footer-btn clickable" @click="buyNow()"&gt;
-            {{ $t('cart.buy.all') }}
+            {{ $t("cart.buy.all") }}
           &lt;/div&gt;
         &lt;/div&gt;
       &lt;/template&gt;
       &lt;template v-else&gt;
-        &lt;div&gt;{{ $t('cart.emptylist.label') }}&lt;/div&gt;
+        &lt;div&gt;{{ $t("cart.emptylist.label") }}&lt;/div&gt;
       &lt;/template&gt;
     &lt;/div&gt;
   &lt;/div&gt;
 &lt;/template&gt;
 &nbsp;
 &lt;script lang="ts"&gt;
-import {Component, Vue} from 'vue-property-decorator';
-import CustomIcon from '@/components/commons/CustomIcon.vue';
-import {CURRENCIES, Currency} from '@/models/currenc.model';
-import EventItem from '@/models/event.item';
-import cartStore from '@/store/cart/cart-store';
-import userStore from '@/store/user/user-store';
-import appDataStore from '@/store/app-data/app-data-store';
+import { Component, Vue } from "vue-property-decorator";
+import CustomIcon from "@/components/commons/CustomIcon.vue";
+import { CURRENCIES, Currency } from "@/models/currenc.model";
+import EventItem from "@/models/event.item";
+import { getModule } from "vuex-module-decorators";
+import UserStore from "@/store/user/user-store";
+import AppDataStore from "@/store/app-data/app-data-store";
+import CartStore from "@/store/cart/cart-store";
 &nbsp;
-  @Component({
-    components: {CustomIcon},
-  })
+@Component({
+  components: { CustomIcon }
+})
 <span class="fstat-no" title="function not covered" >export default class MiniBag extends Vue {</span>
-<span class="cstat-no" title="statement not covered" >    private userCartData = cartStore;</span>
+<span class="cstat-no" title="statement not covered" >  private cartStore = getModule(CartStore);</span>
 &nbsp;
-<span class="cstat-no" title="statement not covered" >    private userData = userStore;</span>
+<span class="cstat-no" title="statement not covered" >  private userData = getModule(UserStore);</span>
 &nbsp;
-<span class="cstat-no" title="statement not covered" >    private appDataStore = appDataStore;</span>
+<span class="cstat-no" title="statement not covered" >  private appDataStore = getModule(AppDataStore);</span>
 &nbsp;
-    private timeout!: NodeJS.Timeout;
+  private timeout!: NodeJS.Timeout;
 &nbsp;
-<span class="fstat-no" title="function not covered" >    get showMenu(): boolean {</span>
-<span class="cstat-no" title="statement not covered" >      return this.appDataStore.currentActiveMenu === 'CART';</span>
+<span class="fstat-no" title="function not covered" >  get showMenu(): boolean {</span>
+<span class="cstat-no" title="statement not covered" >    return this.appDataStore.currentActiveMenu === "CART";</span>
+  }
+&nbsp;
+<span class="fstat-no" title="function not covered" >  get numberOfItems(): number {</span>
+<span class="cstat-no" title="statement not covered" >    return this.cartStore.numberOfTickets;</span>
+  }
+&nbsp;
+<span class="fstat-no" title="function not covered" >  get items(): EventItem[] {</span>
+<span class="cstat-no" title="statement not covered" >    return this.cartStore.getItems;</span>
+  }
+&nbsp;
+<span class="fstat-no" title="function not covered" >  get cartTotalAmount(): number {</span>
+<span class="cstat-no" title="statement not covered" >    const multiplier = 100;</span>
+<span class="cstat-no" title="statement not covered" >    return Math.round(this.cartStore.totalAmount * multiplier) / multiplier;</span>
+  }
+&nbsp;
+<span class="fstat-no" title="function not covered" >  get userCurrency(): string {</span>
+<span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >    const currency: Currency | undefined = CURRENCIES.find(c =&gt; c.id === this.userData.currency);</span></span>
+<span class="cstat-no" title="statement not covered" >    return currency ? currency.icon : this.userData.currency;</span>
+  }
+&nbsp;
+<span class="fstat-no" title="function not covered" >  get iconColor(): string {</span>
+<span class="cstat-no" title="statement not covered" >    return this.showMenu ? "snow" : "#143c53";</span>
+  }
+&nbsp;
+<span class="fstat-no" title="function not covered" >  toggleMenu(): void {</span>
+<span class="cstat-no" title="statement not covered" >    if (this.showMenu) {</span>
+<span class="cstat-no" title="statement not covered" >      this.closeMenu();</span>
+    } else {
+<span class="cstat-no" title="statement not covered" >      this.appDataStore.changeActiveMenu("CART");</span>
     }
+  }
 &nbsp;
-<span class="fstat-no" title="function not covered" >    get numberOfItems(): number {</span>
-<span class="cstat-no" title="statement not covered" >      return this.userCartData.numberOfTickets;</span>
-    }
+<span class="fstat-no" title="function not covered" >  removeItem(item: EventItem): void {</span>
+<span class="cstat-no" title="statement not covered" >    this.cartStore.removeSingle(item.uuid);</span>
+  }
 &nbsp;
-<span class="fstat-no" title="function not covered" >    get items(): EventItem[] {</span>
-<span class="cstat-no" title="statement not covered" >      return this.userCartData.getItems;</span>
-    }
-&nbsp;
-<span class="fstat-no" title="function not covered" >    get cartTotalAmount(): number {</span>
-<span class="cstat-no" title="statement not covered" >      const multiplier = 100;</span>
-<span class="cstat-no" title="statement not covered" >      return Math.round(this.userCartData.totalAmount * multiplier) / multiplier;</span>
-    }
-&nbsp;
-<span class="fstat-no" title="function not covered" >    get userCurrency(): string {</span>
-<span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >      const currency: Currency | undefined = CURRENCIES.find((c) =&gt; c.id === this.userData.currency);</span></span>
-<span class="cstat-no" title="statement not covered" >      return currency ? currency.icon : this.userData.currency;</span>
-    }
-&nbsp;
-<span class="fstat-no" title="function not covered" >    get iconColor(): string {</span>
-<span class="cstat-no" title="statement not covered" >      return this.showMenu ? 'snow' : '#143c53';</span>
-    }
-&nbsp;
-<span class="fstat-no" title="function not covered" >    toggleMenu(): void {</span>
+<span class="fstat-no" title="function not covered" >  closeMenuWithDelay(): void {</span>
+<span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >    this.timeout = setTimeout(() =&gt; {</span></span>
 <span class="cstat-no" title="statement not covered" >      if (this.showMenu) {</span>
 <span class="cstat-no" title="statement not covered" >        this.closeMenu();</span>
-      } else {
-<span class="cstat-no" title="statement not covered" >        this.appDataStore.changeActiveMenu('CART');</span>
       }
-    }
+    }, 400);
+  }
 &nbsp;
-<span class="fstat-no" title="function not covered" >    removeItem(item: EventItem): void {</span>
-<span class="cstat-no" title="statement not covered" >      this.userCartData.removeSingle(item.uuid);</span>
-    }
+<span class="fstat-no" title="function not covered" >  closeMenu(): void {</span>
+<span class="cstat-no" title="statement not covered" >    this.appDataStore.changeActiveMenu("NONE");</span>
+  }
 &nbsp;
-<span class="fstat-no" title="function not covered" >    closeMenuWithDelay(): void {</span>
-<span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >      this.timeout = setTimeout(() =&gt; {</span></span>
-<span class="cstat-no" title="statement not covered" >        if (this.showMenu) {</span>
-<span class="cstat-no" title="statement not covered" >          this.closeMenu();</span>
-        }
-      }, 400);
+<span class="fstat-no" title="function not covered" >  keepOpen(): void {</span>
+<span class="cstat-no" title="statement not covered" >    if (this.timeout) {</span>
+<span class="cstat-no" title="statement not covered" >      clearInterval(this.timeout);</span>
     }
+  }
 &nbsp;
-<span class="fstat-no" title="function not covered" >    closeMenu(): void {</span>
-<span class="cstat-no" title="statement not covered" >      this.appDataStore.changeActiveMenu('NONE');</span>
+<span class="fstat-no" title="function not covered" >  removeTicket(item: EventItem): void {</span>
+<span class="cstat-no" title="statement not covered" >    if (item.tickets &gt; 1) {</span>
+<span class="cstat-no" title="statement not covered" >      this.cartStore.removeTicket(item.uuid);</span>
     }
+  }
 &nbsp;
-<span class="fstat-no" title="function not covered" >    keepOpen(): void {</span>
-<span class="cstat-no" title="statement not covered" >      if (this.timeout) {</span>
-<span class="cstat-no" title="statement not covered" >        clearInterval(this.timeout);</span>
-      }
-    }
+<span class="fstat-no" title="function not covered" >  addTicket(item: EventItem): void {</span>
+<span class="cstat-no" title="statement not covered" >    this.cartStore.addSingle(item);</span>
+  }
 &nbsp;
-<span class="fstat-no" title="function not covered" >    removeTicket(item: EventItem): void {</span>
-<span class="cstat-no" title="statement not covered" >      if (item.tickets &gt; 1) {</span>
-<span class="cstat-no" title="statement not covered" >        this.userCartData.removeTicket(item.uuid);</span>
-      }
-    }
-&nbsp;
-<span class="fstat-no" title="function not covered" >    addTicket(item: EventItem): void {</span>
-<span class="cstat-no" title="statement not covered" >      this.userCartData.addSingle(item);</span>
-    }
-&nbsp;
-<span class="fstat-no" title="function not covered" >    buyNow(): void {</span>
-<span class="cstat-no" title="statement not covered" >      window.alert('Not implemented yet :)');</span>
-    }
+<span class="fstat-no" title="function not covered" >  buyNow(): void {</span>
+<span class="cstat-no" title="statement not covered" >    window.alert("Not implemented yet :)");</span>
+  }
 }
 &lt;/script&gt;
 &nbsp;
 &lt;style lang="scss" scoped&gt;
-  #mini_bag_wrapper {
-    padding: 0.3em 2em 2em 1.2em;
-    margin: 0;
-    border-radius: 2em 0 0 0;
-    border: 1px solid transparent;
+#mini_bag_wrapper {
+  padding: 0.3em 2em 2em 1.2em;
+  margin: 0;
+  border-radius: 2em 0 0 0;
+  border: 1px solid transparent;
+  border-right: none;
+  border-bottom: none;
+  height: 4.5em;
+&nbsp;
+  &amp;.active {
+    border: 1px solid var(--darkblue);
     border-right: none;
     border-bottom: none;
-    height: 4.5em;
+    color: var(--white);
+    border-color: var(--white);
+    background-color: var(--darkblue);
+  }
 &nbsp;
-    &amp;.active {
-      border: 1px solid var(--darkblue);
-      border-right: none;
-      border-bottom: none;
-      color: var(--white);
-      border-color: var(--white);
-      background-color: var(--darkblue);
-    }
+  .mini-bag-header-wrapper {
+    display: flex;
+    align-items: flex-end;
+    position: relative;
 &nbsp;
-    .mini-bag-header-wrapper {
-      display: flex;
-      align-items: flex-end;
+    .mini-bag-header-icon {
       position: relative;
 &nbsp;
-      .mini-bag-header-icon {
-        position: relative;
-&nbsp;
-        .icon {
-          height: auto;
-          fill: #444A59;
-          width: 17px;
-          margin-top: 4px;
-        }
-&nbsp;
-        .bag__item-counter {
-          width: 15px;
-          height: 15px;
-          display: flex;
-          align-self: flex-start;
-          justify-content: center;
-          align-items: center;
-          font-family: "Lato-Bold", sans-serif;
-          font-size: 8px;
-          text-align: center;
-          border-radius: 50%;
-          color: var(--darkblue);
-          background-color: var(--orange);
-          position: absolute;
-          bottom: 4em;
-          right: -1em;
-        }
-      }
-    }
-&nbsp;
-    .bag-item {
-      padding: 0.5em 0.2em 0.5em 0.2em;
-      border-bottom: 1px solid #8080802e;
-      position: relative;
-&nbsp;
-      .bag-item-info {
-        display: inline-grid;
-        grid-template-columns: 6.5em 12em auto;
+      .icon {
+        height: auto;
+        fill: #444a59;
+        width: 17px;
+        margin-top: 4px;
       }
 &nbsp;
-      .bag-item-details {
-        margin-top: 0.8em;
-        display: inline-grid;
-        grid-template-columns: 7em 8.5em 5.5em;
-&nbsp;
-        .ticket-wrapper {
-          display: flex;
-          justify-content: space-evenly;
-          position: relative;
-          width: 6em;
-&nbsp;
-          .ticket-btn {
-            padding: 0.2em;
-            border: 1px solid white;
-            width: 1.5em;
-            text-align: center;
-          }
-&nbsp;
-          .remove-ticket-btn {
-            position: absolute;
-            left: 0;
-            bottom: 0;
-&nbsp;
-            &amp;:hover {
-              background-color: var(--red);
-            }
-          }
-&nbsp;
-          .ticket-number {
-            color: var(--orange);
-          }
-&nbsp;
-          .add-ticket-btn {
-            position: absolute;
-            right: 0.1em;
-            bottom: 0;
-&nbsp;
-            &amp;:hover {
-              background-color: var(--green);
-            }
-          }
-        }
-&nbsp;
-        .bag-sub-total {
-          text-align: right;
-          font-style: italic;
-        }
-      }
-    }
-&nbsp;
-    .bag-total-price {
-      font-weight: bold;
-      margin-top: 1em;
-      padding-top: 0.5em;
-      display: inline-flex;
-      width: 100%;
-&nbsp;
-      .total-label {
-        width: 50%;
-      }
-&nbsp;
-      .total-value {
-        width: 50%;
-        text-align: right;
-        margin-right: 1.5em;
+      .bag__item-counter {
+        width: 15px;
+        height: 15px;
+        display: flex;
+        align-self: flex-start;
+        justify-content: center;
+        align-items: center;
+        font-family: "Lato-Bold", sans-serif;
+        font-size: 8px;
+        text-align: center;
+        border-radius: 50%;
+        color: var(--darkblue);
+        background-color: var(--orange);
+        position: absolute;
+        bottom: 4em;
+        right: -1em;
       }
     }
   }
 &nbsp;
+  .bag-item {
+    padding: 0.5em 0.2em 0.5em 0.2em;
+    border-bottom: 1px solid #8080802e;
+    position: relative;
+&nbsp;
+    .bag-item-info {
+      display: inline-grid;
+      grid-template-columns: 6.5em 12em auto;
+    }
+&nbsp;
+    .bag-item-details {
+      margin-top: 0.8em;
+      display: inline-grid;
+      grid-template-columns: 7em 8.5em 5.5em;
+&nbsp;
+      .ticket-wrapper {
+        display: flex;
+        justify-content: space-evenly;
+        position: relative;
+        width: 6em;
+&nbsp;
+        .ticket-btn {
+          padding: 0.2em;
+          border: 1px solid white;
+          width: 1.5em;
+          text-align: center;
+        }
+&nbsp;
+        .remove-ticket-btn {
+          position: absolute;
+          left: 0;
+          bottom: 0;
+&nbsp;
+          &amp;:hover {
+            background-color: var(--red);
+          }
+        }
+&nbsp;
+        .ticket-number {
+          color: var(--orange);
+        }
+&nbsp;
+        .add-ticket-btn {
+          position: absolute;
+          right: 0.1em;
+          bottom: 0;
+&nbsp;
+          &amp;:hover {
+            background-color: var(--green);
+          }
+        }
+      }
+&nbsp;
+      .bag-sub-total {
+        text-align: right;
+        font-style: italic;
+      }
+    }
+  }
+&nbsp;
+  .bag-total-price {
+    font-weight: bold;
+    margin-top: 1em;
+    padding-top: 0.5em;
+    display: inline-flex;
+    width: 100%;
+&nbsp;
+    .total-label {
+      width: 50%;
+    }
+&nbsp;
+    .total-value {
+      width: 50%;
+      text-align: right;
+      margin-right: 1.5em;
+    }
+  }
+}
 &lt;/style&gt;
 &nbsp;</pre></td></tr></table></pre>
 
@@ -918,7 +927,7 @@ import appDataStore from '@/store/app-data/app-data-store';
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank">istanbul</a>
-                at Mon Oct 12 2020 00:39:58 GMT+0200 (GMT+02:00)
+                at Mon Oct 12 2020 19:53:01 GMT+0200 (GMT+02:00)
             </div>
         </div>
         <script src="..\..\..\prettify.js"></script>
