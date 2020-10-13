@@ -21,7 +21,7 @@
           href="#"
           class="pagination__link"
           v-bind:class="{ active: p === currentPage + 1 }"
-          @click="loadPage(p - 1)"
+          @click.prevent="loadPage(p - 1)"
         >
           <span v-if="p !== currentPage + 1">{{ p }}</span>
           <span v-else>
@@ -54,15 +54,19 @@ export default class Pagination extends Vue {
 
   pages: number[] = [];
 
+  private loadingPage = false;
+
   @Watch("currentPage", { immediate: true })
   currentPageChanged(updatedValue: number): void {
     const startIndex = updatedValue < 1 ? 0 : updatedValue - 1;
     this.initPagesRange(startIndex);
+    this.loadingPage = false;
   }
 
-  public loadPage(pageNumber: number): void {
-    if (pageNumber !== this.currentPage) {
-      this.$emit("changePage", pageNumber);
+  public async loadPage(pageNumber: number): Promise<void> {
+    if (!this.loadingPage && pageNumber !== this.currentPage) {
+      this.loadingPage = true;
+      await this.$emit("changePage", pageNumber);
     }
   }
 

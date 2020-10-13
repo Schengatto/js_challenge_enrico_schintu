@@ -53,8 +53,8 @@ export default class Showcase extends Vue {
   showcaseStore: ShowcaseStoreInterface = getModule(ShowcaseStore);
   userStore: UserStoreInterface = getModule(UserDataStore);
 
-  public loadPage(pageNumber: number): void {
-    this.showcaseStore.moveToPage(pageNumber);
+  public async loadPage(pageNumber: number): Promise<void> {
+    await this.showcaseStore.moveToPage(pageNumber);
   }
 
   get hasNextPage() {

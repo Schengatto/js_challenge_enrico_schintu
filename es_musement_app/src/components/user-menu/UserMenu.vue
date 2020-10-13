@@ -152,6 +152,16 @@ export default class UserMenu extends Vue {
   border-bottom: none;
   height: 4.5em;
 
+  @media screen and (max-height: 700px) {
+    .menu-container {
+      width: 100%;
+
+      .list-container {
+        max-height: 260px;
+      }
+    }
+  }
+
   &.active {
     border: 1px solid var(--darkblue);
     border-right: none;
