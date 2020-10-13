@@ -2,7 +2,16 @@
   <article class="product" itemscope>
     <div class="product-header unselectable">
       <figure class="product__image-wrapper">
-        <ImageWrapper :src="imageSrc" height="200px" width="350px" background-color="#1C768F">
+        <ImageWrapper
+          :src="imageSrc"
+          height="200"
+          width="350"
+          background-color="#1C768F"
+          quality="90"
+          src-width="280"
+          src-height="160"
+          :musement-image="true"
+        >
         </ImageWrapper>
         <button
           class="product__wishlist-button button button--round button--wishlist"
@@ -75,7 +84,7 @@ export default class EventItemCard extends Vue {
   }
 
   get imageSrc(): string {
-    return this.item && this.item.image ? `${this.item.image}?q=85&fit=crop&w=250&h=160` : "";
+    return this.item && this.item.image ? this.item.image : "";
   }
 
   addToWishlist(): void {
@@ -164,7 +173,6 @@ export default class EventItemCard extends Vue {
     color: black;
     padding: 0.8em;
     border: 1px solid mediumaquamarine;
-    border-radius: 100px;
     font-size: 11px;
     background-image: linear-gradient(to left, snow 50%, mediumaquamarine 50%);
     background-size: 200% 100%;
@@ -189,7 +197,7 @@ export default class EventItemCard extends Vue {
 
   .product__price {
     font-family: "Lato-Bold", sans-serif;
-    font-size: 14px;
+    font-size: 12px;
     letter-spacing: 2.33px;
     width: 100%;
     padding: 1em;

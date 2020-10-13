@@ -1,15 +1,23 @@
 import VueRouter from "vue-router";
 import Vue from "vue";
-import { mount, shallowMount, Wrapper } from "@vue/test-utils";
+import { shallowMount, Wrapper } from "@vue/test-utils";
 import ImageWrapper from "@/components/commons/ImageWrapper.vue";
 
 Vue.use(VueRouter);
 
 describe("Test ImageWrapper Component", () => {
   let component!: Wrapper<ImageWrapper>;
+  let vm!: any;
 
   beforeEach(() => {
-    component = shallowMount(ImageWrapper);
+    component = shallowMount(ImageWrapper, {
+      propsData: {
+        width: 200,
+        height: 100,
+        src: "test"
+      }
+    });
+    vm = component.vm as any;
   });
 
   it("Component rendered in page", async () => {
@@ -40,36 +48,31 @@ describe("Test ImageWrapper Component", () => {
   });
 
   it("Image loaded", async () => {
-    const spyImageLoaded = jest.spyOn(
-      (ImageWrapper.prototype.constructor as any).options.methods,
-      "imageLoaded"
-    );
-    const cmp = mount(ImageWrapper, {
-      propsData: {
-        imageLoaded: spyImageLoaded
-      }
-    });
-    cmp.setData({ startLoading: true });
-    cmp.setData({ loaded: false });
+    const spyImageLoaded = jest.spyOn(vm, "imageLoaded");
+    component.setData({ startLoading: true });
+    component.setData({ loaded: false });
     await Vue.nextTick();
-    const img = cmp.find("img");
+    const img = component.find("img");
     expect(img.isVisible()).toBeTruthy();
-    const vm: any = cmp.vm as any;
+
     vm.imageLoaded();
     expect(spyImageLoaded).toHaveBeenCalledTimes(1);
     await Vue.nextTick();
     expect(vm.loaded).toBeTruthy();
-    const svg = cmp.find("svg");
+    const svg = component.find("svg");
     expect(svg.exists()).toBeFalsy();
   });
 
-  it("The img element should use the input property", async () => {
+  it("Musement-image: The img element should use the input property", async () => {
     component.setProps({
       title: "test",
-      width: "200px",
-      height: "100px",
+      width: 200,
+      height: 100,
       src: "http://test.com/test.png",
-      backgroundColor: "black"
+      backgroundColor: "black",
+      srcWidth: 100,
+      srcHeight: 50,
+      quality: 60
     });
     component.setData({ startLoading: true });
     component.setData({ loaded: true });
@@ -77,11 +80,37 @@ describe("Test ImageWrapper Component", () => {
     const container = component.findAll(".image-container").at(0);
     const img = component.find("img");
     expect(container.attributes("style")).toBe(
-      "background-color: black; width: 200px; height: 100px;"
+      "width: 200px; height: 100px; background-color: black;"
     );
     expect(img.attributes("alt")).toBe("test");
     expect(img.attributes("width")).toBe("200px");
-    expect(img.attributes("height")).toBe("100px");
+    expect(img.attributes("height")).toBe("100");
+    expect(img.attributes("src")).toContain("http://test.com/test.png");
+    expect(img.attributes("src")).toContain("&q=60");
+    expect(img.attributes("src")).toContain("&h=50");
+    expect(img.attributes("src")).toContain("&w=100");
+  });
+
+  it("No-Musement-image: The img element should use the input property", async () => {
+    component.setProps({
+      title: "test",
+      width: "200",
+      height: "100",
+      src: "http://test.com/test.png",
+      backgroundColor: "black",
+      musementImage: false
+    });
+    component.setData({ startLoading: true });
+    component.setData({ loaded: true });
+    await Vue.nextTick();
+    const container = component.findAll(".image-container").at(0);
+    const img = component.find("img");
+    expect(container.attributes("style")).toBe(
+      "width: 200px; height: 100px; background-color: black;"
+    );
+    expect(img.attributes("alt")).toBe("test");
+    expect(img.attributes("width")).toBe("200px");
+    expect(img.attributes("height")).toBe("100");
     expect(img.attributes("src")).toBe("http://test.com/test.png");
   });
 });

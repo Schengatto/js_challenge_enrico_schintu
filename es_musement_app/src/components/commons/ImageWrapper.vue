@@ -1,15 +1,15 @@
 <template>
   <div
     class="image-container"
-    v-bind:style="{ backgroundColor: backgroundColor, width: width, height: height }"
+    v-bind:style="{ backgroundColor: backgroundColor, width: width + 'px', height: height + 'px' }"
   >
     <div v-if="startLoading">
       <img
         class="product__image product-image"
         itemprop="image"
         :alt="title"
-        :src="src"
-        :width="width"
+        :src="imageSrc"
+        :width="width + 'px'"
         :height="height"
         @load="imageLoaded()"
       />
@@ -17,8 +17,8 @@
     <div v-if="isLoading" v-bind:style="{ width: width, height: height }" class="loading-spinner">
       <svg
         style="margin: auto; background: none; display: block; shape-rendering: crispedges;"
-        :width="width"
-        :height="height"
+        :width="width + 'px'"
+        :height="height + 'px'"
         viewBox="0 0 100 100"
         preserveAspectRatio="xMidYMid"
       >
@@ -176,37 +176,88 @@ import { Component, Prop, Vue } from "vue-property-decorator";
 
 @Component
 export default class ImageWrapper extends Vue {
-  @Prop() title!: string;
+  /** Width in px */
+  @Prop({ required: true }) width!: number;
 
-  @Prop() width!: string;
+  /** Height in px */
+  @Prop({ required: true }) height!: number;
 
-  @Prop() height!: string;
+  /** source of the image */
+  @Prop({ required: true }) src!: string;
 
-  @Prop() src!: string;
-
+  /** background color behind the image */
   @Prop() backgroundColor!: string;
 
-  startLoading = false;
+  /** Image title used as alt value */
+  @Prop() title!: string;
+
+  /** Quality numeric ratio (from 1 to 100) of the image. Available for Musement images
+   * @default 70 */
+  @Prop({ default: 70 }) quality!: number;
+
+  /** Original width of the image. Available for Musement images */
+  @Prop() srcWidth!: number;
+
+  /** Original height of the image. Available for Musement images */
+  @Prop() srcHeight!: number;
+
+  /** If true the resource is retrieved from the Musement server and
+   *  it will be possible to set the img quality, srcWidth, srcHeight */
+  @Prop({ default: true }) musementImage!: boolean;
+
+  private startLoading = false;
 
   private loaded = false;
 
   private timeout!: NodeJS.Timeout;
 
-  get isLoading() {
-    return !this.loaded;
-  }
-
+  /**
+   * Enable the spinner.
+   */
   created() {
     this.timeout = setTimeout(() => {
       this.startLoading = true;
     }, 0);
   }
 
+  /**
+   * Disable the spinner.
+   */
   imageLoaded(): void {
     if (this.timeout) {
       clearTimeout(this.timeout);
     }
     this.loaded = true;
+  }
+
+  /**
+   * Invoked when the image is loaded.
+   */
+  get isLoading() {
+    return !this.loaded;
+  }
+
+  /**
+   * Image URL source.
+   */
+  get imageSrc(): string {
+    return this.musementImage
+      ? `${this.src}?fit=crop&w=${this.realWidth}&h=${this.realHeight}&q=${this.quality}`
+      : this.src;
+  }
+
+  /**
+   * Real witdth of the image resource. Used only for Musement images.
+   */
+  get realWidth(): number {
+    return this.srcWidth ? this.srcWidth : this.width;
+  }
+
+  /**
+   * Real height of the image resource. Used only for Musement images.
+   */
+  get realHeight() {
+    return this.srcHeight ? this.srcHeight : this.height;
   }
 }
 </script>

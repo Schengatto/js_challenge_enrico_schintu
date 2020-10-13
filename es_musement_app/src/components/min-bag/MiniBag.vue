@@ -21,7 +21,15 @@
         <div class="list-container">
           <div v-for="i in items" v-bind:key="i.uuid" class="menu-event-item">
             <div class="bag-item-info">
-              <img :src="i.image + '?q=50&fit=crop&h=40&w=50'" :alt="i.uuid" height="50" />
+              <ImageWrapper
+                width="75"
+                height="50"
+                :src="i.image"
+                :title="i.title"
+                src-height="40"
+                src-width="65"
+                quality="50"
+              ></ImageWrapper>
               <div>
                 <div>{{ i.title }}</div>
               </div>
@@ -67,9 +75,10 @@ import { getModule } from "vuex-module-decorators";
 import UserDataStore from "@/store/user/user-data-store";
 import AppDataStore from "@/store/app-data/app-data-store";
 import CartStore from "@/store/cart/cart-store";
+import ImageWrapper from "@/components/commons/ImageWrapper.vue";
 
 @Component({
-  components: { CustomIcon }
+  components: { ImageWrapper, CustomIcon }
 })
 export default class MiniBag extends Vue {
   private cartStore = getModule(CartStore);
@@ -202,7 +211,7 @@ export default class MiniBag extends Vue {
     .bag-item-details {
       margin-top: 0.8em;
       display: inline-grid;
-      grid-template-columns: 7em 8.5em 5.5em;
+      grid-template-columns: 7em 7em 7em;
 
       .ticket-wrapper {
         display: flex;
@@ -229,6 +238,8 @@ export default class MiniBag extends Vue {
 
         .ticket-number {
           color: var(--orange);
+          position: absolute;
+          bottom: 0;
         }
 
         .add-ticket-btn {

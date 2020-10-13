@@ -14,7 +14,8 @@ import ApiRequestDataMode from "@/models/api-request-data.mode";
 const INIT_STATE: ShowcaseStoreModel = {
   items: [],
   currentPage: 0,
-  showcaseView: isMobile ? "scroll" : "paginated"
+  showcaseView: isMobile ? "scroll" : "paginated",
+  nextPageAvailable: false
 };
 
 @Module({
@@ -43,6 +44,13 @@ export default class ShowcaseStore extends VuexModule implements ShowcaseStoreIn
   }
 
   /**
+   * There is a next page available.
+   */
+  get nextPageAvailable() {
+    return this.showcaseStore.nextPageAvailable;
+  }
+
+  /**
    * The current dashboard view. Possible values are 'scroll' or 'paginated'.
    */
   get showcaseViewType(): string {
@@ -56,9 +64,11 @@ export default class ShowcaseStore extends VuexModule implements ShowcaseStoreIn
   @Mutation
   async UPDATE_PAGE_ITEMS(newState: ShowcaseStoreModel) {
     this.showcaseStore = {
+      ...this.showcaseStore,
       showcaseView: newState.showcaseView,
       items: newState.items,
-      currentPage: newState.currentPage
+      currentPage: newState.currentPage,
+      nextPageAvailable: newState.nextPageAvailable
     };
   }
 
@@ -105,16 +115,19 @@ export default class ShowcaseStore extends VuexModule implements ShowcaseStoreIn
   @Action
   async moveToPage(pageNumber: number) {
     const requestData: ApiRequestDataMode = {
-      limit: 6,
+      limit: 7,
       offset: pageNumber * 6
     };
     HttpCommon.getEventItems(requestData)
       .then((response: AxiosResponse<MusementItem[]>) => {
         if (response.data) {
+          const hasNext = response.data.length === 7;
+          response.data.pop();
           const data: ShowcaseStoreModel = {
             items: [...response.data.map(AppUtils.fromMusementItemToEventItem)],
             currentPage: pageNumber,
-            showcaseView: this.showcaseStore.showcaseView
+            showcaseView: this.showcaseStore.showcaseView,
+            nextPageAvailable: hasNext
           };
           this.UPDATE_PAGE_ITEMS(data);
         } else {

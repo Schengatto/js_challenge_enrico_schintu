@@ -6,6 +6,7 @@ import EventItem from "@/models/event.item";
 export interface ShowcaseStoreModel {
   items: EventItem[];
   currentPage: number;
+  nextPageAvailable: boolean;
   showcaseView: string;
 }
 
@@ -16,6 +17,7 @@ export interface ShowcaseStoreInterface {
   showcaseStore: ShowcaseStoreModel;
   pageItems: EventItem[];
   currentPage: number;
+  nextPageAvailable: boolean;
   showcaseViewType: string;
   moveToPage: (index: number) => Promise<void>;
   reloadCurrentPage: () => Promise<void>;

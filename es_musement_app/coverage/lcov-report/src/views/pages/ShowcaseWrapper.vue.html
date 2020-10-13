@@ -22,30 +22,30 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">0% </span>
+                <span class="strong">92.86% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>0/14</span>
+                <span class='fraction'>13/14</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">0% </span>
+                <span class="strong">50% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>0/2</span>
+                <span class='fraction'>1/2</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">0% </span>
+                <span class="strong">66.67% </span>
                 <span class="quiet">Functions</span>
-                <span class='fraction'>0/3</span>
+                <span class='fraction'>2/3</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">0% </span>
+                <span class="strong">92.31% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>0/13</span>
+                <span class='fraction'>12/13</span>
             </div>
         
             
@@ -54,7 +54,7 @@
             Press <em>n</em> or <em>j</em> to go to the next uncovered block, <em>b</em>, <em>p</em> or <em>k</em> for the previous block.
         </p>
     </div>
-    <div class='status-line low'></div>
+    <div class='status-line high'></div>
     <pre><table class="coverage">
 <tr><td class="line-count quiet"><a name='L1'></a><a href='#L1'>1</a>
 <a name='L2'></a><a href='#L2'>2</a>
@@ -104,25 +104,25 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -145,25 +145,25 @@
 &lt;/template&gt;
 &nbsp;
 &lt;script lang="ts"&gt;
-<span class="cstat-no" title="statement not covered" >import { Component, Vue } from "vue-property-decorator";</span>
-<span class="cstat-no" title="statement not covered" >import Pagination from "@/components/commons/Pagination.vue";</span>
-<span class="cstat-no" title="statement not covered" >import InfiniteLoading from "vue-infinite-loading";</span>
-<span class="cstat-no" title="statement not covered" >import { isMobile } from "mobile-device-detect";</span>
-<span class="cstat-no" title="statement not covered" >import EventItemCard from "@/components/showcase/elements/EventItemCard.vue";</span>
-<span class="cstat-no" title="statement not covered" >import ShowcaseStore from "@/store/showcase/showcase-store";</span>
-<span class="cstat-no" title="statement not covered" >import { getModule } from "vuex-module-decorators";</span>
+import { Component, Vue } from "vue-property-decorator";
+import Pagination from "@/components/commons/Pagination.vue";
+import InfiniteLoading from "vue-infinite-loading";
+import { isMobile } from "mobile-device-detect";
+import EventItemCard from "@/components/showcase/elements/EventItemCard.vue";
+import ShowcaseStore from "@/store/showcase/showcase-store";
+import { getModule } from "vuex-module-decorators";
 import { ShowcaseStoreInterface } from "@/store/showcase/showcase-store.model";
-<span class="cstat-no" title="statement not covered" >import Showcase from "@/components/showcase/Showcase.vue";</span>
-<span class="cstat-no" title="statement not covered" >import AppUtils from "@/utils/app-utils";</span>
+import Showcase from "@/components/showcase/Showcase.vue";
+import AppUtils from "@/utils/app-utils";
 &nbsp;
 @Component({
   components: { Showcase, EventItemCard, Pagination, InfiniteLoading }
 })
-<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >export default class ShowcaseWrapper extends Vue {</span></span></span>
-<span class="cstat-no" title="statement not covered" >  showcaseStore: ShowcaseStoreInterface = getModule(ShowcaseStore);</span>
+export default class ShowcaseWrapper extends Vue {
+  showcaseStore: ShowcaseStoreInterface = getModule(ShowcaseStore);
 &nbsp;
-<span class="fstat-no" title="function not covered" >  public created(): void {</span>
-<span class="cstat-no" title="statement not covered" >    this.showcaseStore.updateShowcaseView(isMobile ? "scroll" : "paginated");</span>
+  public created(): void {
+<span class="branch-0 cbranch-no" title="branch not covered" >    this.showcaseStore.updateShowcaseView(isMobile ? "scroll" : "paginated");</span>
   }
 &nbsp;
 <span class="fstat-no" title="function not covered" >  get isMobile(): boolean {</span>
@@ -186,7 +186,7 @@ import { ShowcaseStoreInterface } from "@/store/showcase/showcase-store.model";
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank">istanbul</a>
-                at Tue Oct 13 2020 03:58:36 GMT+0200 (GMT+02:00)
+                at Tue Oct 13 2020 13:55:50 GMT+0200 (GMT+02:00)
             </div>
         </div>
         <script src="..\..\..\prettify.js"></script>

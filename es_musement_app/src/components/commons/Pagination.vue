@@ -1,25 +1,20 @@
 <template>
   <nav class="pagination unselectable">
     <ul class="pagination__list">
-      <li class="pagination__item" v-if="currentPage >= 1">
+      <li class="pagination__item">
         <a
           id="previous_page_link"
           href="#"
           class="pagination__link"
+          v-bind:class="{ disabled: currentPage < 1 }"
           @click.prevent="previousPage()"
         >
-          <CustomIcon title="Previous Page" type="left-arrow"></CustomIcon>
+          <CustomIcon
+            title="Previous Page"
+            type="left-arrow"
+            :clickable="currentPage > 0"
+          ></CustomIcon>
         </a>
-      </li>
-      <li class="pagination__item" v-if="currentPage > 1">
-        <a id="first_page_link" href="#" class="pagination__link" @click="loadPage(0)">
-          1
-        </a>
-      </li>
-      <li class="pagination__item" v-if="currentPage > 1">
-        <div class="pagination__dots">
-          ...
-        </div>
       </li>
       <li class="pagination__item" v-for="p in pages" v-bind:key="p">
         <a
@@ -34,17 +29,7 @@
           </span>
         </a>
       </li>
-      <li class="pagination__item" v-if="currentPage < lastPageIndex - 3">
-        <div class="pagination__dots">
-          ...
-        </div>
-      </li>
-      <li class="pagination__item" v-if="currentPage < lastPageIndex - 2">
-        <a href="#" class="pagination__link" @click="loadPage(lastPageIndex - 1)">
-          {{ lastPageIndex }}
-        </a>
-      </li>
-      <li class="pagination__item" v-if="currentPage < lastPageIndex - 1">
+      <li class="pagination__item" v-if="hasNext">
         <a id="next_page_link" href="#" class="pagination__link" @click.prevent="nextPage()">
           <CustomIcon title="Next Page" type="right-arrow"></CustomIcon>
         </a>
@@ -65,7 +50,7 @@ const PAGES_LINKS_NUMBER = 3;
 export default class Pagination extends Vue {
   @Prop() currentPage!: number;
 
-  @Prop({ default: 10 }) lastPageIndex!: number;
+  @Prop({ default: false }) hasNext!: boolean;
 
   pages: number[] = [];
 
@@ -76,11 +61,15 @@ export default class Pagination extends Vue {
   }
 
   public loadPage(pageNumber: number): void {
-    this.$emit("changePage", pageNumber);
+    if (pageNumber !== this.currentPage) {
+      this.$emit("changePage", pageNumber);
+    }
   }
 
   public previousPage(): void {
-    this.loadPage(this.currentPage - 1);
+    if (this.currentPage > 0) {
+      this.loadPage(this.currentPage - 1);
+    }
   }
 
   public nextPage(): void {
@@ -88,8 +77,9 @@ export default class Pagination extends Vue {
   }
 
   private initPagesRange(start: number): void {
-    const startIndex = Math.min(start, this.lastPageIndex - PAGES_LINKS_NUMBER);
-    const endIndex = Math.min(start + PAGES_LINKS_NUMBER, this.lastPageIndex);
+    const lastItemIndex = this.hasNext ? PAGES_LINKS_NUMBER - 1 : PAGES_LINKS_NUMBER - 2;
+    const startIndex = Math.min(start, this.currentPage);
+    const endIndex = this.currentPage + lastItemIndex;
     this.pages = [];
     for (let i = startIndex; i < endIndex; i += 1) {
       this.pages.push(i + 1);
@@ -128,6 +118,10 @@ export default class Pagination extends Vue {
   justify-content: center;
   align-items: center;
   color: #444a59;
+
+  &.active {
+    cursor: context-menu;
+  }
 }
 
 .pagination__link:hover {
@@ -162,6 +156,12 @@ export default class Pagination extends Vue {
   .pagination__link {
     border: 1px solid mediumaquamarine;
     border-radius: 0.8em;
+
+    &.disabled {
+      background-color: var(--gray);
+      border: 1px solid gray;
+      cursor: context-menu;
+    }
   }
 
   .active {

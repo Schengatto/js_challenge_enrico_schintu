@@ -7,7 +7,11 @@
             <EventItemCard :item="item"></EventItemCard>
           </li>
         </ul>
-        <Pagination :currentPage="currentPage" v-on:changePage="loadPage"></Pagination>
+        <Pagination
+          :currentPage="currentPage"
+          v-on:changePage="loadPage"
+          :has-next="hasNextPage"
+        ></Pagination>
       </div>
     </template>
 
@@ -51,6 +55,10 @@ export default class Showcase extends Vue {
 
   public loadPage(pageNumber: number): void {
     this.showcaseStore.moveToPage(pageNumber);
+  }
+
+  get hasNextPage() {
+    return this.showcaseStore.nextPageAvailable;
   }
 
   get items(): EventItem[] {

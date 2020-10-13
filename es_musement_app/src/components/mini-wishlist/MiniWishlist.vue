@@ -16,7 +16,15 @@
         <div class="list-container">
           <div v-for="i in wishListItems" v-bind:key="i.uuid" class="menu-event-item">
             <div class="bag-item-info">
-              <img :src="i.image + '?q=50&fit=crop&h=40&w=50'" :alt="i.uuid" height="50" />
+              <ImageWrapper
+                width="75"
+                height="50"
+                :src="i.image"
+                :title="i.title"
+                src-height="40"
+                src-width="65"
+                quality="50"
+              ></ImageWrapper>
               <div>
                 <div>{{ i.title }}</div>
               </div>
@@ -49,9 +57,10 @@ import WishlistStore from "@/store/wishlist/wishlist-store";
 import AppDataStore from "@/store/app-data/app-data-store";
 import { AppDataStoreInterface } from "@/store/app-data/app-data-store-model";
 import { WishlistStoreInterface } from "@/store/wishlist/wishlist-store.model";
+import ImageWrapper from "@/components/commons/ImageWrapper.vue";
 
 @Component({
-  components: { CustomIcon }
+  components: { ImageWrapper, CustomIcon }
 })
 export default class MiniWishlist extends Vue {
   private wishlistStore: WishlistStoreInterface = getModule(WishlistStore);
