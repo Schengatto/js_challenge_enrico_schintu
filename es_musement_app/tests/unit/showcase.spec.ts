@@ -56,9 +56,9 @@ describe("Test Showcase Component", () => {
       (Showcase.prototype.constructor as any).options.methods,
       "updateItemsScrollView"
     );
-    const spyRetrieveScrollListItems = jest.spyOn(
+    const handleNewScrollListItems = jest.spyOn(
       (Showcase.prototype.constructor as any).options.methods,
-      "retrieveScrollListItems"
+      "handleNewScrollListItems"
     );
     await factory().CHANGE_DASHBOARD_VIEW("scroll");
     const component: Wrapper<Showcase> = shallowMount(Showcase, { store: showcaseStore });
@@ -74,11 +74,11 @@ describe("Test Showcase Component", () => {
     expect(vm.currentPage).toBe(0);
     expect(spyUpdateItemsScrollView).toBeCalledTimes(1);
     expect(spyUpdateItemsScrollView).toBeCalledWith(6, 6, mockState);
-    vm.retrieveScrollListItems(TestUtils.generateMusementItems(3), mockState);
-    expect(spyRetrieveScrollListItems).toBeCalledTimes(1);
+    vm.handleNewScrollListItems(TestUtils.generateMusementItems(3), mockState);
+    expect(handleNewScrollListItems).toBeCalledTimes(1);
     expect(spyLoaded).toBeCalledTimes(1);
-    vm.retrieveScrollListItems([], mockState);
-    expect(spyRetrieveScrollListItems).toBeCalledTimes(2);
+    vm.handleNewScrollListItems([], mockState);
+    expect(handleNewScrollListItems).toBeCalledTimes(2);
     expect(spyCompleted).toBeCalledTimes(1);
   });
 });

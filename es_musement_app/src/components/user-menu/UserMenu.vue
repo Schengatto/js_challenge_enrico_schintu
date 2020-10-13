@@ -51,14 +51,14 @@
           <div
             id="paginated_view_btn"
             class="clickable menu-option-item"
-            @click="changeDashboardView('paginated')"
+            @click="changeShowcaseView('paginated')"
           >
             {{ $t("user.menu.dashboard.views.paginated") }}
           </div>
           <div
             id="scrollable_view_btn"
             class="clickable menu-option-item"
-            @click="changeDashboardView('scroll')"
+            @click="changeShowcaseView('scroll')"
           >
             {{ $t("user.menu.dashboard.views.scroll") }}
           </div>
@@ -90,8 +90,6 @@ export default class UserMenu extends Vue {
   showcaseStore: ShowcaseStoreInterface = getModule(ShowcaseStore);
   appDataStore: AppDataStoreInterface = getModule(AppDataStore);
 
-  private timeout!: NodeJS.Timeout;
-
   private locales: Locale[] = LOCALES;
 
   private currencies: Currency[] = CURRENCIES;
@@ -108,14 +106,17 @@ export default class UserMenu extends Vue {
     return this.currencies;
   }
 
+  /** Defines the color of the user icon in the header */
   get iconColor(): string {
     return this.showMenu ? "snow" : "#143c53";
   }
 
+  /** True if the user menu is visible */
   get showMenu(): boolean {
     return this.appDataStore.currentActiveMenu === "USER";
   }
 
+  /** Show/Hide the User menu */
   toggleMenu(): void {
     if (this.showMenu) {
       this.closeMenu();
@@ -124,19 +125,23 @@ export default class UserMenu extends Vue {
     }
   }
 
+  /** Close the User menu */
   closeMenu(): void {
     this.appDataStore.changeActiveMenu("NONE");
   }
 
+  /** Set the language of application */
   setLanguage(language: string): void {
     this.userStore.changeLanguage(language);
   }
 
+  /** Set the currency of application */
   setCurrency(currency: string): void {
     this.userStore.changeCurrency(currency);
   }
 
-  changeDashboardView(showcaseView: string): void {
+  /** Set the view of the showcase */
+  changeShowcaseView(showcaseView: string): void {
     this.showcaseStore.updateShowcaseView(showcaseView);
   }
 }

@@ -4,7 +4,9 @@
       <div class="pagination_wrapper">
         <ul class="product-list">
           <li class="product-list__item" v-for="item in items" v-bind:key="item.uuid">
-            <EventItemCard :item="item"></EventItemCard>
+            <keep-alive :max="20">
+              <EventItemCard :item="item"></EventItemCard>
+            </keep-alive>
           </li>
         </ul>
         <Pagination
@@ -53,32 +55,40 @@ export default class Showcase extends Vue {
   showcaseStore: ShowcaseStoreInterface = getModule(ShowcaseStore);
   userStore: UserStoreInterface = getModule(UserDataStore);
 
+  /** Retrieve the element of the page provided as input */
   public async loadPage(pageNumber: number): Promise<void> {
     await this.showcaseStore.moveToPage(pageNumber);
   }
 
+  /** True if there is another page available */
   get hasNextPage() {
     return this.showcaseStore.nextPageAvailable;
   }
 
+  /** Items that should be displayed in the page*/
   get items(): EventItem[] {
     return this.showcaseStore.pageItems;
   }
 
+  /** Current page displayed */
   get currentPage(): number {
     return this.showcaseStore.currentPage;
   }
 
+  /** True if the paginator should be visible in the view */
   get paginatorActive(): boolean {
     return this.showcaseStore.showcaseViewType === "paginated";
   }
 
+  /** Handle the infinite scroll logic. Retrieve new elements (if available) each time
+   *  the user scroll to tbe bottom of the list */
   infiniteHandler($state: { loaded: () => void; complete: () => void }) {
     const numElements = 6;
     const offset: number = this.items.length === 0 ? 0 : (this.currentPage + 1) * numElements;
     this.updateItemsScrollView(numElements, offset, $state);
   }
 
+  /** Retrieve the new items for the scroll view */
   updateItemsScrollView(
     numElements: number,
     offset: number,
@@ -89,11 +99,12 @@ export default class Showcase extends Vue {
       offset,
       currency: this.userStore.currency,
       language: this.userStore.language,
-      callback: (data: MusementItem[]) => this.retrieveScrollListItems(data, $state)
+      callback: (data: MusementItem[]) => this.handleNewScrollListItems(data, $state)
     });
   }
 
-  retrieveScrollListItems(
+  /** Call back once the list of new item is available */
+  handleNewScrollListItems(
     data: MusementItem[],
     $state: { loaded: () => void; complete: () => void }
   ): void {

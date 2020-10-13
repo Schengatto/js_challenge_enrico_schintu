@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<coverage generated="1602611208555" clover="3.2.0">
-  <project timestamp="1602611208555" name="All files">
-    <metrics statements="200" coveredstatements="198" conditionals="42" coveredconditionals="37" methods="69" coveredmethods="67" elements="311" coveredelements="302" complexity="0" loc="200" ncloc="200" packages="10" files="13" classes="13"/>
+<coverage generated="1602625998127" clover="3.2.0">
+  <project timestamp="1602625998127" name="All files">
+    <metrics statements="210" coveredstatements="206" conditionals="48" coveredconditionals="40" methods="73" coveredmethods="70" elements="331" coveredelements="316" complexity="0" loc="210" ncloc="210" packages="10" files="13" classes="13"/>
     <package name="src">
       <metrics statements="6" coveredstatements="6" conditionals="2" coveredconditionals="2" methods="3" coveredmethods="3"/>
       <file name="App.vue" path="C:\workspace\js_challenge\js_challenge_enrico_schintu\es_musement_app\src\App.vue">
@@ -15,17 +15,17 @@
       </file>
     </package>
     <package name="src.components.commons">
-      <metrics statements="54" coveredstatements="53" conditionals="18" coveredconditionals="15" methods="14" coveredmethods="13"/>
+      <metrics statements="51" coveredstatements="50" conditionals="16" coveredconditionals="13" methods="14" coveredmethods="13"/>
       <file name="CustomIcon.vue" path="C:\workspace\js_challenge\js_challenge_enrico_schintu\es_musement_app\src\components\commons\CustomIcon.vue">
         <metrics statements="8" coveredstatements="8" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0"/>
         <line num="88" count="8" type="stmt"/>
         <line num="91" count="16" type="stmt"/>
-        <line num="92" count="8" type="stmt"/>
-        <line num="94" count="8" type="stmt"/>
+        <line num="93" count="8" type="stmt"/>
         <line num="96" count="8" type="stmt"/>
-        <line num="98" count="8" type="stmt"/>
-        <line num="100" count="8" type="stmt"/>
+        <line num="99" count="8" type="stmt"/>
         <line num="102" count="8" type="stmt"/>
+        <line num="105" count="8" type="stmt"/>
+        <line num="108" count="8" type="stmt"/>
       </file>
       <file name="ImageWrapper.vue" path="C:\workspace\js_challenge\js_challenge_enrico_schintu\es_musement_app\src\components\commons\ImageWrapper.vue">
         <metrics statements="22" coveredstatements="21" conditionals="8" coveredconditionals="7" methods="8" coveredmethods="7"/>
@@ -53,39 +53,36 @@
         <line num="260" count="3" type="cond" truecount="2" falsecount="0"/>
       </file>
       <file name="Pagination.vue" path="C:\workspace\js_challenge\js_challenge_enrico_schintu\es_musement_app\src\components\commons\Pagination.vue">
-        <metrics statements="24" coveredstatements="24" conditionals="10" coveredconditionals="8" methods="6" coveredmethods="6"/>
+        <metrics statements="21" coveredstatements="21" conditionals="8" coveredconditionals="6" methods="6" coveredmethods="6"/>
         <line num="42" count="3" type="stmt"/>
         <line num="43" count="3" type="stmt"/>
         <line num="45" count="3" type="stmt"/>
         <line num="50" count="3" type="stmt"/>
-        <line num="51" count="3" type="stmt"/>
-        <line num="53" count="3" type="stmt"/>
-        <line num="55" count="6" type="stmt"/>
+        <line num="52" count="3" type="stmt"/>
+        <line num="55" count="3" type="stmt"/>
         <line num="57" count="6" type="stmt"/>
-        <line num="60" count="3" type="stmt"/>
-        <line num="61" count="10" type="cond" truecount="2" falsecount="0"/>
-        <line num="62" count="10" type="stmt"/>
-        <line num="63" count="10" type="stmt"/>
-        <line num="67" count="3" type="cond" truecount="4" falsecount="0"/>
-        <line num="68" count="2" type="stmt"/>
-        <line num="69" count="2" type="stmt"/>
-        <line num="74" count="1" type="cond" truecount="1" falsecount="1"/>
-        <line num="75" count="1" type="stmt"/>
-        <line num="80" count="1" type="stmt"/>
-        <line num="84" count="8" type="cond" truecount="1" falsecount="1"/>
-        <line num="85" count="8" type="stmt"/>
-        <line num="86" count="8" type="stmt"/>
-        <line num="87" count="8" type="stmt"/>
-        <line num="88" count="8" type="stmt"/>
-        <line num="89" count="22" type="stmt"/>
+        <line num="63" count="3" type="stmt"/>
+        <line num="64" count="10" type="cond" truecount="2" falsecount="0"/>
+        <line num="65" count="10" type="stmt"/>
+        <line num="72" count="3" type="cond" truecount="2" falsecount="0"/>
+        <line num="73" count="2" type="stmt"/>
+        <line num="81" count="1" type="cond" truecount="1" falsecount="1"/>
+        <line num="82" count="1" type="stmt"/>
+        <line num="90" count="1" type="stmt"/>
+        <line num="98" count="8" type="cond" truecount="1" falsecount="1"/>
+        <line num="99" count="8" type="stmt"/>
+        <line num="100" count="8" type="stmt"/>
+        <line num="101" count="8" type="stmt"/>
+        <line num="102" count="8" type="stmt"/>
+        <line num="103" count="22" type="stmt"/>
       </file>
     </package>
     <package name="src.components.layout">
       <metrics statements="8" coveredstatements="8" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0"/>
       <file name="AppFooter.vue" path="C:\workspace\js_challenge\js_challenge_enrico_schintu\es_musement_app\src\components\layout\AppFooter.vue">
         <metrics statements="2" coveredstatements="2" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0"/>
-        <line num="12" count="1" type="stmt"/>
-        <line num="15" count="2" type="stmt"/>
+        <line num="8" count="1" type="stmt"/>
+        <line num="11" count="2" type="stmt"/>
       </file>
       <file name="AppHeader.vue" path="C:\workspace\js_challenge\js_challenge_enrico_schintu\es_musement_app\src\components\layout\AppHeader.vue">
         <metrics statements="6" coveredstatements="6" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0"/>
@@ -98,36 +95,41 @@
       </file>
     </package>
     <package name="src.components.min-bag">
-      <metrics statements="27" coveredstatements="27" conditionals="6" coveredconditionals="6" methods="13" coveredmethods="13"/>
+      <metrics statements="32" coveredstatements="30" conditionals="8" coveredconditionals="7" methods="14" coveredmethods="13"/>
       <file name="MiniBag.vue" path="C:\workspace\js_challenge\js_challenge_enrico_schintu\es_musement_app\src\components\min-bag\MiniBag.vue">
-        <metrics statements="27" coveredstatements="27" conditionals="6" coveredconditionals="6" methods="13" coveredmethods="13"/>
-        <line num="71" count="2" type="stmt"/>
+        <metrics statements="32" coveredstatements="30" conditionals="8" coveredconditionals="7" methods="14" coveredmethods="13"/>
         <line num="72" count="2" type="stmt"/>
-        <line num="74" count="2" type="stmt"/>
+        <line num="73" count="2" type="stmt"/>
         <line num="75" count="2" type="stmt"/>
         <line num="76" count="2" type="stmt"/>
         <line num="77" count="2" type="stmt"/>
         <line num="78" count="2" type="stmt"/>
-        <line num="83" count="2" type="stmt"/>
-        <line num="84" count="7" type="stmt"/>
-        <line num="86" count="7" type="stmt"/>
-        <line num="88" count="7" type="stmt"/>
-        <line num="91" count="45" type="stmt"/>
-        <line num="95" count="68" type="stmt"/>
-        <line num="99" count="25" type="stmt"/>
-        <line num="103" count="42" type="stmt"/>
-        <line num="104" count="42" type="stmt"/>
-        <line num="108" count="7" type="stmt"/>
-        <line num="112" count="45" type="cond" truecount="2" falsecount="0"/>
-        <line num="116" count="5" type="cond" truecount="2" falsecount="0"/>
-        <line num="117" count="4" type="stmt"/>
-        <line num="119" count="1" type="stmt"/>
+        <line num="79" count="2" type="stmt"/>
+        <line num="84" count="2" type="stmt"/>
+        <line num="85" count="7" type="stmt"/>
+        <line num="87" count="7" type="stmt"/>
+        <line num="89" count="7" type="stmt"/>
+        <line num="91" count="7" type="stmt"/>
+        <line num="96" count="45" type="stmt"/>
+        <line num="100" count="68" type="stmt"/>
+        <line num="104" count="25" type="stmt"/>
+        <line num="108" count="42" type="stmt"/>
+        <line num="109" count="42" type="stmt"/>
+        <line num="113" count="7" type="stmt"/>
+        <line num="117" count="45" type="cond" truecount="2" falsecount="0"/>
+        <line num="121" count="5" type="cond" truecount="2" falsecount="0"/>
+        <line num="122" count="4" type="stmt"/>
         <line num="124" count="1" type="stmt"/>
-        <line num="128" count="4" type="stmt"/>
-        <line num="132" count="2" type="cond" truecount="2" falsecount="0"/>
-        <line num="133" count="1" type="stmt"/>
+        <line num="129" count="1" type="stmt"/>
+        <line num="133" count="4" type="stmt"/>
+        <line num="137" count="2" type="cond" truecount="2" falsecount="0"/>
         <line num="138" count="1" type="stmt"/>
-        <line num="142" count="1" type="stmt"/>
+        <line num="143" count="1" type="stmt"/>
+        <line num="147" count="1" type="cond" truecount="1" falsecount="1"/>
+        <line num="148" count="0" type="stmt"/>
+        <line num="150" count="1" type="stmt"/>
+        <line num="151" count="1" type="stmt"/>
+        <line num="152" count="0" type="stmt"/>
       </file>
     </package>
     <package name="src.components.mini-wishlist">
@@ -143,50 +145,50 @@
         <line num="65" count="2" type="stmt"/>
         <line num="66" count="5" type="stmt"/>
         <line num="68" count="5" type="stmt"/>
-        <line num="73" count="19" type="stmt"/>
-        <line num="77" count="36" type="stmt"/>
-        <line num="81" count="12" type="stmt"/>
-        <line num="85" count="19" type="cond" truecount="2" falsecount="0"/>
-        <line num="89" count="1" type="stmt"/>
-        <line num="93" count="3" type="cond" truecount="2" falsecount="0"/>
-        <line num="94" count="2" type="stmt"/>
-        <line num="96" count="1" type="stmt"/>
-        <line num="101" count="2" type="stmt"/>
-        <line num="105" count="1" type="stmt"/>
+        <line num="71" count="19" type="stmt"/>
+        <line num="75" count="36" type="stmt"/>
+        <line num="79" count="12" type="stmt"/>
+        <line num="83" count="19" type="cond" truecount="2" falsecount="0"/>
+        <line num="87" count="1" type="stmt"/>
+        <line num="91" count="3" type="cond" truecount="2" falsecount="0"/>
+        <line num="92" count="2" type="stmt"/>
+        <line num="94" count="1" type="stmt"/>
+        <line num="99" count="2" type="stmt"/>
+        <line num="103" count="1" type="stmt"/>
       </file>
     </package>
     <package name="src.components.showcase">
       <metrics statements="28" coveredstatements="27" conditionals="4" coveredconditionals="3" methods="10" coveredmethods="9"/>
       <file name="Showcase.vue" path="C:\workspace\js_challenge\js_challenge_enrico_schintu\es_musement_app\src\components\showcase\Showcase.vue">
         <metrics statements="28" coveredstatements="27" conditionals="4" coveredconditionals="3" methods="10" coveredmethods="9"/>
-        <line num="35" count="2" type="stmt"/>
-        <line num="36" count="2" type="stmt"/>
         <line num="37" count="2" type="stmt"/>
         <line num="38" count="2" type="stmt"/>
         <line num="39" count="2" type="stmt"/>
         <line num="40" count="2" type="stmt"/>
-        <line num="45" count="2" type="stmt"/>
-        <line num="46" count="2" type="stmt"/>
+        <line num="41" count="2" type="stmt"/>
+        <line num="42" count="2" type="stmt"/>
         <line num="47" count="2" type="stmt"/>
-        <line num="52" count="2" type="stmt"/>
-        <line num="53" count="6" type="stmt"/>
-        <line num="54" count="6" type="stmt"/>
-        <line num="57" count="1" type="stmt"/>
-        <line num="61" count="7" type="stmt"/>
-        <line num="65" count="15" type="stmt"/>
-        <line num="69" count="9" type="stmt"/>
-        <line num="73" count="15" type="stmt"/>
-        <line num="77" count="1" type="stmt"/>
-        <line num="78" count="1" type="cond" truecount="1" falsecount="1"/>
-        <line num="79" count="1" type="stmt"/>
-        <line num="87" count="1" type="stmt"/>
-        <line num="92" count="0" type="stmt"/>
-        <line num="100" count="2" type="cond" truecount="2" falsecount="0"/>
-        <line num="101" count="1" type="stmt"/>
-        <line num="102" count="1" type="stmt"/>
-        <line num="103" count="1" type="stmt"/>
-        <line num="104" count="1" type="stmt"/>
-        <line num="106" count="1" type="stmt"/>
+        <line num="48" count="2" type="stmt"/>
+        <line num="49" count="2" type="stmt"/>
+        <line num="54" count="2" type="stmt"/>
+        <line num="55" count="8" type="stmt"/>
+        <line num="56" count="8" type="stmt"/>
+        <line num="60" count="1" type="stmt"/>
+        <line num="65" count="7" type="stmt"/>
+        <line num="70" count="20" type="stmt"/>
+        <line num="75" count="9" type="stmt"/>
+        <line num="80" count="15" type="stmt"/>
+        <line num="86" count="1" type="stmt"/>
+        <line num="87" count="1" type="cond" truecount="1" falsecount="1"/>
+        <line num="88" count="1" type="stmt"/>
+        <line num="97" count="1" type="stmt"/>
+        <line num="102" count="0" type="stmt"/>
+        <line num="111" count="2" type="cond" truecount="2" falsecount="0"/>
+        <line num="112" count="1" type="stmt"/>
+        <line num="113" count="1" type="stmt"/>
+        <line num="114" count="1" type="stmt"/>
+        <line num="115" count="1" type="stmt"/>
+        <line num="117" count="1" type="stmt"/>
       </file>
     </package>
     <package name="src.components.showcase.elements">
@@ -228,20 +230,20 @@
         <line num="89" count="5" type="stmt"/>
         <line num="90" count="5" type="stmt"/>
         <line num="91" count="5" type="stmt"/>
+        <line num="93" count="5" type="stmt"/>
         <line num="95" count="5" type="stmt"/>
-        <line num="97" count="5" type="stmt"/>
-        <line num="100" count="5" type="stmt"/>
-        <line num="104" count="5" type="stmt"/>
-        <line num="108" count="5" type="stmt"/>
-        <line num="112" count="19" type="cond" truecount="2" falsecount="0"/>
+        <line num="98" count="5" type="stmt"/>
+        <line num="102" count="5" type="stmt"/>
+        <line num="106" count="5" type="stmt"/>
+        <line num="111" count="19" type="cond" truecount="2" falsecount="0"/>
         <line num="116" count="19" type="stmt"/>
-        <line num="120" count="4" type="cond" truecount="2" falsecount="0"/>
-        <line num="121" count="3" type="stmt"/>
-        <line num="123" count="1" type="stmt"/>
-        <line num="128" count="3" type="stmt"/>
-        <line num="132" count="1" type="stmt"/>
-        <line num="136" count="1" type="stmt"/>
+        <line num="121" count="4" type="cond" truecount="2" falsecount="0"/>
+        <line num="122" count="3" type="stmt"/>
+        <line num="124" count="1" type="stmt"/>
+        <line num="130" count="3" type="stmt"/>
+        <line num="135" count="1" type="stmt"/>
         <line num="140" count="1" type="stmt"/>
+        <line num="145" count="1" type="stmt"/>
       </file>
     </package>
     <package name="src.views">
@@ -255,9 +257,9 @@
       </file>
     </package>
     <package name="src.views.pages">
-      <metrics statements="11" coveredstatements="11" conditionals="2" coveredconditionals="1" methods="2" coveredmethods="2"/>
+      <metrics statements="19" coveredstatements="19" conditionals="8" coveredconditionals="5" methods="5" coveredmethods="5"/>
       <file name="ShowcaseWrapper.vue" path="C:\workspace\js_challenge\js_challenge_enrico_schintu\es_musement_app\src\views\pages\ShowcaseWrapper.vue">
-        <metrics statements="11" coveredstatements="11" conditionals="2" coveredconditionals="1" methods="2" coveredmethods="2"/>
+        <metrics statements="19" coveredstatements="19" conditionals="8" coveredconditionals="5" methods="5" coveredmethods="5"/>
         <line num="8" count="1" type="stmt"/>
         <line num="9" count="1" type="stmt"/>
         <line num="10" count="1" type="stmt"/>
@@ -266,9 +268,17 @@
         <line num="13" count="1" type="stmt"/>
         <line num="15" count="1" type="stmt"/>
         <line num="16" count="1" type="stmt"/>
-        <line num="21" count="1" type="stmt"/>
+        <line num="17" count="1" type="stmt"/>
         <line num="22" count="1" type="stmt"/>
-        <line num="25" count="1" type="cond" truecount="1" falsecount="1"/>
+        <line num="23" count="3" type="stmt"/>
+        <line num="24" count="3" type="stmt"/>
+        <line num="28" count="3" type="cond" truecount="1" falsecount="1"/>
+        <line num="33" count="1" type="stmt"/>
+        <line num="34" count="5" type="cond" truecount="2" falsecount="0"/>
+        <line num="39" count="1" type="stmt"/>
+        <line num="40" count="1" type="cond" truecount="1" falsecount="1"/>
+        <line num="45" count="4" type="stmt"/>
+        <line num="46" count="4" type="cond" truecount="1" falsecount="1"/>
       </file>
     </package>
   </project>

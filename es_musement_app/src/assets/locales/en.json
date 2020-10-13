@@ -12,5 +12,6 @@
   "wishlist.remove.all": "Remove all",
   "cart.emptylist.label" : "Your cart is empty!",
   "cart.total.label": "Total",
-  "cart.buy.all": "Buy tickets"
+  "cart.buy.all": "Buy tickets",
+  "common.not.implemented": "Not implemented yet! \uD83D\uDE05"
 }
