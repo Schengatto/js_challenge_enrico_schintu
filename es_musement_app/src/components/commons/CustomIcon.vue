@@ -89,16 +89,22 @@ import { Component, Prop, Vue } from "vue-property-decorator";
 
 @Component
 export default class AppHeader extends Vue {
-  @Prop() type!: string;
+  /** The type of the icon that should be rendered */
+  @Prop({ required: true }) type!: string;
 
+  /** The title of the icon  */
   @Prop() title!: string;
 
+  /** If true set CSS.cursor to pointer */
   @Prop({ default: true }) clickable!: boolean;
 
+  /** The width of the icon  */
   @Prop() width!: string;
 
+  /** The height of the icon  */
   @Prop() height!: string;
 
+  /** The color of the icon  */
   @Prop() color!: string;
 }
 </script>

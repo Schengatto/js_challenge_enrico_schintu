@@ -12,5 +12,6 @@
   "wishlist.remove.all": "Elimina tutti",
   "cart.emptylist.label" : "Il tuo carrello è vuoto!",
   "cart.total.label": "Totale",
-  "cart.buy.all": "Compra biglietti"
+  "cart.buy.all": "Compra biglietti",
+  "common.not.implemented": "Non ancora disponibile! \uD83D\uDE05"
 }

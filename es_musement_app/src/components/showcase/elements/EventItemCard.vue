@@ -114,6 +114,12 @@ export default class EventItemCard extends Vue {
   height: 100%;
   background-color: #ffffff;
 
+  .button--round {
+    display: block;
+    border-radius: 50%;
+    padding-left: 7.5px;
+  }
+
   .product__image {
     max-width: 100%;
     height: auto;

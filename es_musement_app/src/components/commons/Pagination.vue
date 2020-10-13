@@ -21,7 +21,7 @@
           href="#"
           class="pagination__link"
           v-bind:class="{ active: p === currentPage + 1 }"
-          @click="loadPage(p - 1)"
+          @click.prevent="loadPage(p - 1)"
         >
           <span v-if="p !== currentPage + 1">{{ p }}</span>
           <span v-else>
@@ -48,34 +48,52 @@ const PAGES_LINKS_NUMBER = 3;
   components: { CustomIcon }
 })
 export default class Pagination extends Vue {
+  /** The number of the current page */
   @Prop() currentPage!: number;
 
+  /** True if another page is available after the current one */
   @Prop({ default: false }) hasNext!: boolean;
 
   pages: number[] = [];
 
+  /**
+   * Triggered each time the current page is provided by the parent component.
+   */
   @Watch("currentPage", { immediate: true })
   currentPageChanged(updatedValue: number): void {
     const startIndex = updatedValue < 1 ? 0 : updatedValue - 1;
     this.initPagesRange(startIndex);
   }
 
-  public loadPage(pageNumber: number): void {
+  /**
+   * Load a specific page.
+   */
+  public async loadPage(pageNumber: number): Promise<void> {
     if (pageNumber !== this.currentPage) {
-      this.$emit("changePage", pageNumber);
+      await this.$emit("changePage", pageNumber);
     }
   }
 
+  /**
+   * Move to the previous page.
+   */
   public previousPage(): void {
     if (this.currentPage > 0) {
       this.loadPage(this.currentPage - 1);
     }
   }
 
+  /**
+   * Move to the next page.
+   */
   public nextPage(): void {
     this.loadPage(this.currentPage + 1);
   }
 
+  /**
+   * Defines the link buttons with the number of the page.
+   * @param start
+   */
   private initPagesRange(start: number): void {
     const lastItemIndex = this.hasNext ? PAGES_LINKS_NUMBER - 1 : PAGES_LINKS_NUMBER - 2;
     const startIndex = Math.min(start, this.currentPage);

@@ -55,6 +55,7 @@
           <div class="total-value">{{ userCurrency }} {{ cartTotalAmount.toFixed(2) }}</div>
         </div>
         <div class="menu-footer">
+          <div v-if="showWarning" class="warning-message">{{ $t("common.not.implemented") }}</div>
           <div class="menu-footer-btn clickable" @click="buyNow()">
             {{ $t("cart.buy.all") }}
           </div>
@@ -87,31 +88,42 @@ export default class MiniBag extends Vue {
 
   private appDataStore = getModule(AppDataStore);
 
+  private showWarning = false;
+
+  private timeout!: NodeJS.Timeout;
+
+  /** True if the user menu is visible */
   get showMenu(): boolean {
     return this.appDataStore.currentActiveMenu === "CART";
   }
 
+  /** Number of tickets in the user cart */
   get numberOfItems(): number {
     return this.cartStore.numberOfTickets;
   }
 
+  /** Events that should be displayed in the menu */
   get items(): EventItem[] {
     return this.cartStore.getItems;
   }
 
+  /** Total price amount of the tickets in the user cart */
   get cartTotalAmount(): number {
     const multiplier = 100;
     return Math.round(this.cartStore.totalAmount * multiplier) / multiplier;
   }
 
+  /** The active currency */
   get userCurrency(): string {
     return this.userData.currency;
   }
 
+  /** Defines the color of the cart icon in the header */
   get iconColor(): string {
     return this.showMenu ? "snow" : "#143c53";
   }
 
+  /** Show/Hide the User menu */
   toggleMenu(): void {
     if (this.showMenu) {
       this.closeMenu();
@@ -120,26 +132,37 @@ export default class MiniBag extends Vue {
     }
   }
 
+  /** Remove one item from the cart */
   removeItem(item: string): void {
     this.cartStore.removeSingle(item);
   }
 
+  /** Close the Cart menu */
   closeMenu(): void {
     this.appDataStore.changeActiveMenu("NONE");
   }
 
+  /** Remove one ticket of a item in the cart */
   removeTicket(item: EventItem): void {
     if (item.tickets > 1) {
       this.cartStore.removeTicket(item.uuid);
     }
   }
 
+  /** Add one ticket of a item in the cart */
   addTicket(item: EventItem): void {
     this.cartStore.addSingle(item);
   }
 
+  /** This feature is not implemented yet it is there just for demonstrative purposes */
   buyNow(): void {
-    window.alert("Not implemented yet :)");
+    if (this.timeout) {
+      clearTimeout(this.timeout);
+    }
+    this.showWarning = true;
+    this.timeout = setTimeout(() => {
+      this.showWarning = false;
+    }, 2000);
   }
 }
 </script>
@@ -153,6 +176,20 @@ export default class MiniBag extends Vue {
   border-right: none;
   border-bottom: none;
   height: 4.5em;
+
+  @media screen and (max-height: 700px) {
+    .menu-container {
+      :root {
+        overflow: hidden;
+      }
+
+      width: 100%;
+
+      .list-container {
+        max-height: 260px;
+      }
+    }
+  }
 
   &.active {
     border: 1px solid var(--darkblue);

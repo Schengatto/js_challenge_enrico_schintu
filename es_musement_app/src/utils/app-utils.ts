@@ -1,13 +1,16 @@
 import { MusementItem } from "@/models/musement.models";
 import EventItemModel from "@/models/event.item";
 import {
+  isAndroid,
   isChrome,
   isChromium,
   isEdge,
   isEdgeChromium,
   isFirefox,
+  isIOS,
   isMobile,
   isMobileSafari,
+  isOpera,
   isSafari
 } from "mobile-device-detect";
 
@@ -44,7 +47,16 @@ export default class AppUtils {
    */
   static isCompatibleBrowser(): boolean {
     return (
-      isChrome || isFirefox || isEdge || isEdgeChromium || isSafari || isMobileSafari || isChromium
+      isChrome ||
+      isFirefox ||
+      isEdge ||
+      isEdgeChromium ||
+      isSafari ||
+      isMobileSafari ||
+      isChromium ||
+      isOpera ||
+      isAndroid ||
+      isIOS
     );
   }
 }

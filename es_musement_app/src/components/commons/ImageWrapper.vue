@@ -1,6 +1,6 @@
 <template>
   <div
-    class="image-container"
+    class="image-container unselectable"
     v-bind:style="{ backgroundColor: backgroundColor, width: width + 'px', height: height + 'px' }"
   >
     <div v-if="startLoading">

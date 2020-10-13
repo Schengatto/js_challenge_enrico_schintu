@@ -67,28 +67,32 @@ export default class MiniWishlist extends Vue {
 
   private appDataStore: AppDataStoreInterface = getModule(AppDataStore);
 
-  private timeout!: NodeJS.Timeout;
-
+  /** True if the user menu is visible */
   get showMenu(): boolean {
     return this.appDataStore.currentActiveMenu === "WISHLIST";
   }
 
+  /** Number of events in the wishlist */
   get numberOfItems(): number {
     return this.wishlistStore.numberOfItems;
   }
 
+  /** Events that should be displayed in the menu */
   get wishListItems(): EventItem[] {
     return this.wishlistStore.getItems;
   }
 
+  /** Defines the color of the wishlist icon in the header */
   get iconColor(): string {
     return this.showMenu ? "snow" : "#143c53";
   }
 
+  /** Remove all the items in the wishlist */
   clearWishList(): void {
     this.wishlistStore.clear();
   }
 
+  /** Show/Hide the Wishlist menu */
   toggleMenu(): void {
     if (this.showMenu) {
       this.closeMenu();
@@ -97,10 +101,12 @@ export default class MiniWishlist extends Vue {
     }
   }
 
+  /** Close the Wishlist menu */
   closeMenu(): void {
     this.appDataStore.changeActiveMenu("NONE");
   }
 
+  /** Remove one item from the Wishlist */
   removeItem(id: string): void {
     this.wishlistStore.removeSingle(id);
   }
@@ -116,6 +122,16 @@ export default class MiniWishlist extends Vue {
   border-right: none;
   border-bottom: none;
   height: 4.5em;
+
+  @media screen and (max-height: 700px) {
+    .menu-container {
+      width: 100%;
+
+      .list-container {
+        max-height: 260px;
+      }
+    }
+  }
 
   &.active {
     border: 1px solid var(--darkblue);

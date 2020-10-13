@@ -66,13 +66,13 @@ describe("Test User Menu Component", () => {
   });
 
   it("Change showcase view type", async () => {
-    const changeDashboardView = jest.spyOn(vm, "changeDashboardView");
+    const changeShowcaseView = jest.spyOn(vm, "changeShowcaseView");
     const menuBtn = component.find("#user_menu_header_btn");
     menuBtn.trigger("click");
     await appDataStoreService().changeActiveMenu("USER");
     const langBtn = component.find("#paginated_view_btn");
     expect(langBtn.isVisible()).toBeTruthy();
     await langBtn.trigger("click");
-    expect(changeDashboardView).toBeCalledTimes(1);
+    expect(changeShowcaseView).toBeCalledTimes(1);
   });
 });

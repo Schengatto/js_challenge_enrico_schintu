@@ -263,7 +263,22 @@
 <a name='L205'></a><a href='#L205'>205</a>
 <a name='L206'></a><a href='#L206'>206</a>
 <a name='L207'></a><a href='#L207'>207</a>
-<a name='L208'></a><a href='#L208'>208</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+<a name='L208'></a><a href='#L208'>208</a>
+<a name='L209'></a><a href='#L209'>209</a>
+<a name='L210'></a><a href='#L210'>210</a>
+<a name='L211'></a><a href='#L211'>211</a>
+<a name='L212'></a><a href='#L212'>212</a>
+<a name='L213'></a><a href='#L213'>213</a>
+<a name='L214'></a><a href='#L214'>214</a>
+<a name='L215'></a><a href='#L215'>215</a>
+<a name='L216'></a><a href='#L216'>216</a>
+<a name='L217'></a><a href='#L217'>217</a>
+<a name='L218'></a><a href='#L218'>218</a>
+<a name='L219'></a><a href='#L219'>219</a>
+<a name='L220'></a><a href='#L220'>220</a>
+<a name='L221'></a><a href='#L221'>221</a>
+<a name='L222'></a><a href='#L222'>222</a>
+<a name='L223'></a><a href='#L223'>223</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -355,8 +370,6 @@
 <span class="cline-any cline-yes">5x</span>
 <span class="cline-any cline-yes">5x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">5x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">5x</span>
@@ -371,6 +384,7 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">5x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -378,7 +392,9 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">19x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -390,19 +406,33 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">3x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -523,14 +553,14 @@
           &lt;div
             id="paginated_view_btn"
             class="clickable menu-option-item"
-            @click="changeDashboardView('paginated')"
+            @click="changeShowcaseView('paginated')"
           &gt;
             {{ $t("user.menu.dashboard.views.paginated") }}
           &lt;/div&gt;
           &lt;div
             id="scrollable_view_btn"
             class="clickable menu-option-item"
-            @click="changeDashboardView('scroll')"
+            @click="changeShowcaseView('scroll')"
           &gt;
             {{ $t("user.menu.dashboard.views.scroll") }}
           &lt;/div&gt;
@@ -562,8 +592,6 @@ export default class UserMenu extends Vue {
   showcaseStore: ShowcaseStoreInterface = getModule(ShowcaseStore);
   appDataStore: AppDataStoreInterface = getModule(AppDataStore);
 &nbsp;
-  private timeout!: NodeJS.Timeout;
-&nbsp;
   private locales: Locale[] = LOCALES;
 &nbsp;
   private currencies: Currency[] = CURRENCIES;
@@ -580,14 +608,17 @@ export default class UserMenu extends Vue {
     return this.currencies;
   }
 &nbsp;
+  /** Defines the color of the user icon in the header */
   get iconColor(): string {
     return this.showMenu ? "snow" : "#143c53";
   }
 &nbsp;
+  /** True if the user menu is visible */
   get showMenu(): boolean {
     return this.appDataStore.currentActiveMenu === "USER";
   }
 &nbsp;
+  /** Show/Hide the User menu */
   toggleMenu(): void {
     if (this.showMenu) {
       this.closeMenu();
@@ -596,19 +627,23 @@ export default class UserMenu extends Vue {
     }
   }
 &nbsp;
+  /** Close the User menu */
   closeMenu(): void {
     this.appDataStore.changeActiveMenu("NONE");
   }
 &nbsp;
+  /** Set the language of application */
   setLanguage(language: string): void {
     this.userStore.changeLanguage(language);
   }
 &nbsp;
+  /** Set the currency of application */
   setCurrency(currency: string): void {
     this.userStore.changeCurrency(currency);
   }
 &nbsp;
-  changeDashboardView(showcaseView: string): void {
+  /** Set the view of the showcase */
+  changeShowcaseView(showcaseView: string): void {
     this.showcaseStore.updateShowcaseView(showcaseView);
   }
 }
@@ -623,6 +658,16 @@ export default class UserMenu extends Vue {
   border-right: none;
   border-bottom: none;
   height: 4.5em;
+&nbsp;
+  @media screen and (max-height: 700px) {
+    .menu-container {
+      width: 100%;
+&nbsp;
+      .list-container {
+        max-height: 260px;
+      }
+    }
+  }
 &nbsp;
   &amp;.active {
     border: 1px solid var(--darkblue);
@@ -684,7 +729,7 @@ export default class UserMenu extends Vue {
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank">istanbul</a>
-                at Tue Oct 13 2020 13:55:50 GMT+0200 (GMT+02:00)
+                at Wed Oct 14 2020 00:01:21 GMT+0200 (GMT+02:00)
             </div>
         </div>
         <script src="..\..\..\prettify.js"></script>
