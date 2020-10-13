@@ -1,5 +1,15 @@
 import { MusementItem } from "@/models/musement.models";
 import EventItemModel from "@/models/event.item";
+import {
+  isChrome,
+  isChromium,
+  isEdge,
+  isEdgeChromium,
+  isFirefox,
+  isMobile,
+  isMobileSafari,
+  isSafari
+} from "mobile-device-detect";
 
 export default class AppUtils {
   /**
@@ -20,5 +30,21 @@ export default class AppUtils {
       finalPriceFormatted: musementItem.retail_price.formatted_value,
       tickets: 1
     };
+  }
+
+  /**
+   * Returns true if the user is using a mobile device.
+   */
+  static isMobile(): boolean {
+    return isMobile;
+  }
+
+  /**
+   * Returns true if the browser of the user is compatible with this application.
+   */
+  static isCompatibleBrowser(): boolean {
+    return (
+      isChrome || isFirefox || isEdge || isEdgeChromium || isSafari || isMobileSafari || isChromium
+    );
   }
 }

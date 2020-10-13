@@ -16,7 +16,7 @@ const factory = () => {
 
 const showcaseStore = TestUtils.store;
 
-describe("Test Pagination Component", () => {
+describe("Test Showcase Component", () => {
   beforeEach(() => {
     const test = factory();
     test.CLEAR();

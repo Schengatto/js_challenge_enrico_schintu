@@ -6,7 +6,7 @@ import EventItem from "@/models/event.item";
 
 Vue.use(VueRouter);
 
-describe("Test Pagination Component", () => {
+describe("Test Event Item Component", () => {
   let component!: Wrapper<EventItemCard>;
   const item: EventItem = {
     tickets: 1,

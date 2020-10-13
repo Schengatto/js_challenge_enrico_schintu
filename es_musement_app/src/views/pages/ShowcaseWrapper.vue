@@ -1,5 +1,7 @@
 <template v-if="showcaseStore">
-  <showcase></showcase>
+  <div id="showcase_wrapper">
+    <showcase></showcase>
+  </div>
 </template>
 
 <script lang="ts">
@@ -12,6 +14,7 @@ import ShowcaseStore from "@/store/showcase/showcase-store";
 import { getModule } from "vuex-module-decorators";
 import { ShowcaseStoreInterface } from "@/store/showcase/showcase-store.model";
 import Showcase from "@/components/showcase/Showcase.vue";
+import AppUtils from "@/utils/app-utils";
 
 @Component({
   components: { Showcase, EventItemCard, Pagination, InfiniteLoading }
@@ -21,6 +24,10 @@ export default class ShowcaseWrapper extends Vue {
 
   public created(): void {
     this.showcaseStore.updateShowcaseView(isMobile ? "scroll" : "paginated");
+  }
+
+  get isMobile(): boolean {
+    return AppUtils.isMobile();
   }
 }
 </script>

@@ -8,13 +8,13 @@
         height="35px"
         :color="iconColor"
       ></CustomIcon>
-      <div v-if="numberOfItems" class="bag__item-counter">{{ numberOfItems }}</div>
+      <div v-if="numberOfItems" class="item__counter">{{ numberOfItems }}</div>
     </div>
     <div class="menu-container" v-if="showMenu">
       <div class="close-menu-btn clickable" @click="closeMenu()">x</div>
       <template v-if="numberOfItems">
         <div class="list-container">
-          <div v-for="i in wishListItems" v-bind:key="i.uuid" class="bag-item">
+          <div v-for="i in wishListItems" v-bind:key="i.uuid" class="menu-event-item">
             <div class="bag-item-info">
               <img :src="i.image + '?q=50&fit=crop&h=40&w=50'" :alt="i.uuid" height="50" />
               <div>
@@ -88,22 +88,8 @@ export default class MiniWishlist extends Vue {
     }
   }
 
-  closeMenuWithDelay(): void {
-    this.timeout = setTimeout(() => {
-      if (this.showMenu) {
-        this.closeMenu();
-      }
-    }, 400);
-  }
-
   closeMenu(): void {
     this.appDataStore.changeActiveMenu("NONE");
-  }
-
-  keepOpen(): void {
-    if (this.timeout) {
-      clearInterval(this.timeout);
-    }
   }
 
   removeItem(id: string): void {
@@ -141,7 +127,7 @@ export default class MiniWishlist extends Vue {
       fill: #444a59;
     }
 
-    .bag__item-counter {
+    .item__counter {
       position: absolute;
       left: 3em;
       top: 0;
@@ -161,7 +147,7 @@ export default class MiniWishlist extends Vue {
     }
   }
 
-  .bag-item {
+  .menu-event-item {
     padding: 0.5em 0.2em 0.5em 0.2em;
     border-bottom: 1px solid #8080802e;
     position: relative;

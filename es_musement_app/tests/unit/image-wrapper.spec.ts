@@ -5,7 +5,7 @@ import ImageWrapper from "@/components/commons/ImageWrapper.vue";
 
 Vue.use(VueRouter);
 
-describe("Test PageWrapper Component", () => {
+describe("Test ImageWrapper Component", () => {
   let component!: Wrapper<ImageWrapper>;
 
   beforeEach(() => {

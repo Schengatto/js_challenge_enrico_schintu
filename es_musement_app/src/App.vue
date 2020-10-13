@@ -25,15 +25,7 @@
 
 <script lang="ts">
 import { Component, Vue } from "vue-property-decorator";
-import {
-  isChrome,
-  isChromium,
-  isEdge,
-  isEdgeChromium,
-  isFirefox,
-  isMobileSafari,
-  isSafari
-} from "mobile-device-detect";
+import AppUtils from "@/utils/app-utils";
 
 @Component({
   components: {}
@@ -42,16 +34,7 @@ export default class App extends Vue {
   private force = false;
 
   get isCompatibleBrowser() {
-    return (
-      this.force ||
-      isChrome ||
-      isFirefox ||
-      isEdge ||
-      isEdgeChromium ||
-      isSafari ||
-      isMobileSafari ||
-      isChromium
-    );
+    return this.force || AppUtils.isCompatibleBrowser();
   }
 
   public forceAccess() {

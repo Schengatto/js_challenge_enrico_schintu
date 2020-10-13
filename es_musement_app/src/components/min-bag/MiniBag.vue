@@ -1,5 +1,5 @@
 <template>
-  <div id="mini_bag_wrapper" v-bind:class="{ active: showMenu }" @mouseenter="keepOpen()">
+  <div id="mini_bag_wrapper" v-bind:class="{ active: showMenu }">
     <div class="mini-bag-header-wrapper unselectable clickable" @click="toggleMenu()">
       <div v-if="cartTotalAmount" class="header-bag__price">
         {{ userCurrency }} {{ cartTotalAmount.toFixed(2) }}
@@ -12,14 +12,14 @@
           height="40px"
           :color="iconColor"
         ></CustomIcon>
-        <div v-if="numberOfItems" class="bag__item-counter">{{ numberOfItems }}</div>
+        <div v-if="numberOfItems" class="item__counter">{{ numberOfItems }}</div>
       </div>
     </div>
     <div class="menu-container" v-if="showMenu">
       <div class="close-menu-btn clickable" @click="closeMenu()">x</div>
       <div v-if="numberOfItems">
         <div class="list-container">
-          <div v-for="i in items" v-bind:key="i.uuid" class="bag-item">
+          <div v-for="i in items" v-bind:key="i.uuid" class="menu-event-item">
             <div class="bag-item-info">
               <img :src="i.image + '?q=50&fit=crop&h=40&w=50'" :alt="i.uuid" height="50" />
               <div>
@@ -62,7 +62,6 @@
 <script lang="ts">
 import { Component, Vue } from "vue-property-decorator";
 import CustomIcon from "@/components/commons/CustomIcon.vue";
-import { CURRENCIES, Currency } from "@/models/currenc.model";
 import EventItem from "@/models/event.item";
 import { getModule } from "vuex-module-decorators";
 import UserStore from "@/store/user/user-store";
@@ -78,8 +77,6 @@ export default class MiniBag extends Vue {
   private userData = getModule(UserStore);
 
   private appDataStore = getModule(AppDataStore);
-
-  private timeout!: NodeJS.Timeout;
 
   get showMenu(): boolean {
     return this.appDataStore.currentActiveMenu === "CART";
@@ -99,8 +96,7 @@ export default class MiniBag extends Vue {
   }
 
   get userCurrency(): string {
-    const currency: Currency | undefined = CURRENCIES.find(c => c.id === this.userData.currency);
-    return currency ? currency.icon : this.userData.currency;
+    return this.userData.currency;
   }
 
   get iconColor(): string {
@@ -119,22 +115,8 @@ export default class MiniBag extends Vue {
     this.cartStore.removeSingle(item);
   }
 
-  closeMenuWithDelay(): void {
-    this.timeout = setTimeout(() => {
-      if (this.showMenu) {
-        this.closeMenu();
-      }
-    }, 400);
-  }
-
   closeMenu(): void {
     this.appDataStore.changeActiveMenu("NONE");
-  }
-
-  keepOpen(): void {
-    if (this.timeout) {
-      clearInterval(this.timeout);
-    }
   }
 
   removeTicket(item: EventItem): void {
@@ -187,7 +169,7 @@ export default class MiniBag extends Vue {
         margin-top: 4px;
       }
 
-      .bag__item-counter {
+      .item__counter {
         width: 15px;
         height: 15px;
         display: flex;
@@ -207,7 +189,7 @@ export default class MiniBag extends Vue {
     }
   }
 
-  .bag-item {
+  .menu-event-item {
     padding: 0.5em 0.2em 0.5em 0.2em;
     border-bottom: 1px solid #8080802e;
     position: relative;
