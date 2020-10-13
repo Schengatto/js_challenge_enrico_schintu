@@ -8,13 +8,11 @@ Vue.use(VueRouter);
 
 describe("Test Showcase wrapper", () => {
   let component: Wrapper<ShowcaseWrapper>;
-  let vm: any;
 
   beforeEach(() => {
     component = mount(ShowcaseWrapper, {
       store: TestUtils.store
     });
-    vm = component.vm as any;
   });
 
   it("Component rendered in page", async () => {

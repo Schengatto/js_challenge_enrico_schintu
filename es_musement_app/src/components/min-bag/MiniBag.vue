@@ -64,7 +64,7 @@ import { Component, Vue } from "vue-property-decorator";
 import CustomIcon from "@/components/commons/CustomIcon.vue";
 import EventItem from "@/models/event.item";
 import { getModule } from "vuex-module-decorators";
-import UserStore from "@/store/user/user-store";
+import UserDataStore from "@/store/user/user-data-store";
 import AppDataStore from "@/store/app-data/app-data-store";
 import CartStore from "@/store/cart/cart-store";
 
@@ -74,7 +74,7 @@ import CartStore from "@/store/cart/cart-store";
 export default class MiniBag extends Vue {
   private cartStore = getModule(CartStore);
 
-  private userData = getModule(UserStore);
+  private userData = getModule(UserDataStore);
 
   private appDataStore = getModule(AppDataStore);
 

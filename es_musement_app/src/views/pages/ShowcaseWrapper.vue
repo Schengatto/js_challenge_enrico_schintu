@@ -31,3 +31,11 @@ export default class ShowcaseWrapper extends Vue {
   }
 }
 </script>
+
+<style lang="scss" scoped>
+#showcase_wrapper {
+  width: 100%;
+  max-width: 1240px;
+  margin: 0 auto;
+}
+</style>

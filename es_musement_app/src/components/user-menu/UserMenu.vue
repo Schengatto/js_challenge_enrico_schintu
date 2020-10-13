@@ -1,11 +1,6 @@
 <template>
-  <div
-    id="user_menu_wrapper"
-    class="unselectable"
-    v-bind:class="{ active: showMenu }"
-    @mouseenter="keepOpen()"
-  >
-    <div class="clickable" @click="toggleMenu()">
+  <div id="user_menu_wrapper" class="unselectable" v-bind:class="{ active: showMenu }">
+    <div id="user_menu_header_btn" class="clickable" @click="toggleMenu()">
       <CustomIcon
         title="User menu"
         type="user"
@@ -28,7 +23,7 @@
           <div
             v-for="lang in availableLanguages"
             v-bind:key="lang.id"
-            class="submenu-item clickable menu-option-item"
+            class="submenu-item clickable menu-option-item language-btn"
             @click="setLanguage(lang.id)"
           >
             <CustomIcon :type="lang.icon" :title="lang.id"></CustomIcon>
@@ -42,7 +37,7 @@
           <div
             v-for="(curr, i) in availableCurrencies"
             v-bind:key="i"
-            class="submenu-item clickable menu-option-item"
+            class="submenu-item clickable menu-option-item currency-btn"
             @click="setCurrency(curr.id)"
           >
             <div>{{ curr.icon }}</div>
@@ -53,10 +48,18 @@
       <div class="menu-section">
         <div class="menu-section-title">{{ $t("user.menu.dashboard.views.title") }}</div>
         <div class="menu-option-list">
-          <div class="clickable menu-option-item" @click="changeDashboardView('paginated')">
+          <div
+            id="paginated_view_btn"
+            class="clickable menu-option-item"
+            @click="changeDashboardView('paginated')"
+          >
             {{ $t("user.menu.dashboard.views.paginated") }}
           </div>
-          <div class="clickable menu-option-item" @click="changeDashboardView('scroll')">
+          <div
+            id="scrollable_view_btn"
+            class="clickable menu-option-item"
+            @click="changeDashboardView('scroll')"
+          >
             {{ $t("user.menu.dashboard.views.scroll") }}
           </div>
         </div>
@@ -70,8 +73,8 @@ import { Component, Vue } from "vue-property-decorator";
 import CustomIcon from "@/components/commons/CustomIcon.vue";
 import UserDataModel from "@/models/user-data.model";
 import { Locale, LOCALES } from "@/models/locale.model";
-import { CURRENCIES, Currency } from "@/models/currenc.model";
-import UserStore from "@/store/user/user-store";
+import { CURRENCIES, Currency } from "@/models/currency.model";
+import UserDataStore from "@/store/user/user-data-store";
 import ShowcaseStore from "@/store/showcase/showcase-store";
 import AppDataStore from "@/store/app-data/app-data-store";
 import { getModule } from "vuex-module-decorators";
@@ -83,7 +86,7 @@ import { AppDataStoreInterface } from "@/store/app-data/app-data-store-model";
   components: { CustomIcon }
 })
 export default class UserMenu extends Vue {
-  userStore: UserStoreInterface = getModule(UserStore);
+  userStore: UserStoreInterface = getModule(UserDataStore);
   showcaseStore: ShowcaseStoreInterface = getModule(ShowcaseStore);
   appDataStore: AppDataStoreInterface = getModule(AppDataStore);
 
@@ -121,22 +124,8 @@ export default class UserMenu extends Vue {
     }
   }
 
-  closeMenuWithDelay(): void {
-    this.timeout = setTimeout(() => {
-      if (this.showMenu) {
-        this.closeMenu();
-      }
-    }, 400);
-  }
-
   closeMenu(): void {
     this.appDataStore.changeActiveMenu("NONE");
-  }
-
-  keepOpen(): void {
-    if (this.timeout) {
-      clearInterval(this.timeout);
-    }
   }
 
   setLanguage(language: string): void {

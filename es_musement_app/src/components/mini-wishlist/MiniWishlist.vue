@@ -1,5 +1,5 @@
 <template>
-  <div id="mini_wishlist_wrapper" v-bind:class="{ active: showMenu }" @mouseenter="keepOpen()">
+  <div id="mini_wishlist_wrapper" v-bind:class="{ active: showMenu }">
     <div class="wishlist-icon clickable" @click="toggleMenu()">
       <CustomIcon
         title="My Wishlist"

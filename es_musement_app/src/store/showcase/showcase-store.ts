@@ -9,15 +9,13 @@ import AppUtils from "@/utils/app-utils";
 import EventItem from "@/models/event.item";
 import CartStore from "@/store/cart/cart-store";
 import WishlistStore from "@/store/wishlist/wishlist-store";
+import ApiRequestDataMode from "@/models/api-request-data.mode";
 
 const INIT_STATE: ShowcaseStoreModel = {
   items: [],
   currentPage: 0,
   showcaseView: isMobile ? "scroll" : "paginated"
 };
-
-const cartStore = getModule(CartStore);
-const wishlistStore = getModule(WishlistStore);
 
 @Module({
   dynamic: true,
@@ -27,8 +25,8 @@ const wishlistStore = getModule(WishlistStore);
 })
 export default class ShowcaseStore extends VuexModule implements ShowcaseStoreInterface {
   showcaseStore: ShowcaseStoreModel = { ...INIT_STATE };
-  userCartData = cartStore;
-  wishlistStore = wishlistStore;
+  private userCartData = getModule(CartStore);
+  private wishlistStore = getModule(WishlistStore);
 
   /**
    * The items present in the current page of the dashboard.
@@ -106,7 +104,11 @@ export default class ShowcaseStore extends VuexModule implements ShowcaseStoreIn
    */
   @Action
   async moveToPage(pageNumber: number) {
-    HttpCommon.getEventItems({ limit: 6, offset: pageNumber * 6 })
+    const requestData: ApiRequestDataMode = {
+      limit: 6,
+      offset: pageNumber * 6
+    };
+    HttpCommon.getEventItems(requestData)
       .then((response: AxiosResponse<MusementItem[]>) => {
         if (response.data) {
           const data: ShowcaseStoreModel = {
@@ -160,7 +162,11 @@ export default class ShowcaseStore extends VuexModule implements ShowcaseStoreIn
    */
   @Action
   async updateItems() {
-    HttpCommon.getEventItems({ limit: 100, offset: 0 })
+    const requestData: ApiRequestDataMode = {
+      limit: 100,
+      offset: 0
+    };
+    HttpCommon.getEventItems(requestData)
       .then((response: AxiosResponse<MusementItem[]>) => {
         if (response.data) {
           const eventItems = response.data.map(AppUtils.fromMusementItemToEventItem);

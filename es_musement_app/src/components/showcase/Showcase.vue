@@ -40,14 +40,14 @@ import { ShowcaseStoreInterface } from "@/store/showcase/showcase-store.model";
 import { UserStoreInterface } from "@/store/user/user-store.model";
 import { getModule } from "vuex-module-decorators";
 import ShowcaseStore from "@/store/showcase/showcase-store";
-import UserStore from "@/store/user/user-store";
+import UserDataStore from "@/store/user/user-data-store";
 
 @Component({
   components: { EventItemCard, Pagination, InfiniteLoading }
 })
 export default class Showcase extends Vue {
   showcaseStore: ShowcaseStoreInterface = getModule(ShowcaseStore);
-  userStore: UserStoreInterface = getModule(UserStore);
+  userStore: UserStoreInterface = getModule(UserDataStore);
 
   public loadPage(pageNumber: number): void {
     this.showcaseStore.moveToPage(pageNumber);

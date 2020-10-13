@@ -11,9 +11,9 @@ export class HttpCommon {
    */
   public static getApi(language?: string, currency?: string): AxiosInstance {
     const headers = {
-      "accept-language": language || "en",
+      "accept-language": language || localStorage.getItem("language") || "en",
       "content-type": "application/json",
-      "x-musement-currency": currency || "EUR",
+      "x-musement-currency": currency || localStorage.getItem("currency") || "EUR",
       "x-musement-version": "3.4.0"
     };
     return axios.create({

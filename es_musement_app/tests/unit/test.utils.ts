@@ -3,7 +3,7 @@ import EventItem from "@/models/event.item";
 import Vuex, { Store } from "vuex";
 import { getModule } from "vuex-module-decorators";
 import CartStore from "@/store/cart/cart-store";
-import UserStore from "@/store/user/user-store";
+import UserDataStore from "@/store/user/user-data-store";
 import AppDataStore from "@/store/app-data/app-data-store";
 import ShowcaseStore from "@/store/showcase/showcase-store";
 import WishlistStore from "@/store/wishlist/wishlist-store";
@@ -13,7 +13,7 @@ export class TestUtils {
     return new Vuex.Store({
       modules: {
         cart: getModule(CartStore),
-        user: getModule(UserStore),
+        user: getModule(UserDataStore),
         appdata: getModule(AppDataStore),
         showcase: getModule(ShowcaseStore),
         wishlist: getModule(WishlistStore)
