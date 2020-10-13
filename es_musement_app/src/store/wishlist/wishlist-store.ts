@@ -1,11 +1,11 @@
-import {Action, getModule, Module, Mutation, VuexModule} from "vuex-module-decorators";
+import { Action, Module, Mutation, VuexModule } from "vuex-module-decorators";
 import store from "@/store";
-import WishlistStoreModel from "@/store/wishlist/wishlist-store.model";
 import EventItem from "@/models/event.item";
 import EventItemModel from "@/models/event.item";
+import { WishlistStoreInterface, WishlistStoreModel } from "@/store/wishlist/wishlist-store.model";
 
 const STORAGE_KEY = "APP_WISHLIST_STORE";
-const INIT_STATE: WishlistStoreModel = {items: []};
+const INIT_STATE: WishlistStoreModel = { items: [] };
 const persistOnLocalStorage = (wishlistStoreModel: WishlistStoreModel) =>
   localStorage.setItem(STORAGE_KEY, JSON.stringify(wishlistStoreModel));
 const loadFromLocalStorage: () => any = () =>
@@ -17,7 +17,7 @@ const loadFromLocalStorage: () => any = () =>
   name: "wishlist",
   store
 })
-class WishlistStore extends VuexModule {
+export default class WishlistStore extends VuexModule implements WishlistStoreInterface {
   wishlistStore: WishlistStoreModel = loadFromLocalStorage() || INIT_STATE;
 
   /**
@@ -67,12 +67,10 @@ class WishlistStore extends VuexModule {
    */
   @Mutation
   async UPDATE_WISHLIST_ITEMS(data: EventItemModel[]) {
-    let updatedItems: EventItemModel[] = [];
+    const updatedItems: EventItemModel[] = [];
     const currentItems = [...this.wishlistStore.items];
     data.forEach(i => {
-      currentItems
-        .filter(e => e.uuid === i.uuid)
-        .forEach(()=> updatedItems.push(i));
+      currentItems.filter(e => e.uuid === i.uuid).forEach(() => updatedItems.push(i));
     });
     this.wishlistStore.items = [...updatedItems];
     persistOnLocalStorage(this.wishlistStore);
@@ -152,7 +150,4 @@ class WishlistStore extends VuexModule {
   async updateItems(data: EventItem[]) {
     await this.UPDATE_WISHLIST_ITEMS(data);
   }
-
 }
-
-export default getModule(WishlistStore);

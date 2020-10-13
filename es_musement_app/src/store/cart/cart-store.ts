@@ -1,11 +1,11 @@
-import {Action, getModule, Module, Mutation, VuexModule} from 'vuex-module-decorators';
-import store from '@/store';
-import CartStoreModel from '@/store/cart/cart-store.model';
-import EventItemModel from '@/models/event.item';
-import EventItem from '@/models/event.item';
+import { Action, Module, Mutation, VuexModule } from "vuex-module-decorators";
+import store from "@/store";
+import EventItemModel from "@/models/event.item";
+import EventItem from "@/models/event.item";
+import { CartStoreModel, CartStoreInterface } from "@/store/cart/cart-store.model";
 
-const STORAGE_KEY = 'APP_CART_STORE';
-const INIT_STATE: CartStoreModel = {items: [], totalPrice: 0};
+const STORAGE_KEY = "APP_CART_STORE";
+const INIT_STATE: CartStoreModel = { items: [], totalPrice: 0 };
 const persistOnLocalStorage = (cartStore: CartStoreModel) =>
   localStorage.setItem(STORAGE_KEY, JSON.stringify(cartStore));
 const loadFromLocalStorage: () => any = () =>
@@ -14,10 +14,10 @@ const loadFromLocalStorage: () => any = () =>
 @Module({
   dynamic: true,
   namespaced: true,
-  name: 'cart',
+  name: "cart",
   store
 })
-class CartStore extends VuexModule {
+export default class CartStore extends VuexModule implements CartStoreInterface {
   cartStore: CartStoreModel = loadFromLocalStorage() || INIT_STATE;
 
   /**
@@ -62,7 +62,7 @@ class CartStore extends VuexModule {
     [...items].forEach(i => {
       const currentItem = updatedItems.find(e => e.uuid === i.uuid);
       if (currentItem) {
-        currentItem.tickets = currentItem.tickets + 1;
+        currentItem.tickets += 1;
       } else {
         updatedItems.push(i);
       }
@@ -77,9 +77,7 @@ class CartStore extends VuexModule {
    */
   @Mutation
   async REMOVE_FROM_CART(ids: string[]) {
-    this.cartStore.items = this.cartStore.items.filter(
-      item => !ids.includes(item.uuid)
-    );
+    this.cartStore.items = this.cartStore.items.filter(item => !ids.includes(item.uuid));
     persistOnLocalStorage(this.cartStore);
   }
 
@@ -89,14 +87,14 @@ class CartStore extends VuexModule {
    */
   @Mutation
   async REMOVE_ITEM_TICKET(ids: string[]) {
-    this.cartStore.items.filter(
-      item => ids.includes(item.uuid)
-    ).forEach(i => {
-      if (i.tickets > 1) {
-        i.tickets = i.tickets - 1;
-      }
-      return i;
-    });
+    this.cartStore.items
+      .filter(item => ids.includes(item.uuid))
+      .forEach(i => {
+        if (i.tickets > 1) {
+          i.tickets -= 1;
+        }
+        return i;
+      });
     persistOnLocalStorage(this.cartStore);
   }
 
@@ -106,14 +104,12 @@ class CartStore extends VuexModule {
    */
   @Mutation
   async UPDATE_CART_ITEMS(data: EventItemModel[]) {
-    let updatedItems: EventItemModel[] = [];
+    const updatedItems: EventItemModel[] = [];
     const currentItems = [...this.cartStore.items];
     data.forEach(i => {
       currentItems
         .filter(e => e.uuid === i.uuid)
-        .map((e) => {
-          return {...i, tickets: e.tickets};
-        })
+        .map(e => ({ ...i, tickets: e.tickets }))
         .forEach(e => updatedItems.push(e));
     });
     this.cartStore.items = [...updatedItems];
@@ -125,8 +121,10 @@ class CartStore extends VuexModule {
    */
   @Mutation
   async UPDATE_TOTAL_AMOUNT() {
-    this.cartStore.totalPrice = this.cartStore.items
-      .reduce((acc, cur) => acc + (cur.tickets * cur.finalPrice), 0);
+    this.cartStore.totalPrice = this.cartStore.items.reduce(
+      (acc, cur) => acc + cur.tickets * cur.finalPrice,
+      0
+    );
     persistOnLocalStorage(this.cartStore);
   }
 
@@ -135,7 +133,7 @@ class CartStore extends VuexModule {
    */
   @Mutation
   async CART_CLEAR() {
-    this.cartStore = {...INIT_STATE};
+    this.cartStore = { ...INIT_STATE };
     persistOnLocalStorage(this.cartStore);
   }
 
@@ -168,7 +166,6 @@ class CartStore extends VuexModule {
     await this.REMOVE_ITEM_TICKET([id]);
     await this.UPDATE_TOTAL_AMOUNT();
   }
-
 
   /**
    * Remove a single item from the user's cart.
@@ -207,8 +204,4 @@ class CartStore extends VuexModule {
     await this.UPDATE_CART_ITEMS(data);
     await this.UPDATE_TOTAL_AMOUNT();
   }
-
-
 }
-
-export default getModule(CartStore);

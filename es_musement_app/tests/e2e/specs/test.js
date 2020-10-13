@@ -2,20 +2,21 @@
 // https://nightwatchjs.org/guide
 
 module.exports = {
-  'default e2e tests': (browser) => {
+  "Test Footer": browser => {
     browser
       .init()
-      .waitForElementVisible('#app')
-      .assert.elementPresent('.hello')
-      .assert.containsText('h1', 'Welcome to Your Vue.js + TypeScript App')
-      .assert.elementCount('img', 1)
+      .waitForElementVisible("header")
+      .assert.elementPresent(".footer-extra")
       .end();
   },
 
-  'example e2e test using a custom command': (browser) => {
+  "Test Dashboard": browser => {
     browser
       .openHomepage()
-      .assert.elementPresent('.hello')
+      .waitForElementVisible("header")
+      .assert.elementPresent("#user_menu_wrapper")
+      .assert.elementPresent("#mini_bag_wrapper")
+      .assert.elementPresent("#mini_wishlist_wrapper")
       .end();
-  },
+  }
 };

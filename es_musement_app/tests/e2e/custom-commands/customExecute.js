@@ -22,15 +22,15 @@ exports.command = function command(data) {
   //
   this.execute(
     // The function argument is converted to a string and sent to the browser
-    (argData) => argData,
+    argData => argData,
 
     // The arguments for the function to be sent to the browser are specified in this array
     [data],
 
-    (result) => {
+    result => {
       // The "result" object contains the result of what we have sent back from the browser window
-      console.log('custom execute result:', result.value);
-    },
+      console.log("custom execute result:", result.value);
+    }
   );
 
   return this;

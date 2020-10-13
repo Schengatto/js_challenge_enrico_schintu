@@ -1,15 +1,15 @@
-import {Action, getModule, Module, Mutation, VuexModule} from 'vuex-module-decorators';
-import store from '@/store';
-import AppDataStoreModel from "@/store/app-data/app-data-store-model";
+import { Action, Module, Mutation, VuexModule } from "vuex-module-decorators";
+import store from "@/store";
+import { AppDataStoreModel, AppDataStoreInterface } from "@/store/app-data/app-data-store-model";
 
 @Module({
   dynamic: true,
   namespaced: true,
-  name: 'appdata',
+  name: "appdata",
   store
 })
-class AppDataStore extends VuexModule {
-  addDataStorage: AppDataStoreModel = {currentMenu: "NONE"};
+export default class AppDataStore extends VuexModule implements AppDataStoreInterface {
+  addDataStorage: AppDataStoreModel = { currentMenu: "NONE" };
 
   /**
    * Return the information of the current user.
@@ -36,5 +36,3 @@ class AppDataStore extends VuexModule {
     this.addDataStorage.currentMenu = menu;
   }
 }
-
-export default getModule(AppDataStore);
