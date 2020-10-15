@@ -92,4 +92,16 @@ describe("Test Mini wishlist Component", () => {
     await buyBtn.trigger("click");
     expect(clearWishList).toBeCalledTimes(1);
   });
+
+  it("Test Prevent scroll", async () => {
+    const preventMouseWheelPropagation = jest.spyOn(vm, "preventMouseWheelPropagation");
+    await appDataStoreService().changeActiveMenu("WISHLIST");
+    await Vue.nextTick();
+    // scroll action over the menu
+    const buyBtn = component.find(".menu-container");
+    expect(buyBtn.isVisible()).toBeTruthy();
+    await buyBtn.trigger("wheel");
+    await Vue.nextTick();
+    expect(preventMouseWheelPropagation).toBeCalledTimes(1);
+  });
 });

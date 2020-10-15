@@ -75,4 +75,16 @@ describe("Test User Menu Component", () => {
     await langBtn.trigger("click");
     expect(changeShowcaseView).toBeCalledTimes(1);
   });
+
+  it("Test Prevent scroll", async () => {
+    const preventMouseWheelPropagation = jest.spyOn(vm, "preventMouseWheelPropagation");
+    await appDataStoreService().changeActiveMenu("USER");
+    await Vue.nextTick();
+    // scroll action over the menu
+    const buyBtn = component.find(".menu-container");
+    expect(buyBtn.isVisible()).toBeTruthy();
+    await buyBtn.trigger("wheel");
+    await Vue.nextTick();
+    expect(preventMouseWheelPropagation).toBeCalledTimes(1);
+  });
 });
