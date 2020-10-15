@@ -43,7 +43,7 @@ export default class ShowcaseWrapper extends Vue {
   /** Set CSS of the property overflow body element to 'scroll' */
   enableBodyOverflow(): void {
     const target: HTMLBodyElement | null = document.querySelector("body");
-    target ? (target.style.overflow = "scroll") : null;
+    target ? (target.style.overflow = "auto") : null;
   }
 }
 </script>
