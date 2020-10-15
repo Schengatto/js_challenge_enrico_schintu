@@ -9,7 +9,7 @@
         :color="iconColor"
       ></CustomIcon>
     </div>
-    <div class="menu-container" v-if="showMenu">
+    <div class="menu-container" v-if="showMenu" @wheel="preventMouseWheelPropagation($event)">
       <div class="close-menu-btn clickable" @click="closeMenu()">x</div>
       <div class="menu-header">
         <div>{{ $t("user.menu.header.hello") }} {{ userData.username }}</div>
@@ -144,6 +144,11 @@ export default class UserMenu extends Vue {
   changeShowcaseView(showcaseView: string): void {
     this.showcaseStore.updateShowcaseView(showcaseView);
   }
+
+  /** Avoid to propagate the mouse wheel on the background elements */
+  preventMouseWheelPropagation(event: MouseEvent) {
+    event.stopPropagation();
+  }
 }
 </script>
 
@@ -162,7 +167,7 @@ export default class UserMenu extends Vue {
       width: 100%;
 
       .list-container {
-        max-height: 260px;
+        max-height: 160px;
       }
     }
   }

@@ -15,7 +15,7 @@
         <div v-if="numberOfItems" class="item__counter">{{ numberOfItems }}</div>
       </div>
     </div>
-    <div class="menu-container" v-if="showMenu">
+    <div class="menu-container" v-if="showMenu" @wheel="preventMouseWheelPropagation($event)">
       <div class="close-menu-btn clickable" @click="closeMenu()">x</div>
       <div v-if="numberOfItems">
         <div class="list-container">
@@ -164,6 +164,11 @@ export default class MiniBag extends Vue {
       this.showWarning = false;
     }, 2000);
   }
+
+  /** Avoid to propagate the mouse wheel on the background elements */
+  preventMouseWheelPropagation(event: MouseEvent) {
+    event.stopPropagation();
+  }
 }
 </script>
 
@@ -186,7 +191,7 @@ export default class MiniBag extends Vue {
       width: 100%;
 
       .list-container {
-        max-height: 260px;
+        max-height: 160px;
       }
     }
   }

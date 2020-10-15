@@ -10,7 +10,7 @@
       ></CustomIcon>
       <div v-if="numberOfItems" class="item__counter">{{ numberOfItems }}</div>
     </div>
-    <div class="menu-container" v-if="showMenu">
+    <div class="menu-container" v-if="showMenu" @wheel="preventMouseWheelPropagation($event)">
       <div class="close-menu-btn clickable" @click="closeMenu()">x</div>
       <template v-if="numberOfItems">
         <div class="list-container">
@@ -110,6 +110,11 @@ export default class MiniWishlist extends Vue {
   removeItem(id: string): void {
     this.wishlistStore.removeSingle(id);
   }
+
+  /** Avoid to propagate the mouse wheel on the background elements */
+  preventMouseWheelPropagation(event: MouseEvent) {
+    event.stopPropagation();
+  }
 }
 </script>
 
@@ -128,7 +133,7 @@ export default class MiniWishlist extends Vue {
       width: 100%;
 
       .list-container {
-        max-height: 260px;
+        max-height: 160px;
       }
     }
   }
