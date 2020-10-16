@@ -99,6 +99,15 @@ export default class ShowcaseStore extends VuexModule implements ShowcaseStoreIn
   }
 
   /**
+   * Restore the initial state of the dashboard page.
+   */
+  @Mutation
+  async CLEAR_ITEMS_IMG() {
+    const imageWithoutSrc = this.showcaseStore.items.map(ShowcaseStore.removeImageSrc);
+    this.showcaseStore = { ...this.showcaseStore, items: [...imageWithoutSrc] };
+  }
+
+  /**
    * Update the dashboard view. Possible values are 'scroll' or 'paginated'.
    * @param viewType
    */
@@ -114,6 +123,8 @@ export default class ShowcaseStore extends VuexModule implements ShowcaseStoreIn
    */
   @Action
   async moveToPage(pageNumber: number) {
+    await this.CLEAR_ITEMS_IMG();
+    // await this.UPDATE_PAGE_NUMBER(pageNumber);
     const requestData: ApiRequestDataMode = {
       limit: 7,
       offset: pageNumber * 6
@@ -121,8 +132,11 @@ export default class ShowcaseStore extends VuexModule implements ShowcaseStoreIn
     HttpCommon.getEventItems(requestData)
       .then((response: AxiosResponse<MusementItem[]>) => {
         if (response.data) {
-          const hasNext = response.data.length === 7;
-          response.data.pop();
+          let hasNext = false;
+          if (response.data.length === 7) {
+            hasNext = true;
+            response.data.pop();
+          }
           const data: ShowcaseStoreModel = {
             items: [...response.data.map(AppUtils.fromMusementItemToEventItem)],
             currentPage: pageNumber,
@@ -190,5 +204,10 @@ export default class ShowcaseStore extends VuexModule implements ShowcaseStoreIn
         }
       })
       .catch(() => console.error);
+  }
+
+  private static removeImageSrc(item: EventItem) {
+    item.image = "";
+    return item;
   }
 }
