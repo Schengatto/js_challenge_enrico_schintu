@@ -131,14 +131,19 @@ export default class ShowcaseStore extends VuexModule implements ShowcaseStoreIn
     };
     HttpCommon.getEventItems(requestData)
       .then((response: AxiosResponse<MusementItem[]>) => {
+        const { limit, offset } = requestData;
         if (response.data) {
+          const items = response.data;
           let hasNext = false;
-          if (response.data.length === 7) {
+          if (items.length === (limit ? limit : 7)) {
             hasNext = true;
-            response.data.pop();
+            items.pop();
+          }
+          for (let i = 0; i < items.length; i++) {
+            items[i].id = i + offset;
           }
           const data: ShowcaseStoreModel = {
-            items: [...response.data.map(AppUtils.fromMusementItemToEventItem)],
+            items: [...items.map(AppUtils.fromMusementItemToEventItem)],
             currentPage: pageNumber,
             showcaseView: this.showcaseStore.showcaseView,
             nextPageAvailable: hasNext
@@ -193,7 +198,7 @@ export default class ShowcaseStore extends VuexModule implements ShowcaseStoreIn
       limit: 100,
       offset: 0
     };
-    HttpCommon.getEventItems(requestData)
+    HttpCommon.updateEventItem(requestData)
       .then((response: AxiosResponse<MusementItem[]>) => {
         if (response.data) {
           const eventItems = response.data.map(AppUtils.fromMusementItemToEventItem);

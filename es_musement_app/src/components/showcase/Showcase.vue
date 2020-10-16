@@ -3,7 +3,7 @@
     <template v-if="paginatorActive">
       <div class="pagination_wrapper">
         <ul class="product-list">
-          <li class="product-list__item" v-for="item in items" v-bind:key="item.uuid">
+          <li class="product-list__item" v-for="item in items" v-bind:key="item.id">
             <keep-alive :max="20">
               <EventItemCard :item="item"></EventItemCard>
             </keep-alive>

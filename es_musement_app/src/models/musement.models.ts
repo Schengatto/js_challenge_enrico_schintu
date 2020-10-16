@@ -112,6 +112,7 @@ export interface DurationRange {
 }
 
 export interface MusementItem {
+  id?: number;
   operational_days: string;
   max_confirmation_time: string;
   cutoff_time: string;
