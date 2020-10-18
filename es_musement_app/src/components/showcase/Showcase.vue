@@ -28,7 +28,14 @@
       <div class="scroll_wrapper">
         <ul class="product-list">
           <li class="product-list__item" v-for="(item, index) in items" v-bind:key="index">
-            <EventItemCard :item="item"></EventItemCard>
+            <EventItemCard
+              :item="item"
+              :detect-network-speed="index % 6 === 0"
+              :image-quality="imageQuality"
+              v-on:slowNetwork="slowConnectionDetected()"
+              v-on:fastNetwork="fastConnectionDetected()"
+            >
+            </EventItemCard>
           </li>
         </ul>
         <infinite-loading @infinite="infiniteHandler($event)">

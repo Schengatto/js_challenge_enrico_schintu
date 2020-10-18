@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<coverage generated="1603061491121" clover="3.2.0">
-  <project timestamp="1603061491122" name="All files">
+<coverage generated="1603061852430" clover="3.2.0">
+  <project timestamp="1603061852431" name="All files">
     <metrics statements="230" coveredstatements="222" conditionals="54" coveredconditionals="45" methods="82" coveredmethods="75" elements="366" coveredelements="342" complexity="0" loc="230" ncloc="230" packages="10" files="13" classes="13"/>
     <package name="src">
       <metrics statements="6" coveredstatements="6" conditionals="2" coveredconditionals="2" methods="3" coveredmethods="3"/>
@@ -173,37 +173,37 @@
       <metrics statements="31" coveredstatements="28" conditionals="4" coveredconditionals="3" methods="13" coveredmethods="10"/>
       <file name="Showcase.vue" path="C:\workspace\js_challenge\js_challenge_enrico_schintu\es_musement_app\src\components\showcase\Showcase.vue">
         <metrics statements="31" coveredstatements="28" conditionals="4" coveredconditionals="3" methods="13" coveredmethods="10"/>
-        <line num="44" count="2" type="stmt"/>
-        <line num="45" count="2" type="stmt"/>
-        <line num="46" count="2" type="stmt"/>
-        <line num="47" count="2" type="stmt"/>
-        <line num="48" count="2" type="stmt"/>
-        <line num="49" count="2" type="stmt"/>
+        <line num="51" count="2" type="stmt"/>
+        <line num="52" count="2" type="stmt"/>
+        <line num="53" count="2" type="stmt"/>
         <line num="54" count="2" type="stmt"/>
         <line num="55" count="2" type="stmt"/>
         <line num="56" count="2" type="stmt"/>
         <line num="61" count="2" type="stmt"/>
-        <line num="62" count="8" type="stmt"/>
-        <line num="63" count="8" type="stmt"/>
-        <line num="67" count="1" type="stmt"/>
-        <line num="72" count="8" type="stmt"/>
-        <line num="77" count="27" type="stmt"/>
-        <line num="81" count="8" type="stmt"/>
-        <line num="86" count="10" type="stmt"/>
-        <line num="91" count="16" type="stmt"/>
-        <line num="97" count="1" type="stmt"/>
-        <line num="98" count="1" type="cond" truecount="1" falsecount="1"/>
-        <line num="99" count="1" type="stmt"/>
-        <line num="108" count="1" type="stmt"/>
-        <line num="113" count="0" type="stmt"/>
-        <line num="122" count="2" type="cond" truecount="2" falsecount="0"/>
-        <line num="123" count="1" type="stmt"/>
-        <line num="124" count="1" type="stmt"/>
-        <line num="125" count="1" type="stmt"/>
-        <line num="126" count="1" type="stmt"/>
-        <line num="128" count="1" type="stmt"/>
-        <line num="134" count="0" type="stmt"/>
-        <line num="139" count="0" type="stmt"/>
+        <line num="62" count="2" type="stmt"/>
+        <line num="63" count="2" type="stmt"/>
+        <line num="68" count="2" type="stmt"/>
+        <line num="69" count="8" type="stmt"/>
+        <line num="70" count="8" type="stmt"/>
+        <line num="74" count="1" type="stmt"/>
+        <line num="79" count="8" type="stmt"/>
+        <line num="84" count="27" type="stmt"/>
+        <line num="88" count="10" type="stmt"/>
+        <line num="93" count="10" type="stmt"/>
+        <line num="98" count="16" type="stmt"/>
+        <line num="104" count="1" type="stmt"/>
+        <line num="105" count="1" type="cond" truecount="1" falsecount="1"/>
+        <line num="106" count="1" type="stmt"/>
+        <line num="115" count="1" type="stmt"/>
+        <line num="120" count="0" type="stmt"/>
+        <line num="129" count="2" type="cond" truecount="2" falsecount="0"/>
+        <line num="130" count="1" type="stmt"/>
+        <line num="131" count="1" type="stmt"/>
+        <line num="132" count="1" type="stmt"/>
+        <line num="133" count="1" type="stmt"/>
+        <line num="135" count="1" type="stmt"/>
+        <line num="141" count="0" type="stmt"/>
+        <line num="146" count="0" type="stmt"/>
       </file>
     </package>
     <package name="src.components.showcase.elements">
