@@ -48,6 +48,7 @@ describe("Test ImageWrapper Component", () => {
   });
 
   it("Image loaded", async () => {
+    component.setProps({ detectNetworkSpeed: true });
     const spyImageLoaded = jest.spyOn(vm, "imageLoaded");
     component.setData({ startLoading: true });
     component.setData({ loaded: false });
@@ -55,12 +56,44 @@ describe("Test ImageWrapper Component", () => {
     const img = component.find("img");
     expect(img.isVisible()).toBeTruthy();
 
-    vm.imageLoaded();
-    expect(spyImageLoaded).toHaveBeenCalledTimes(1);
+    jest.useFakeTimers();
+    setTimeout(async () => {
+      vm.imageLoaded();
+      expect(spyImageLoaded).toHaveBeenCalledTimes(1);
+      await Vue.nextTick();
+      expect(vm.loaded).toBeTruthy();
+      const svg = component.find("svg");
+      expect(svg.exists()).toBeFalsy();
+    });
+    jest.advanceTimersByTime(100);
+  });
+
+  it("Image loaded with Check Network: Fast Network", async () => {
+    component.setProps({ detectNetworkSpeed: true });
+    const checkNetworkSpeed = jest.spyOn(vm, "checkNetworkSpeed");
+    vm.checkNetworkSpeed(100);
     await Vue.nextTick();
-    expect(vm.loaded).toBeTruthy();
-    const svg = component.find("svg");
-    expect(svg.exists()).toBeFalsy();
+    expect(checkNetworkSpeed).toHaveBeenCalledTimes(1);
+    expect(component.emitted().fastNetwork).toBeTruthy();
+  });
+
+  it("Image loaded with Check Network: Slow Network", async () => {
+    component.setProps({ detectNetworkSpeed: true });
+    component.setData({ loadStartAt: new Date().getTime() });
+    const checkNetworkSpeed = jest.spyOn(vm, "checkNetworkSpeed");
+    vm.checkNetworkSpeed(2600);
+    await vm.$nextTick();
+    expect(checkNetworkSpeed).toHaveBeenCalledTimes(1);
+    expect(component.emitted("slowNetwork")).toBeTruthy();
+  });
+
+  it("Image loaded with Check Network: Good Network", async () => {
+    component.setProps({ detectNetworkSpeed: true });
+    const checkNetworkSpeed = jest.spyOn(vm, "checkNetworkSpeed");
+    vm.checkNetworkSpeed(1000);
+    await vm.$nextTick();
+    expect(checkNetworkSpeed).toHaveBeenCalledTimes(1);
+    expect(component.emitted("goodNetwork")).toBeTruthy();
   });
 
   it("Musement-image: The img element should use the input property", async () => {

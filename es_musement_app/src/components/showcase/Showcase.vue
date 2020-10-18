@@ -3,9 +3,16 @@
     <template v-if="paginatorActive">
       <div class="pagination_wrapper">
         <ul class="product-list">
-          <li class="product-list__item" v-for="item in items" v-bind:key="item.uuid">
+          <li class="product-list__item" v-for="(item, index) in items" v-bind:key="item.id">
             <keep-alive :max="20">
-              <EventItemCard :item="item"></EventItemCard>
+              <EventItemCard
+                :item="item"
+                :detect-network-speed="index === 0"
+                :image-quality="imageQuality"
+                v-on:slowNetwork="slowConnectionDetected()"
+                v-on:fastNetwork="fastConnectionDetected()"
+              >
+              </EventItemCard>
             </keep-alive>
           </li>
         </ul>
@@ -70,6 +77,10 @@ export default class Showcase extends Vue {
     return this.showcaseStore.pageItems;
   }
 
+  get imageQuality(): number {
+    return this.showcaseStore.imageQuality;
+  }
+
   /** Current page displayed */
   get currentPage(): number {
     return this.showcaseStore.currentPage;
@@ -116,6 +127,16 @@ export default class Showcase extends Vue {
     } else {
       $state.complete();
     }
+  }
+
+  /** Slow network connection detected */
+  slowConnectionDetected() {
+    this.showcaseStore.slowNetworkDetected();
+  }
+
+  /** Fast network connection detected */
+  fastConnectionDetected() {
+    this.showcaseStore.fastNetworkDetected();
   }
 }
 </script>

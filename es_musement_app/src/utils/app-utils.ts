@@ -23,6 +23,7 @@ export default class AppUtils {
    */
   public static fromMusementItemToEventItem(musementItem: MusementItem): EventItemModel {
     return {
+      id: musementItem.id,
       uuid: musementItem.uuid,
       description: musementItem.description,
       image: musementItem.cover_image_url,

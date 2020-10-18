@@ -205,6 +205,11 @@ export default class ImageWrapper extends Vue {
    *  it will be possible to set the img quality, srcWidth, srcHeight */
   @Prop({ default: true }) musementImage!: boolean;
 
+  /** If true detect will send back a feedback about the speed of the client network */
+  @Prop({ default: false }) detectNetworkSpeed!: boolean;
+
+  loadStartAt: number = new Date().getTime();
+
   private startLoading = false;
 
   private loaded = false;
@@ -221,13 +226,28 @@ export default class ImageWrapper extends Vue {
   }
 
   /**
-   * Disable the spinner.
+   * Disable the spinner and detect if the network connection is slow,
    */
   imageLoaded(): void {
     if (this.timeout) {
       clearTimeout(this.timeout);
     }
     this.loaded = true;
+    if (this.detectNetworkSpeed) {
+      const loadDuration = new Date().getTime() - this.loadStartAt;
+      this.checkNetworkSpeed(loadDuration);
+    }
+  }
+
+  /** If enabled, check the network speed and emit an event in case of fast or slow network */
+  private checkNetworkSpeed(loadDuration: number) {
+    if (loadDuration > 2500) {
+      this.$emit("slowNetwork", true);
+    } else if (loadDuration < 500) {
+      this.$emit("fastNetwork", true);
+    } else {
+      this.$emit("goodNetwork", true);
+    }
   }
 
   /**
@@ -247,7 +267,7 @@ export default class ImageWrapper extends Vue {
   }
 
   /**
-   * Real witdth of the image resource. Used only for Musement images.
+   * Real width of the image resource. Used only for Musement images.
    */
   get realWidth(): number {
     return this.srcWidth ? this.srcWidth : this.width;

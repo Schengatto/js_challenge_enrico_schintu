@@ -29,16 +29,31 @@ export class HttpCommon {
    * @param requestData
    */
   public static getEventItems(requestData: ApiRequestDataMode): Promise<AxiosResponse> {
+    const { limit, offset, language, currency, callback } = requestData;
     if (this.cancelToken) {
       this.cancelToken.cancel("User navigated to different page");
     }
-    const { limit, offset, language, currency, callback } = requestData;
     const CancelToken = axios.CancelToken;
     // create the source
     this.cancelToken = CancelToken.source();
     let result = HttpCommon.getApi(language, currency).get(API_SUFFIX, {
       params: { limit, offset },
       cancelToken: this.cancelToken.token
+    });
+    if (callback) {
+      result = result.then(response => callback.apply(this, [response.data]));
+    }
+    return result;
+  }
+
+  /**
+   * Contact the API to update the items stored in the cart / wishlist.
+   * @param requestData
+   */
+  public static updateEventItem(requestData: ApiRequestDataMode): Promise<AxiosResponse> {
+    const { limit, offset, language, currency, callback } = requestData;
+    let result = HttpCommon.getApi(language, currency).get(API_SUFFIX, {
+      params: { limit, offset }
     });
     if (callback) {
       result = result.then(response => callback.apply(this, [response.data]));

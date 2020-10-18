@@ -8,6 +8,7 @@ export interface ShowcaseStoreModel {
   currentPage: number;
   nextPageAvailable: boolean;
   showcaseView: string;
+  imageQuality: number;
 }
 
 /**
@@ -19,11 +20,14 @@ export interface ShowcaseStoreInterface {
   currentPage: number;
   nextPageAvailable: boolean;
   showcaseViewType: string;
+  imageQuality: number;
   moveToPage: (index: number) => Promise<void>;
   reloadCurrentPage: () => Promise<void>;
   updateShowcaseView: (type: string) => Promise<void>;
   storeReset: () => Promise<void>;
   updateItems: () => Promise<void>;
+  slowNetworkDetected: () => Promise<void>;
+  fastNetworkDetected: () => Promise<void>;
   ADD_PAGE_ITEMS: (items: EventItem[]) => Promise<void>;
   UPDATE_PAGE_NUMBER: (index: number) => Promise<void>;
 }

@@ -15,7 +15,8 @@ const INIT_STATE: ShowcaseStoreModel = {
   items: [],
   currentPage: 0,
   showcaseView: isMobile ? "scroll" : "paginated",
-  nextPageAvailable: false
+  nextPageAvailable: false,
+  imageQuality: 90
 };
 
 @Module({
@@ -41,6 +42,13 @@ export default class ShowcaseStore extends VuexModule implements ShowcaseStoreIn
    */
   get currentPage(): number {
     return this.showcaseStore.currentPage;
+  }
+
+  /**
+   * Return the quality of the image displayed in the showcase page.
+   */
+  get imageQuality(): number {
+    return this.showcaseStore.imageQuality;
   }
 
   /**
@@ -117,6 +125,26 @@ export default class ShowcaseStore extends VuexModule implements ShowcaseStoreIn
   }
 
   /**
+   * Change the image quality to load the showcase page faster.
+   */
+  @Mutation
+  async SLOW_INTERNET_DETECTED() {
+    const target = Math.max(20, this.showcaseStore.imageQuality - 20);
+    console.debug("SLOW_INTERNET_DETECTED", target);
+    this.showcaseStore = { ...this.showcaseStore, imageQuality: target };
+  }
+
+  /**
+   * Change the image quality to load better images.
+   */
+  @Mutation
+  async FAST_INTERNET_DETECTED() {
+    const target = Math.min(100, this.showcaseStore.imageQuality + 20);
+    console.debug("FAST_INTERNET_DETECTED", target);
+    this.showcaseStore = { ...this.showcaseStore, imageQuality: target };
+  }
+
+  /**
    * This method handles the page change action. It will contact the endpoint that provide the
    * list of item that should be displayed at the page provided as argument of the method.
    * @param pageNumber
@@ -131,17 +159,23 @@ export default class ShowcaseStore extends VuexModule implements ShowcaseStoreIn
     };
     HttpCommon.getEventItems(requestData)
       .then((response: AxiosResponse<MusementItem[]>) => {
+        const { limit, offset } = requestData;
         if (response.data) {
+          const items = response.data;
           let hasNext = false;
-          if (response.data.length === 7) {
+          if (items.length === (limit ? limit : 7)) {
             hasNext = true;
-            response.data.pop();
+            items.pop();
+          }
+          for (let i = 0; i < items.length; i++) {
+            items[i].id = i + offset;
           }
           const data: ShowcaseStoreModel = {
-            items: [...response.data.map(AppUtils.fromMusementItemToEventItem)],
+            items: [...items.map(AppUtils.fromMusementItemToEventItem)],
             currentPage: pageNumber,
             showcaseView: this.showcaseStore.showcaseView,
-            nextPageAvailable: hasNext
+            nextPageAvailable: hasNext,
+            imageQuality: this.showcaseStore.imageQuality
           };
           this.UPDATE_PAGE_ITEMS(data);
         } else {
@@ -158,6 +192,26 @@ export default class ShowcaseStore extends VuexModule implements ShowcaseStoreIn
   @Action
   async reloadCurrentPage() {
     await this.moveToPage(this.currentPage);
+  }
+
+  /**
+   * Decrease the image quality in the showcase page to load the page faster.
+   */
+  @Action
+  async slowNetworkDetected() {
+    if (this.imageQuality > 30) {
+      await this.SLOW_INTERNET_DETECTED();
+    }
+  }
+
+  /**
+   * Increase the image quality in the showcase page to load the page faster.
+   */
+  @Action
+  async fastNetworkDetected() {
+    if (this.imageQuality < 100) {
+      await this.FAST_INTERNET_DETECTED();
+    }
   }
 
   /**
@@ -193,7 +247,7 @@ export default class ShowcaseStore extends VuexModule implements ShowcaseStoreIn
       limit: 100,
       offset: 0
     };
-    HttpCommon.getEventItems(requestData)
+    HttpCommon.updateEventItem(requestData)
       .then((response: AxiosResponse<MusementItem[]>) => {
         if (response.data) {
           const eventItems = response.data.map(AppUtils.fromMusementItemToEventItem);
