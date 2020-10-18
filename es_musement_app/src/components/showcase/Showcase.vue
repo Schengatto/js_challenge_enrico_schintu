@@ -129,10 +129,12 @@ export default class Showcase extends Vue {
     }
   }
 
+  /** Slow network connection detected */
   slowConnectionDetected() {
     this.showcaseStore.slowNetworkDetected();
   }
 
+  /** Fast network connection detected */
   fastConnectionDetected() {
     this.showcaseStore.fastNetworkDetected();
   }

@@ -1,9 +1,9 @@
-import {Action, getModule, Module, Mutation, VuexModule} from "vuex-module-decorators";
-import {MusementItem} from "@/models/musement.models";
-import {HttpCommon} from "@/http-common";
-import {AxiosResponse} from "axios";
-import {ShowcaseStoreInterface, ShowcaseStoreModel} from "@/store/showcase/showcase-store.model";
-import {isMobile} from "mobile-device-detect";
+import { Action, getModule, Module, Mutation, VuexModule } from "vuex-module-decorators";
+import { MusementItem } from "@/models/musement.models";
+import { HttpCommon } from "@/http-common";
+import { AxiosResponse } from "axios";
+import { ShowcaseStoreInterface, ShowcaseStoreModel } from "@/store/showcase/showcase-store.model";
+import { isMobile } from "mobile-device-detect";
 import store from "@/store";
 import AppUtils from "@/utils/app-utils";
 import EventItem from "@/models/event.item";
@@ -16,7 +16,7 @@ const INIT_STATE: ShowcaseStoreModel = {
   currentPage: 0,
   showcaseView: isMobile ? "scroll" : "paginated",
   nextPageAvailable: false,
-  imageQuality: 90,
+  imageQuality: 90
 };
 
 @Module({
@@ -26,7 +26,7 @@ const INIT_STATE: ShowcaseStoreModel = {
   store
 })
 export default class ShowcaseStore extends VuexModule implements ShowcaseStoreInterface {
-  showcaseStore: ShowcaseStoreModel = {...INIT_STATE};
+  showcaseStore: ShowcaseStoreModel = { ...INIT_STATE };
   private userCartData = getModule(CartStore);
   private wishlistStore = getModule(WishlistStore);
 
@@ -103,7 +103,7 @@ export default class ShowcaseStore extends VuexModule implements ShowcaseStoreIn
    */
   @Mutation
   async CLEAR() {
-    this.showcaseStore = {...INIT_STATE};
+    this.showcaseStore = { ...INIT_STATE };
   }
 
   /**
@@ -112,7 +112,7 @@ export default class ShowcaseStore extends VuexModule implements ShowcaseStoreIn
   @Mutation
   async CLEAR_ITEMS_IMG() {
     const imageWithoutSrc = this.showcaseStore.items.map(ShowcaseStore.removeImageSrc);
-    this.showcaseStore = {...this.showcaseStore, items: [...imageWithoutSrc]};
+    this.showcaseStore = { ...this.showcaseStore, items: [...imageWithoutSrc] };
   }
 
   /**
@@ -129,9 +129,9 @@ export default class ShowcaseStore extends VuexModule implements ShowcaseStoreIn
    */
   @Mutation
   async SLOW_INTERNET_DETECTED() {
-    const target =  Math.max(20, this.showcaseStore.imageQuality - 20);
+    const target = Math.max(20, this.showcaseStore.imageQuality - 20);
     console.debug("SLOW_INTERNET_DETECTED", target);
-    this.showcaseStore = {...this.showcaseStore, imageQuality: target};
+    this.showcaseStore = { ...this.showcaseStore, imageQuality: target };
   }
 
   /**
@@ -141,7 +141,7 @@ export default class ShowcaseStore extends VuexModule implements ShowcaseStoreIn
   async FAST_INTERNET_DETECTED() {
     const target = Math.min(100, this.showcaseStore.imageQuality + 20);
     console.debug("FAST_INTERNET_DETECTED", target);
-    this.showcaseStore = {...this.showcaseStore, imageQuality: target};
+    this.showcaseStore = { ...this.showcaseStore, imageQuality: target };
   }
 
   /**
@@ -159,7 +159,7 @@ export default class ShowcaseStore extends VuexModule implements ShowcaseStoreIn
     };
     HttpCommon.getEventItems(requestData)
       .then((response: AxiosResponse<MusementItem[]>) => {
-        const {limit, offset} = requestData;
+        const { limit, offset } = requestData;
         if (response.data) {
           const items = response.data;
           let hasNext = false;
