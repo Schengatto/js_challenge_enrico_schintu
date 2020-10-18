@@ -1,9 +1,9 @@
-import { Action, getModule, Module, Mutation, VuexModule } from "vuex-module-decorators";
-import { MusementItem } from "@/models/musement.models";
-import { HttpCommon } from "@/http-common";
-import { AxiosResponse } from "axios";
-import { ShowcaseStoreInterface, ShowcaseStoreModel } from "@/store/showcase/showcase-store.model";
-import { isMobile } from "mobile-device-detect";
+import {Action, getModule, Module, Mutation, VuexModule} from "vuex-module-decorators";
+import {MusementItem} from "@/models/musement.models";
+import {HttpCommon} from "@/http-common";
+import {AxiosResponse} from "axios";
+import {ShowcaseStoreInterface, ShowcaseStoreModel} from "@/store/showcase/showcase-store.model";
+import {isMobile} from "mobile-device-detect";
 import store from "@/store";
 import AppUtils from "@/utils/app-utils";
 import EventItem from "@/models/event.item";
@@ -15,7 +15,8 @@ const INIT_STATE: ShowcaseStoreModel = {
   items: [],
   currentPage: 0,
   showcaseView: isMobile ? "scroll" : "paginated",
-  nextPageAvailable: false
+  nextPageAvailable: false,
+  imageQuality: 90,
 };
 
 @Module({
@@ -25,7 +26,7 @@ const INIT_STATE: ShowcaseStoreModel = {
   store
 })
 export default class ShowcaseStore extends VuexModule implements ShowcaseStoreInterface {
-  showcaseStore: ShowcaseStoreModel = { ...INIT_STATE };
+  showcaseStore: ShowcaseStoreModel = {...INIT_STATE};
   private userCartData = getModule(CartStore);
   private wishlistStore = getModule(WishlistStore);
 
@@ -41,6 +42,13 @@ export default class ShowcaseStore extends VuexModule implements ShowcaseStoreIn
    */
   get currentPage(): number {
     return this.showcaseStore.currentPage;
+  }
+
+  /**
+   * Return the quality of the image displayed in the showcase page.
+   */
+  get imageQuality(): number {
+    return this.showcaseStore.imageQuality;
   }
 
   /**
@@ -95,7 +103,7 @@ export default class ShowcaseStore extends VuexModule implements ShowcaseStoreIn
    */
   @Mutation
   async CLEAR() {
-    this.showcaseStore = { ...INIT_STATE };
+    this.showcaseStore = {...INIT_STATE};
   }
 
   /**
@@ -104,7 +112,7 @@ export default class ShowcaseStore extends VuexModule implements ShowcaseStoreIn
   @Mutation
   async CLEAR_ITEMS_IMG() {
     const imageWithoutSrc = this.showcaseStore.items.map(ShowcaseStore.removeImageSrc);
-    this.showcaseStore = { ...this.showcaseStore, items: [...imageWithoutSrc] };
+    this.showcaseStore = {...this.showcaseStore, items: [...imageWithoutSrc]};
   }
 
   /**
@@ -114,6 +122,26 @@ export default class ShowcaseStore extends VuexModule implements ShowcaseStoreIn
   @Mutation
   async CHANGE_DASHBOARD_VIEW(viewType: string) {
     this.showcaseStore.showcaseView = viewType;
+  }
+
+  /**
+   * Change the image quality to load the showcase page faster.
+   */
+  @Mutation
+  async SLOW_INTERNET_DETECTED() {
+    const target =  Math.max(20, this.showcaseStore.imageQuality - 20);
+    console.debug("SLOW_INTERNET_DETECTED", target);
+    this.showcaseStore = {...this.showcaseStore, imageQuality: target};
+  }
+
+  /**
+   * Change the image quality to load better images.
+   */
+  @Mutation
+  async FAST_INTERNET_DETECTED() {
+    const target = Math.min(100, this.showcaseStore.imageQuality + 20);
+    console.debug("FAST_INTERNET_DETECTED", target);
+    this.showcaseStore = {...this.showcaseStore, imageQuality: target};
   }
 
   /**
@@ -131,7 +159,7 @@ export default class ShowcaseStore extends VuexModule implements ShowcaseStoreIn
     };
     HttpCommon.getEventItems(requestData)
       .then((response: AxiosResponse<MusementItem[]>) => {
-        const { limit, offset } = requestData;
+        const {limit, offset} = requestData;
         if (response.data) {
           const items = response.data;
           let hasNext = false;
@@ -146,7 +174,8 @@ export default class ShowcaseStore extends VuexModule implements ShowcaseStoreIn
             items: [...items.map(AppUtils.fromMusementItemToEventItem)],
             currentPage: pageNumber,
             showcaseView: this.showcaseStore.showcaseView,
-            nextPageAvailable: hasNext
+            nextPageAvailable: hasNext,
+            imageQuality: this.showcaseStore.imageQuality
           };
           this.UPDATE_PAGE_ITEMS(data);
         } else {
@@ -163,6 +192,26 @@ export default class ShowcaseStore extends VuexModule implements ShowcaseStoreIn
   @Action
   async reloadCurrentPage() {
     await this.moveToPage(this.currentPage);
+  }
+
+  /**
+   * Decrease the image quality in the showcase page to load the page faster.
+   */
+  @Action
+  async slowNetworkDetected() {
+    if (this.imageQuality > 30) {
+      await this.SLOW_INTERNET_DETECTED();
+    }
+  }
+
+  /**
+   * Increase the image quality in the showcase page to load the page faster.
+   */
+  @Action
+  async fastNetworkDetected() {
+    if (this.imageQuality < 100) {
+      await this.FAST_INTERNET_DETECTED();
+    }
   }
 
   /**

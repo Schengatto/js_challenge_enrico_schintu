@@ -1,4 +1,4 @@
-import axios, {AxiosInstance, AxiosResponse, CancelTokenSource} from "axios";
+import axios, { AxiosInstance, AxiosResponse, CancelTokenSource } from "axios";
 import ApiRequestDataMode from "@/models/api-request-data.mode";
 
 export const BASE_API_URL = "https://api.musement.com/api/v3";
@@ -20,7 +20,7 @@ export class HttpCommon {
     };
     return axios.create({
       baseURL: BASE_API_URL,
-      headers: {...headers}
+      headers: { ...headers }
     });
   }
 
@@ -29,7 +29,7 @@ export class HttpCommon {
    * @param requestData
    */
   public static getEventItems(requestData: ApiRequestDataMode): Promise<AxiosResponse> {
-    const {limit, offset, language, currency, callback} = requestData;
+    const { limit, offset, language, currency, callback } = requestData;
     if (this.cancelToken) {
       this.cancelToken.cancel("User navigated to different page");
     }
@@ -37,7 +37,7 @@ export class HttpCommon {
     // create the source
     this.cancelToken = CancelToken.source();
     let result = HttpCommon.getApi(language, currency).get(API_SUFFIX, {
-      params: {limit, offset},
+      params: { limit, offset },
       cancelToken: this.cancelToken.token
     });
     if (callback) {
@@ -51,9 +51,9 @@ export class HttpCommon {
    * @param requestData
    */
   public static updateEventItem(requestData: ApiRequestDataMode): Promise<AxiosResponse> {
-    const {limit, offset, language, currency, callback} = requestData;
+    const { limit, offset, language, currency, callback } = requestData;
     let result = HttpCommon.getApi(language, currency).get(API_SUFFIX, {
-      params: {limit, offset},
+      params: { limit, offset }
     });
     if (callback) {
       result = result.then(response => callback.apply(this, [response.data]));

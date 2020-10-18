@@ -7,10 +7,13 @@
           height="200"
           width="350"
           background-color="#1C768F"
-          quality="90"
+          :quality="imageQuality"
           src-width="280"
           src-height="160"
           :musement-image="true"
+          :detect-network-speed="detectNetworkSpeed"
+          v-on:slowNetwork="slowConnectionDetected()"
+          v-on:fastNetwork="fastConnectionDetected()"
         >
         </ImageWrapper>
         <button
@@ -73,6 +76,8 @@ import { CartStoreInterface } from "@/store/cart/cart-store.model";
 })
 export default class EventItemCard extends Vue {
   @Prop() item!: EventItem;
+  @Prop({ default: false }) detectNetworkSpeed!: boolean;
+  @Prop() imageQuality!: number;
 
   wishlistStore: WishlistStoreInterface = getModule(WishlistStore);
   cartStore: CartStoreInterface = getModule(CartStore);
@@ -101,6 +106,14 @@ export default class EventItemCard extends Vue {
 
   hideCartLabel(): void {
     this.displayAddToCart = false;
+  }
+
+  slowConnectionDetected(): void {
+    this.$emit("slowNetwork");
+  }
+
+  fastConnectionDetected(): void {
+    this.$emit("fastNetwork");
   }
 }
 </script>
